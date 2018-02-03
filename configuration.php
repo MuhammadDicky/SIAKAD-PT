@@ -33,7 +33,7 @@
 		var $_table_swap_prefix   = '{PRE}';
 		
 		/*Web Detail Config*/
-		var $_app_version         = '1.8 Beta';
+		var $_app_version         = '1.7 Beta';
 		var $_dev_name            = 'Muhammad Dicky Hidayat Latif';
 		var $_web_name            = 'Sistem Informasi Akademik Universitas Cokroaminoto Palopo';
 		var $_pt_name             = 'Universitas Cokroaminoto Palopo';
