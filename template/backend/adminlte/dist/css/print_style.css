@@ -1,0 +1,94 @@
+*{
+	font-family: times;
+}
+#print-area{
+	width: 21cm;
+	height: 29.7cm;
+	background: white;
+	margin: 100px auto;
+	padding: 3cm 3cm 3cm 4cm;
+	border: 1px solid #d5d5d5;  	
+  	box-shadow: 0px 0px 2px #dadada;
+}
+#print-area .header{
+	width: 100%;
+	height: 100px;	
+	border-style: double;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+#print-area .header .title{
+	width: 60%;
+	margin: auto;
+	display: block;	
+	position: absolute;
+	padding-top: -20px;
+}
+#print-area .header .left-img{
+	width: 20%;
+	display: block;
+	float: left;
+}
+#print-area .header .right-img{
+	width: 20%;
+	display: block;
+	float: right;
+}
+#print-area .header .title p{
+	margin-bottom: -10px;
+}
+#print-area .header .title p:first-child{
+	margin-top: -2px;
+}
+#print-area .header img{	
+	width: 50%;
+	height: 50%;
+}
+#print-area .header .left-img img{	
+	float: left;
+}
+#print-area .header .right-img img{	
+	float: right;
+}
+#print-area .content-print{
+	clear: both;
+	margin-top: 30px;
+}
+.content-print p{
+	margin-bottom: -10px;
+}
+.ket-nilai{
+	font-weight: bold;
+}
+.table-nilai{
+	margin-top: 20px;
+}
+.table-nilai, .table-nilai td{
+	border: 1px solid black;
+}
+.table-nilai th{
+	background: blue;
+	color: white;
+	padding: 5px;
+}
+.table-nilai td{
+	padding: 5px;
+}
+@media print{
+	body *{
+		visibility: hidden;
+		width: 21cm;
+		height: 29.7cm;
+	}
+	#print-area *{
+		visibility: visible;
+	}
+	#print-area{		
+		visibility: visible;
+		width: 90%;
+		height: 90%;
+		margin: 50px auto;		
+		padding: 0;
+	}
+}
