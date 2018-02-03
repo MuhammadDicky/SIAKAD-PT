@@ -37,7 +37,7 @@
 		var $_dev_name            = 'Muhammad Dicky Hidayat Latif';
 		var $_web_name            = 'Sistem Informasi Akademik Universitas Cokroaminoto Palopo';
 		var $_pt_name             = 'Universitas Cokroaminoto Palopo';
-		var $_web_icon			  = 'pt-icon-profile.png';
+		var $_web_icon            = 'pt-icon-profile.png';
 		var $_email_feedback_1    = 'muh.dickyhidayat@gmail.com';
 		var $_email_feedback_2    = 'muh.dickyhidayat@outlook.com';
 		var $_CI_version    	  = 'v';
