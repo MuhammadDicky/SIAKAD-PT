@@ -14,20 +14,20 @@ class Data_akademik extends Backend_Controller {
 	protected $jam_awal;
 
 	public function __construct(){
-		parent::__construct();		
+		parent::__construct();
 		$this->site->login_status_check();
 	}
 
 	public function index(){
 		$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
 	}
-	
+
 	public function data_mahasiswa(){
 		/*$this->page_on_repair('Data Mahasiswa','fa-users');*/
 		$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
 	}
 
-	public function data_ptk(){		
+	public function data_ptk(){
 		$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
 	}
 
@@ -103,19 +103,19 @@ class Data_akademik extends Backend_Controller {
 								'thn_lhr_ayah' => $post['thn_lhr_ayah'],
 								'pendi_ayah' => $post['pendi_ayah'],
 								'pekerjaan_ayah' => $post['pekerjaan_ayah'],
-								'penghasilan_ayah' => $post['penghasilan_ayah'],								
+								'penghasilan_ayah' => $post['penghasilan_ayah'],
 								'nik_ayah' => $post['nik_ayah'],
 								'nm_ibu' => $nm_ibu,
 								'thn_lhr_ibu' => $post['thn_lhr_ibu'],
 								'pendi_ibu' => $post['pendi_ibu'],
 								'pekerjaan_ibu' => $post['pekerjaan_ibu'],
-								'penghasilan_ibu' => $post['penghasilan_ibu'],								
+								'penghasilan_ibu' => $post['penghasilan_ibu'],
 								'nik_ibu' => $post['nik_ibu'],
 								'nm_wali' => $nm_wali,
 								'thn_lhr_wali' => $post['thn_lhr_wali'],
 								'pendi_wali' => $post['pendi_wali'],
 								'pekerjaan_wali' => $post['pekerjaan_wali'],
-								'penghasilan_wali' => $post['penghasilan_wali'],								
+								'penghasilan_wali' => $post['penghasilan_wali'],
 								'nik_wali' => $post['nik_wali'],
 								);
 							$save_data_ortu = $this->ortu_model->insert($data_ortu_wali);
@@ -128,7 +128,7 @@ class Data_akademik extends Backend_Controller {
 								'active_status' => 1,
 								);
 							$save_data_user = $this->user_model->insert($data_user);
-							
+
 							if ($save_data_user && $save_data_ortu) {
 								$data = 'data_mhs';
 								$result = array(
@@ -159,16 +159,16 @@ class Data_akademik extends Backend_Controller {
 					if ($this->form_validation->run() == TRUE) {
 						$nama_ptk = ucwords(strtolower($post['nama_ptk']));
 						$tmp_lhr = ucwords($post['tmp_lhr_ptk']);
-						$data_ptk = array(							
+						$data_ptk = array(
 							'nama_ptk' => $nama_ptk,
 							'nuptk' => $post['nuptk'],
 							'nip' => $post['nip'],
 							'jk_ptk' => $post['jk_ptk'],
 							'tmp_lhr_ptk' => $tmp_lhr,
-							'tgl_lhr_ptk' => $post['tgl_lhr_ptk'],							
+							'tgl_lhr_ptk' => $post['tgl_lhr_ptk'],
 							'status_ptk' => $post['status_ptk'],
 							'status_aktif_ptk' =>$post['status_aktif_ptk'],
-							'jenjang' => $post['jenjang'],	
+							'jenjang' => $post['jenjang'],
 							'jurusan_prodi' => $post['jurusan_prodi'],
 							'nik_ptk' => $post['nik_ptk'],
 							'agama_ptk' => $post['agama_ptk'],
@@ -184,7 +184,7 @@ class Data_akademik extends Backend_Controller {
 							'email_ptk' => $post['email_ptk'],
 							);
 						$save_data_ptk = $this->ptk_model->insert($data_ptk);
-						if ($save_data_ptk) {							
+						if ($save_data_ptk) {
 							$password = $this->user_model->password_generate();
 							$encrypt_password = bCrypt($password,12);
 							if (!empty($post['nuptk'])) {
@@ -196,7 +196,7 @@ class Data_akademik extends Backend_Controller {
 								);
 							}
 							else{
-								for ($i=0; $i <= 1; $i++) { 
+								for ($i=0; $i <= 1; $i++) {
 									$user = rand(10000000000000,99999999999999).$save_data_ptk;
 									$check_user = array('username' => $user);
 									$total_rows = $this->user_model->count($check_user);
@@ -214,7 +214,7 @@ class Data_akademik extends Backend_Controller {
 									'active_status' => 1,
 								);
 							}
-							$save_data_user = $this->user_model->insert($data_user);													
+							$save_data_user = $this->user_model->insert($data_user);
 							if ($save_data_user) {
 								$data = 'data_ptk';
 								$result = array(
@@ -244,7 +244,7 @@ class Data_akademik extends Backend_Controller {
 
 					if ($this->form_validation->run() == TRUE) {
 						$in_ptk = $post['id_ptk_studi'];
-						$data_studi = array(							
+						$data_studi = array(
 							'id_ptk_studi' => $in_ptk,
 							'nama_pt_studi' => ucwords($post['nama_pt_studi']),
 							'studi_ptk' => ucwords($post['studi_ptk']),
@@ -269,7 +269,7 @@ class Data_akademik extends Backend_Controller {
 								'data' => $data,
 								'in_ptk' => $in_ptk,
 								'studi_ptk' => $record_studi
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -288,7 +288,7 @@ class Data_akademik extends Backend_Controller {
 
 					if ($this->form_validation->run() == TRUE) {
 						$in_ptk = $post['id_ptk_rsch'];
-						$data_penelitian = array(							
+						$data_penelitian = array(
 							'id_ptk_rsch' => $in_ptk,
 							'judul_penelitian' => ucwords($post['judul_penelitian']),
 							'bidang_ilmu' => ucwords($post['bidang_ilmu']),
@@ -306,7 +306,7 @@ class Data_akademik extends Backend_Controller {
 								'data' => $data,
 								'in_ptk' => $in_ptk,
 								'penelitian_ptk' => $record_penelitian
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -336,7 +336,7 @@ class Data_akademik extends Backend_Controller {
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data_mk = array(							
+						$data_mk = array(
 							'kode_mk' => strtoupper($post['kode_mk']),
 							'nama_mk' => ucwords($post['nama_mk']),
 							'id_pd_mk' => $post['id_pd_mk'],
@@ -349,7 +349,7 @@ class Data_akademik extends Backend_Controller {
 							$result = array(
 								'status' => 'success',
 								'data' => $data
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -387,7 +387,7 @@ class Data_akademik extends Backend_Controller {
 								'status' => 'success',
 								'data' => $data,
 								'thn' => $thn,
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -634,7 +634,7 @@ class Data_akademik extends Backend_Controller {
 				if ($post['data']=='data_mhs') {
 					$id = array('id' => $post['id']);
 					$total_rows = $this->mahasiswa_model->count($id);
-					
+
 					if ($total_rows > 0) {
 						$record_mhs = array();
 						if (!isset($post['ac'])) {
@@ -699,20 +699,20 @@ class Data_akademik extends Backend_Controller {
 								$record_mhs[] = array_merge((array)$key,$arr);
 							}
 						}
-						$result = array(							
-								'total_rows' => $total_rows,							
+						$result = array(
+								'total_rows' => $total_rows,
 								'record_mhs' => $record_mhs,
 								);
 					}
 					else{
-						$result = array(							
+						$result = array(
 								'total_rows' => $total_rows,
 								'message' => 'Data mahasiswa yang anda pilih tidak ditemukan / data telah dihapus'
 								);
 					}
 				}
 				elseif ($post['data']=='data_ptk') {
-					$id = array('id_ptk' => $post['id_ptk']);					
+					$id = array('id_ptk' => $post['id_ptk']);
 					$total_rows = $this->ptk_model->count($id);
 
 					if ($total_rows > 0) {
@@ -771,13 +771,13 @@ class Data_akademik extends Backend_Controller {
 								$record[] = array_merge((array)$key,$arr);
 							}
 						}
-						$result = array(							
-								'total_rows' => $total_rows,							
+						$result = array(
+								'total_rows' => $total_rows,
 								'record_ptk' => $record,
 								);
 					}
 					else{
-						$result = array(							
+						$result = array(
 								'total_rows' => $total_rows,
 								'message' => 'Data tenaga pendidik yang anda pilih tidak ditemukan / data telah dihapus'
 								);
@@ -825,7 +825,7 @@ class Data_akademik extends Backend_Controller {
 						$result = array(
 								'total_rows' => $total_rows,
 								'record_mk' => $record_mk,
-								);					
+								);
 					}
 					else{
 						$result = array(
@@ -852,14 +852,14 @@ class Data_akademik extends Backend_Controller {
 							$thn = array('thn_ajaran_jdl' => thn_ajaran_conv($key->thn_ajaran_jdl));
 							$record_jadwal[] = array_merge((array)$key,$thn);
 						}
-						$result = array(							
+						$result = array(
 								'total_rows' => $total_rows,
-								'record_jdl' => $record_jadwal,								
+								'record_jdl' => $record_jadwal,
 								);
 					}
 					else{
-						$result = array(							
-								'total_rows' => $total_rows,								
+						$result = array(
+								'total_rows' => $total_rows,
 								'message' => 'Data jadwal kuliah yang anda pilih tidak ditemukan / data telah dihapus / tahun akademik jadwal saat ini sedang tidak diterapkan'
 								);
 					}
@@ -885,15 +885,15 @@ class Data_akademik extends Backend_Controller {
 								'nama_mhs' => $value->nama,
 								'thn_akademik' => thn_ajaran_conv($value->thn_ajaran_jdl),
 								);
-						}		
+						}
 						$result = array(
 							'nilai_mhs' => $record,
 							'total_count' => $total_rows
 							);
-					}					
+					}
 					else{
 						$result['nilai_mhs'] = '';
-					}					
+					}
 				}
 				elseif ($post['data'] == 'data_nilai_mhs') {
 					$vars = explode('/',$post['thn']);
@@ -908,9 +908,9 @@ class Data_akademik extends Backend_Controller {
 							$n = explode('/',nilai_conv($key->nilai_akhir,$key->jml_sks));
 							$mt = array(
 								'thn_ajaran_jdl' => thn_ajaran_conv($key->thn_ajaran_jdl),
-								'hm' => $n[0], 
+								'hm' => $n[0],
 								'am' => $n[1],
-								'mutu' => $n[2], 
+								'mutu' => $n[2],
 								);
 							$record_nilai[] = array_merge((array)$key,$mt);
 							$sks += $key->jml_sks;
@@ -943,7 +943,7 @@ class Data_akademik extends Backend_Controller {
 					$data = $this->mata_kuliah_model->get_detail_data('get',array('prodi_mk','konsentrasi_pd'),$act,NULL,FALSE,array('id_mk','kode_mk','nama_mk','nama_prodi','jml_sks','jenjang_prodi','jenis_jdl','nm_konsentrasi'));
 					$total_rows = count($data);
 					if ($total_rows > 0 ) {
-						
+
 						foreach ($data as $key => $value) {
 							if ($value->jenis_jdl == '0') {
 								$konsentrasi = '';
@@ -960,15 +960,15 @@ class Data_akademik extends Backend_Controller {
 								'jenis_jdl' => $value->jenis_jdl,
 								'konsentrasi' => $konsentrasi,
 								);
-						}		
+						}
 						$result = array(
 							'mk' => $record,
 							'total_count' => $total_rows
 							);
-					}					
+					}
 					else{
 						$result['mk'] = '';
-					}					
+					}
 				}
 				elseif ($post['data']=='daftar_ptk') {
 					$cari = $post['value'];
@@ -1011,16 +1011,16 @@ class Data_akademik extends Backend_Controller {
 								'status_aktif_ptk' => select_conv_value($value->status_aktif_ptk,'ptk','status_aktif_ptk'),
 								'photo' => $photo
 								);
-						}		
+						}
 						$result = array(
 							'ptk' => $record,
 							'total_count' => $total_rows,
 							'total_data' => $offset+$length
 							);
-					}					
+					}
 					else{
 						$result['ptk'] = '';
-					}					
+					}
 				}
 				elseif ($post['data']=='daftar_jadwal_pd') {
 					$thn_ajaran = explode(' ',$post['thn']);
@@ -1087,7 +1087,7 @@ class Data_akademik extends Backend_Controller {
 									'like' => array(
 										'nisn' => $cari,
 										),
-									), 
+									),
 								1 => array(
 									'or_not_in' => array('id' => $mhs_list),
 									'where' => array(
@@ -1098,7 +1098,7 @@ class Data_akademik extends Backend_Controller {
 									'like' => array(
 										'nama' => $cari,
 										),
-									), 
+									),
 								);
 						}
 						else{
@@ -1112,7 +1112,7 @@ class Data_akademik extends Backend_Controller {
 									'like' => array(
 										'nisn' => $cari,
 										),
-									), 
+									),
 								1 => array(
 									'or' => array(
 										'id_pd_mhs' => $pd,
@@ -1124,7 +1124,7 @@ class Data_akademik extends Backend_Controller {
 									'like' => array(
 										'nama' => $cari,
 										),
-									), 
+									),
 								);
 						}
 						$cari = array('id_pd_mhs' => $pd);
@@ -1140,7 +1140,7 @@ class Data_akademik extends Backend_Controller {
 								'like' => array(
 									'nisn' => $cari,
 									),
-								), 
+								),
 							1 => array(
 								'or' => array(
 									'id_mhs_alni' => NULL,
@@ -1190,16 +1190,16 @@ class Data_akademik extends Backend_Controller {
 								'tahun_angkatan' => $value->tahun_angkatan,
 								'photo' => $photo
 								);
-						}		
+						}
 						$result = array(
 							'mhs' => $record,
 							'total_count' => $total_rows,
 							'total_data' => $offset+$length
 							);
-					}					
+					}
 					else{
 						$result['mhs'] = '';
-					}					
+					}
 				}
 				elseif ($post['data']=='daftar_kelas') {
 					$cari_k = $post['value'];
@@ -1240,15 +1240,15 @@ class Data_akademik extends Backend_Controller {
 								'jml_lk' => $this->kelas_model->get_detail_data('count',array('mahasiswa'),NULL,array('id_jdl_kls' => $value->id_jdl, 'jk' => 'L')),
 								'jml_pr' => $this->kelas_model->get_detail_data('count',array('mahasiswa'),NULL,array('id_jdl_kls' => $value->id_jdl, 'jk' => 'P')),
 								);
-						}		
+						}
 						$result = array(
 							'kls' => $record,
 							'total_count' => $total_rows
 							);
-					}					
+					}
 					else{
 						$result['kls'] = '';
-					}					
+					}
 				}
 				elseif ($post['data'] =='riwayat_akademik_mhs') {
 					$where = array('id_mhs_kls' => $post['in_mhs']);
@@ -1574,35 +1574,35 @@ class Data_akademik extends Backend_Controller {
 					$id = array('id' => $post['id']);
 					$select_mhs = array('id','nisn','nama');
 					$record_mhs = $this->mahasiswa_model->get_by_search($id,FALSE,$select_mhs);
-					$result = array(							
+					$result = array(
 							'total_rows' => count($record_mhs),
 							'record_mhs' => $record_mhs,
-							);					
+							);
 				}
 				elseif ($post['data']=='data_ptk') {
 					$id = array('id_ptk' => $post['id_ptk']);
 					$select = array('id_ptk','nama_ptk','nuptk');
 					$record_ptk = $this->ptk_model->get_by_search($id,FALSE,$select);
-					$result = array(							
+					$result = array(
 							'total_rows' => count($record_ptk),
 							'record_ptk' => $record_ptk,
-							);					
+							);
 				}
 				elseif ($post['data']=='data_mk') {
 					$id = array('id_mk' => $post['id_mk']);
 					$select = array('id_mk','id_pd_mk','nama_prodi','jenjang_prodi','nama_mk','jenis_jdl','nm_konsentrasi');
 					$record_mk = $this->mata_kuliah_model->get_detail_data('get',array('prodi_mk','konsentrasi_pd'),NULL,$id,FALSE,$select);
-					$result = array(							
+					$result = array(
 							'total_rows' => count($record_mk),
 							'record_mk' => $record_mk,
-							);					
+							);
 				}
 				elseif ($post['data']=='data_jadwal_kuliah') {
 					$id = array('id_jdl' => $post['id_jdl']);
 					$select = array('id_jdl','id_thn_ak_jdl','id_pd_mk','nama_prodi','thn_ajaran_jdl','nama_mk','semester','kelas','status_jdl','jenis_jdl','nm_konsentrasi');
 					$record_jadwal = $this->jadwal_model->get_detail_data('get',array('thn_akademik','mata_kuliah','konsentrasi_pd','prodi_mk'),NULL,$id,NULL,$select);
 					if (@$record_jadwal[0]->status_jdl == 1) {
-						$result = array(							
+						$result = array(
 								'total_rows' => count($record_jadwal),
 								'record_jdl' => $record_jadwal
 								);
@@ -1613,16 +1613,16 @@ class Data_akademik extends Backend_Controller {
 								'message' => 'Data jadwal kuliah yang anda pilih tidak ditemukan / data telah dihapus / tahun akademik jadwal saat ini sedang tidak diterapkan'
 								);
 					}
-				}								
+				}
 				elseif ($post['data']=='kelas_mhs') {
 					$id = array('id_kelas' => $post['id_kls']);
 					$select = array('id_kelas','id_jdl_kls','nama','nisn','nama_prodi','thn_ajaran_jdl','nama_mk','semester','kelas','status_jdl','jenis_jdl','nm_konsentrasi');
 					$record_mhs = $this->kelas_model->get_detail_data('get',array('jadwal','thn_akademik','mahasiswa','mata_kuliah','konsentrasi_pd','prodi_mk'),NULL,$id,NULL,$select);
 					if (@$record_mhs[0]->status_jdl == 1) {
-						$result = array(							
+						$result = array(
 							'total_rows' => count($record_mhs),
 							'record_mhs' => $record_mhs,
-							);					
+							);
 					}
 					else{
 						$result = array(
@@ -1635,10 +1635,10 @@ class Data_akademik extends Backend_Controller {
 					$id = array('id_mhs_alni' => $post['id']);
 					$select_mhs = array('id_mhs_alni AS in_mhs','nisn AS nim','nama');
 					$record_mhs = $this->mahasiswa_model->get_detail_data('get',array('alumni'),NULL,$id,FALSE,$select_mhs);
-					$result = array(							
+					$result = array(
 							'total_rows' => count($record_mhs),
 							'record_mhs' => $record_mhs,
-							);					
+							);
 				}
 				else{
 					$result = array('status_action' => 'Not find...');
@@ -1659,7 +1659,7 @@ class Data_akademik extends Backend_Controller {
 						$kelurahan = ucwords($post['kelurahan']);
 						$kecamatan = ucwords($post['kecamatan']);
 						$email = strtolower($post['email']);
-						$data_mhs = array(						
+						$data_mhs = array(
 							'nisn' => $post['nisn'],
 							'nama' => $nama_mhs,
 							'thn_angkatan' => $post['thn_angkatan'],
@@ -1704,24 +1704,24 @@ class Data_akademik extends Backend_Controller {
 							$nm_ayah = strtoupper($post['nm_ayah']);
 							$nm_ibu = strtoupper($post['nm_ibu']);
 							$nm_wali = strtoupper($post['nm_wali']);
-							$data_ortu_wali = array(								
+							$data_ortu_wali = array(
 								'nm_ayah' => $nm_ayah,
 								'thn_lhr_ayah' => $post['thn_lhr_ayah'],
 								'pendi_ayah' => $post['pendi_ayah'],
 								'pekerjaan_ayah' => $post['pekerjaan_ayah'],
-								'penghasilan_ayah' => $post['penghasilan_ayah'],								
+								'penghasilan_ayah' => $post['penghasilan_ayah'],
 								'nik_ayah' => $post['nik_ayah'],
 								'nm_ibu' => $nm_ibu,
 								'thn_lhr_ibu' => $post['thn_lhr_ibu'],
 								'pendi_ibu' => $post['pendi_ibu'],
 								'pekerjaan_ibu' => $post['pekerjaan_ibu'],
-								'penghasilan_ibu' => $post['penghasilan_ibu'],								
+								'penghasilan_ibu' => $post['penghasilan_ibu'],
 								'nik_ibu' => $post['nik_ibu'],
 								'nm_wali' => $nm_wali,
 								'thn_lhr_wali' => $post['thn_lhr_wali'],
 								'pendi_wali' => $post['pendi_wali'],
 								'pekerjaan_wali' => $post['pekerjaan_wali'],
-								'penghasilan_wali' => $post['penghasilan_wali'],								
+								'penghasilan_wali' => $post['penghasilan_wali'],
 								'nik_wali' => $post['nik_wali'],
 								);
 							$save_data_ortu = $this->ortu_model->update($data_ortu_wali,$id_ortu);
@@ -1758,16 +1758,16 @@ class Data_akademik extends Backend_Controller {
 						$id_ptk = array('id_ptk' => $post['id_ptk']);
 						$nama_ptk = ucwords(strtolower($post['nama_ptk']));
 						$tmp_lhr = ucwords($post['tmp_lhr_ptk']);
-						$data_ptk = array(							
+						$data_ptk = array(
 							'nama_ptk' => $nama_ptk,
 							'nuptk' => $post['nuptk'],
 							'nip' => $post['nip'],
 							'jk_ptk' => $post['jk_ptk'],
 							'tmp_lhr_ptk' => $tmp_lhr,
-							'tgl_lhr_ptk' => $post['tgl_lhr_ptk'],							
+							'tgl_lhr_ptk' => $post['tgl_lhr_ptk'],
 							'status_ptk' => $post['status_ptk'],
 							'status_aktif_ptk' =>$post['status_aktif_ptk'],
-							'jenjang' => $post['jenjang'],	
+							'jenjang' => $post['jenjang'],
 							'jurusan_prodi' => $post['jurusan_prodi'],
 							'nik_ptk' => $post['nik_ptk'],
 							'agama_ptk' => $post['agama_ptk'],
@@ -1796,11 +1796,11 @@ class Data_akademik extends Backend_Controller {
 									'id_user_detail' => $post['id_ptk'],
 									'level_akses' => 'ptk'
 								);
-								if (!empty($post['nuptk'])) {									
+								if (!empty($post['nuptk'])) {
 									$username = array('username' => $post['nuptk']);
 								}
 								else{
-									for ($i=0; $i <= 1; $i++) { 
+									for ($i=0; $i <= 1; $i++) {
 										$user = rand(10000000000000,99999999999999).$post['id_ptk'];
 										$check_user = array('username' => $user);
 										$total_rows = $this->user_model->count($check_user);
@@ -1812,7 +1812,7 @@ class Data_akademik extends Backend_Controller {
 										}
 									}
 									$username = array('username' => $user);
-								}								
+								}
 								$this->user_model->update($username,$id_user);
 							}*/
 							$data = 'data_ptk';
@@ -1821,7 +1821,7 @@ class Data_akademik extends Backend_Controller {
 								'data' => $data,
 								'in'=> $post['id_ptk'],
 								'status_update' => $status_update
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -1840,7 +1840,7 @@ class Data_akademik extends Backend_Controller {
 
 					if ($this->form_validation->run() == TRUE) {
 						$in_ptk = $post['id_ptk_studi'];
-						$data_studi = array(							
+						$data_studi = array(
 							'id_ptk_studi' => $in_ptk,
 							'nama_pt_studi' => ucwords($post['nama_pt_studi']),
 							'studi_ptk' => ucwords($post['studi_ptk']),
@@ -1884,7 +1884,7 @@ class Data_akademik extends Backend_Controller {
 
 					if ($this->form_validation->run() == TRUE) {
 						$in_ptk = $post['id_ptk_rsch'];
-						$data_penelitian = array(							
+						$data_penelitian = array(
 							'id_ptk_rsch' => $in_ptk,
 							'judul_penelitian' => ucwords($post['judul_penelitian']),
 							'bidang_ilmu' => ucwords($post['bidang_ilmu']),
@@ -1902,7 +1902,7 @@ class Data_akademik extends Backend_Controller {
 								'data' => $data,
 								'in_ptk' => $post['ptk_detail'],
 								'penelitian_ptk' => $record_penelitian
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -1933,7 +1933,7 @@ class Data_akademik extends Backend_Controller {
 					}
 
 					if ($this->form_validation->run() == TRUE) {
-						$data_mk = array(							
+						$data_mk = array(
 							'kode_mk' => strtoupper($post['kode_mk']),
 							'nama_mk' => ucwords($post['nama_mk']),
 							'id_pd_mk' => $post['id_pd_mk'],
@@ -1947,7 +1947,7 @@ class Data_akademik extends Backend_Controller {
 							$result = array(
 								'status' => 'success',
 								'data' => $data
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -1986,7 +1986,7 @@ class Data_akademik extends Backend_Controller {
 								'status' => 'success',
 								'data' => $data,
 								'thn' => $thn,
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -2149,7 +2149,7 @@ class Data_akademik extends Backend_Controller {
 								'status' => 'success',
 								'data' => $data,
 								'in' => $post['in_mhs']
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -2194,7 +2194,7 @@ class Data_akademik extends Backend_Controller {
 								'status' => 'success',
 								'data' => $data,
 								'in' => $post['in_mhs']
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -2255,10 +2255,10 @@ class Data_akademik extends Backend_Controller {
 						);
 
 					$detail = $this->ptk_model->get($id_ptk,TRUE);
-					$delete_ptk = $this->ptk_model->delete_by($delete_ptk_by);						
+					$delete_ptk = $this->ptk_model->delete_by($delete_ptk_by);
 					$delete_user = $this->user_model->delete_by($delete_user_by);
 
-					if ($delete_ptk && $delete_user) {							
+					if ($delete_ptk && $delete_user) {
 						$data = 'data_ptk';
 						if ($detail->photo_ptk != '') {
 							$this->load->helper('file');
@@ -2295,7 +2295,7 @@ class Data_akademik extends Backend_Controller {
 							'data' => $data,
 							'in_ptk' => @$post['id_ptk_studi'],
 							'studi_ptk' => $record_studi
-							);							
+							);
 					}
 					else{
 						$result = array('status' => 'failed_db');
@@ -2315,7 +2315,7 @@ class Data_akademik extends Backend_Controller {
 							'data' => $data,
 							'in_ptk' => @$post['id_ptk_rsch'],
 							'penelitian_ptk' => $record_penelitian
-							);							
+							);
 					}
 					else{
 						$result = array('status' => 'failed_db');
@@ -2324,7 +2324,7 @@ class Data_akademik extends Backend_Controller {
 				elseif (isset($post['data_mk'])) {
 					$id_mk = $post['id_mk'];
 					$delete_mk_by = array('id_mk' => $id_mk);
-					$delete_mk = $this->mata_kuliah_model->delete_by($delete_mk_by);					
+					$delete_mk = $this->mata_kuliah_model->delete_by($delete_mk_by);
 
 					if ($delete_mk) {
 						$data = 'data_mk';
@@ -2634,7 +2634,7 @@ class Data_akademik extends Backend_Controller {
 							foreach ($status_thn as $key) {
 								$id_mhs_kls[] = $key->id_kelas;
 							}
-							
+
 							if (count($id_mhs_kls) > 0) {
 								$delete_in = array(
 									'id_kelas' => $id_mhs_kls
@@ -2656,18 +2656,18 @@ class Data_akademik extends Backend_Controller {
 							}
 							else{
 								$result = array(
-									'status' => 'failed', 
+									'status' => 'failed',
 									'message' => 'Anda tidak bisa menghapus mahasiswa dari kelas ini karena tahun akademik kelas tidak sedang diterapkan');
 							}
 						}
 						elseif (!isset($post['id']) || count($post['id']) < 1) {
 							$result = array(
-								'status' => 'failed', 
+								'status' => 'failed',
 								'message' => 'Silahkan pilih mahasiswa yang akan dihapus dari kelas ini');
 						}
 						elseif (!isset($post['kelas']) || $post['kelas'] == '') {
 							$result = array(
-								'status' => 'failed', 
+								'status' => 'failed',
 								'message' => 'Kelas mahasiswa yang anda pilih tidak ditemukan');
 						}
 					}
@@ -2693,7 +2693,7 @@ class Data_akademik extends Backend_Controller {
 						}
 						else{
 							$result = array('status' => 'failed_db');
-						}	
+						}
 					}
 					elseif ($post['data'] == 'data_mhs_do') {
 						$id = $post['id'];
@@ -2724,7 +2724,7 @@ class Data_akademik extends Backend_Controller {
 							}
 							else{
 								$result = array('status' => 'failed_db');
-							}	
+							}
 						}
 						else{
 							$result = array('status' => 'no_record_delete');
@@ -2846,18 +2846,18 @@ class Data_akademik extends Backend_Controller {
 		$post = $this->input->post(NULL, TRUE);
 		if ($param == 'data_mahasiswa') {
 			/*Serverside Processing*/
-			$fetch_data = $this->mahasiswa_model->make_datatables();  
-			$data = array();  
+			$fetch_data = $this->mahasiswa_model->make_datatables();
+			$data = array();
 			$no  = 1;
-			foreach($fetch_data as $row){  					
+			foreach($fetch_data as $row){
 				$arr = array('no' => $post['start']+$no, );
 				$data[]      = array_merge($arr,(array)$row);
 				$no++;
 			}
-			$output = array(  
-				"draw"            => intval($post["draw"]),  
-				"recordsTotal"    => $this->mahasiswa_model->get_all_data(),  
-				"recordsFiltered" => $this->mahasiswa_model->get_filtered_data(),  
+			$output = array(
+				"draw"            => intval($post["draw"]),
+				"recordsTotal"    => $this->mahasiswa_model->get_all_data(),
+				"recordsFiltered" => $this->mahasiswa_model->get_filtered_data(),
 				"data"            => $data
 			);
 
@@ -2872,29 +2872,29 @@ class Data_akademik extends Backend_Controller {
 				$json_result .=json_encode($value);
 				$i++;
 			}
-			$json_result .= ']}';*/			
+			$json_result .= ']}';*/
 		}
 		elseif ($param == 'data_mahasiswa_ak') {
 			/*Serverside Processing*/
-			$fetch_data = $this->kelas_model->make_datatables();  
-			$data = array();  
+			$fetch_data = $this->kelas_model->make_datatables();
+			$data = array();
 			$no  = 1;
-			foreach($fetch_data as $row){  					
+			foreach($fetch_data as $row){
 				$arr = array('no' => $post['start']+$no, );
 				$data[]      = array_merge($arr,(array)$row);
 				$no++;
-			}  
-			$output = array(  
-				"draw"            => intval($post["draw"]),  
-				"recordsTotal"    => $this->kelas_model->get_all_data(),  
-				"recordsFiltered" => $this->kelas_model->get_filtered_data(),  
-				"data"            => $data  
+			}
+			$output = array(
+				"draw"            => intval($post["draw"]),
+				"recordsTotal"    => $this->kelas_model->get_all_data(),
+				"recordsFiltered" => $this->kelas_model->get_filtered_data(),
+				"data"            => $data
 			);
 		}
 		elseif ($param == 'data_mahasiswa_alni_do') {
 			/*Serverside Processing*/
-			$fetch_data = $this->mahasiswa_model->make_datatables();  
-			$data = array();  
+			$fetch_data = $this->mahasiswa_model->make_datatables();
+			$data = array();
 			foreach($fetch_data as $row){
 				if (isset($row->tgl_lulus)) {
 					$arr = array('data_mhs' => 'alumni',);
@@ -2903,28 +2903,28 @@ class Data_akademik extends Backend_Controller {
 					$arr = array('data_mhs' => 'do',);
 				}
 				$data[]      = array_merge((array)$row,$arr);
-			}  
-			$output = array(  
-				"draw"            => intval($post["draw"]),  
-				"recordsTotal"    => $this->mahasiswa_model->get_all_data(),  
-				"recordsFiltered" => $this->mahasiswa_model->get_filtered_data(),  
+			}
+			$output = array(
+				"draw"            => intval($post["draw"]),
+				"recordsTotal"    => $this->mahasiswa_model->get_all_data(),
+				"recordsFiltered" => $this->mahasiswa_model->get_filtered_data(),
 				"data"            => $data
 			);
 		}
 		elseif ($param == 'data_ptk') {
-			$fetch_data = $this->ptk_model->make_datatables();  
-			$data = array();  
+			$fetch_data = $this->ptk_model->make_datatables();
+			$data = array();
 			foreach($fetch_data as $row){
 				$arr = array(
 					'status_aktif_ptk' => select_conv_value($row->status_aktif_ptk,'ptk','status_aktif_ptk'),
 					);
 				$data[]      = array_merge((array)$row,$arr);
-			}  
-			$output = array(  
-				"draw"            => intval($post["draw"]),  
-				"recordsTotal"    => $this->ptk_model->get_all_data(),  
-				"recordsFiltered" => $this->ptk_model->get_filtered_data(),  
-				"data"            => $data  
+			}
+			$output = array(
+				"draw"            => intval($post["draw"]),
+				"recordsTotal"    => $this->ptk_model->get_all_data(),
+				"recordsFiltered" => $this->ptk_model->get_filtered_data(),
+				"data"            => $data
 			);
 		}
 		elseif ($param == 'data_mk') {
@@ -2995,16 +2995,16 @@ class Data_akademik extends Backend_Controller {
 		}
 		elseif ($param == 'daftar_jadwal') {
 			/*Serverside Processing*/
-			$fetch_data = $this->jadwal_model->make_datatables();  
-			$data = array();  
-			foreach($fetch_data as $row){  					
+			$fetch_data = $this->jadwal_model->make_datatables();
+			$data = array();
+			foreach($fetch_data as $row){
 				$data[]      = $row;
 			}
-			$output = array(  
-				"draw"            => intval($post["draw"]),  
-				"recordsTotal"    => $this->jadwal_model->get_all_data(),  
-				"recordsFiltered" => $this->jadwal_model->get_filtered_data(),  
-				"data"            => $data  
+			$output = array(
+				"draw"            => intval($post["draw"]),
+				"recordsTotal"    => $this->jadwal_model->get_all_data(),
+				"recordsFiltered" => $this->jadwal_model->get_filtered_data(),
+				"data"            => $data
 			);
 		}
 		$output['n_token'] = $this->security->get_csrf_hash();
@@ -3025,7 +3025,7 @@ class Data_akademik extends Backend_Controller {
 		if ($post['pt'] == 'mhs') {
 			$detail = $this->mahasiswa_model->get($post['data'],TRUE);
 			$config_mhs_photo = array(
-				'upload_path' => './uploads/mhs-photo/', 
+				'upload_path' => './uploads/mhs-photo/',
 				'file_name' => rand_val().md5($detail->id).rand_val().'-mhs',
 				);
 			$config = array_merge($config_mhs_photo,$config);
@@ -3096,7 +3096,7 @@ class Data_akademik extends Backend_Controller {
 		elseif ($post['pt'] == 'ptk') {
 			$detail = $this->ptk_model->get($post['data'],TRUE);
 			$config_ptk_photo = array(
-				'upload_path' => './uploads/ptk-photo/', 
+				'upload_path' => './uploads/ptk-photo/',
 				'file_name' => rand_val().md5($detail->id_ptk).rand_val().'-ptk',
 				);
 			$config = array_merge($config_ptk_photo,$config);
@@ -3205,7 +3205,7 @@ class Data_akademik extends Backend_Controller {
 					$check_file = get_file_info('uploads/ptk-photo/'.$detail->photo_ptk);
 					if ($check_file != FALSE) {
 						unlink('./uploads/ptk-photo/'.$detail->photo_ptk);
-						
+
 					}
 					$update_photo = $this->ptk_model->update(array('photo_ptk' => ''),array('id_ptk' => $post['id_photo']));
 					if ($update_photo) {
@@ -3353,7 +3353,7 @@ class Data_akademik extends Backend_Controller {
 			else{
 				return TRUE;
 			}
-		}		
+		}
 	}
 
 	public function kode_mk_check($string){
@@ -3428,7 +3428,7 @@ class Data_akademik extends Backend_Controller {
 	public function nuptk_check($string){
 		$id_ptk = $this->id_ptk;
 		if (empty($id_ptk)) {
-			if (!empty($string)) {			
+			if (!empty($string)) {
 				$nuptk_check = array('nuptk' => $string);
 				$check = $this->ptk_model->count($nuptk_check);
 				if ($check > 0) {
@@ -3436,10 +3436,10 @@ class Data_akademik extends Backend_Controller {
 				}
 				else{
 					return TRUE;
-				}			
+				}
 			}
-			else{			
-				return TRUE;			
+			else{
+				return TRUE;
 			}
 		}
 		else{
@@ -3462,7 +3462,7 @@ class Data_akademik extends Backend_Controller {
 	public function nip_check($string){
 		$id_ptk = $this->id_ptk;
 		if (empty($id_ptk)) {
-			if (!empty($string)) {			
+			if (!empty($string)) {
 				$nip_check = array('nip' => $string);
 				$check = $this->ptk_model->count($nip_check);
 				if ($check > 0) {
@@ -3470,10 +3470,10 @@ class Data_akademik extends Backend_Controller {
 				}
 				else{
 					return TRUE;
-				}			
+				}
 			}
-			else{			
-				return TRUE;			
+			else{
+				return TRUE;
 			}
 		}
 		else{
@@ -3660,7 +3660,7 @@ class Data_akademik extends Backend_Controller {
 			$mhs_ortu = array();
 			$no = 1;
 			$nim = 1704411001;
-			for ($i=1; $i <= 50 ; $i++) { 
+			for ($i=1; $i <= 50 ; $i++) {
 				if ($i <= 25) {
 					$jk = 'L';
 				}
