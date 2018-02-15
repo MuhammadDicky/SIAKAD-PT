@@ -1,4 +1,3 @@
-/*@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);*/
 /*!
  *   AdminLTE v2.3.8
  *   Author: Almsaeed Studio
@@ -10,23 +9,6 @@
  * Core: General Layout Style
  * -------------------------
  */
- /* @font-face{
-  font-family: 'Source Sans Pro';
-  src: url("font/Source Sans Pro/source-sans-pro-v10-latin-600.eot");
-  src: 
-    url("font/Source Sans Pro/source-sans-pro-v10-latin-600.woff") format("woff"),
-    url("font/Source Sans Pro/source-sans-pro-v10-latin-600.woff2") format("woff2"),
-    url("font/Source Sans Pro/source-sans-pro-v10-latin-600.ttf") format("ttf"),
-    url("font/Source Sans Pro/source-sans-pro-v10-latin-600.svg#filename") format("svg");
- } */
-/* @font-face {
-  font-family: 'Montserrat-Regular';
-  src: url('font/Montserrat/Montserrat-Regular.eot');
-  src: url('font/Montserrat/Montserrat-Regular.eot?#iefix') format('embedded-opentype'),
-       url('font/Montserrat/Montserrat-Regular.woff') format('woff'),
-       url('font/Montserrat/Montserrat-Regular.ttf') format('truetype'),
-       url('font/Montserrat/Montserrat-Regular.svg#Montserrat-Regular') format('svg');
-} */
 
 html,
 body {
