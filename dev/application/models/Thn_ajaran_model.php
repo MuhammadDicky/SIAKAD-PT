@@ -53,7 +53,7 @@ class Thn_ajaran_model extends My_Models_Configuration{
 		parent:: __construct();
 	}
 
-	function make_query(){  
+	function make_query(){
 		$post  = $this->input->post(NULL, TRUE);		
 		$this->db->from($this->_table_name);
 

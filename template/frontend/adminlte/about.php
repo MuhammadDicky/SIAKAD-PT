@@ -39,7 +39,7 @@
 						            <div class="box-footer">
 						            	<div class="row" style="margin-top: -35px">
 						            		<div class="col-md-12">
-								                <center style="margin-bottom: -15px"><h3>Sistem Informasi Akademik</h3></center>
+								                <center style="margin-bottom: -15px"><h3><?php echo web_detail('_app_name'); ?></h3></center>
 				                            	<center><h3><?php echo web_detail('_pt_name'); ?></h3></center>
 								                <center>Aplikasi berbasis web ini ditujukan untuk pengolahan data akademik perguruan tinggi mulai dari data kemahasiswaan, data tenaga pedidik dan data akademik lainnya.</center>
 						            		</div>

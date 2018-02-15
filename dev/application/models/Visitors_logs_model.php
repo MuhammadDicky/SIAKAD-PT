@@ -16,7 +16,23 @@ class Visitors_logs_model extends My_Models_Configuration{
 
 	function make_query(){ 
 		$post  = $this->input->post(NULL, TRUE);
-		$this->db->from($this->_table_name);
+		/*$sub_query_user[] = 'CASE WHEN visitor_user_level = "mhs" 
+								THEN (SELECT nisn FROM {PRE}mahasiswa WHERE id = visitor_id_user) 
+							WHEN visitor_user_level = "ptk" 
+								THEN (SELECT nuptk FROM {PRE}ptk WHERE id_ptk = visitor_id_user) 
+							END AS username';
+		$sub_query_user[] = 'CASE WHEN visitor_user_level = "mhs" 
+								THEN (SELECT nama FROM {PRE}mahasiswa WHERE id = visitor_id_user) 
+							WHEN visitor_user_level = "ptk" 
+								THEN (SELECT nama_ptk FROM {PRE}ptk WHERE id_ptk = visitor_id_user) 
+							END AS nama';
+		$sub_query_user[] = 'CASE WHEN visitor_user_level = "mhs" 
+								THEN (SELECT photo_mhs FROM {PRE}mahasiswa WHERE id = visitor_id_user) 
+							WHEN visitor_user_level = "ptk" 
+								THEN (SELECT photo_ptk FROM {PRE}ptk WHERE id_ptk = visitor_id_user) 
+							END AS photo_u';
+		$this->db->select(list_fields(array('visitor_logs'),$sub_query_user));*/
+		$this->db->from($this->_table_name)->where(array('visitor_user_level != ' => 'admin'));
 
 		if ($post['visitor'] == 'mhs') {
 			$this->db->select(list_fields(array('visitor_logs'),array('nisn AS username','nama','photo_mhs as photo_u')));
@@ -32,7 +48,7 @@ class Visitors_logs_model extends My_Models_Configuration{
 		
 		if (isset($post['visitor_browser']) && $post['visitor_browser'] !='') {
 			if ($post['visitor_browser'] != 'other-browser') {
-				$this->db->where('visitor_browser', $post['visitor_browser']);
+				$this->db->like('visitor_browser', $post['visitor_browser']);
 			}
 			else{
 				$other_browser = array('Chrome','Mozilla','Edge','Internet Explorer','Safari','Opera');
@@ -41,7 +57,7 @@ class Visitors_logs_model extends My_Models_Configuration{
 		}
 		if (isset($post['visitor_platform']) && $post['visitor_platform'] !='') {
 			if ($post['visitor_platform'] != 'other-platform') {
-				$this->db->where('visitor_os', $post['visitor_platform']);
+				$this->db->like('visitor_os', $post['visitor_platform']);
 			}
 			else{
 				$other_os = array('Windows','Linux','Android','IOS','MAC OS X');

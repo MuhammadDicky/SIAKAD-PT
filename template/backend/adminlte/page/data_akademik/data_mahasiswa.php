@@ -93,7 +93,7 @@
 						</div>
 						<div class="col-md-12 col-sm-12 col-xs-12 semua-data" style="display: none;">
 			      			<div class="form-group">
-			                  <a href="" class="btn btn-success btn-block" id="semua-data"><i class="fa fa-list"></i> Tampilkan Semua Data</a>
+			                  <a href="" class="btn btn-success btn-block" id="semua-data" table-refresh=".tbl-data-mhs"><i class="fa fa-list"></i> Tampilkan Semua Data</a>
 			                </div>
 			            </div>
 					</div>
@@ -113,7 +113,7 @@
 			            </div>
 			            <div class="col-md-12 col-sm-12 col-xs-12">
 			            	<div class="form-group">
-			                  <a href="" class="btn btn-success btn-block disabled" id="tamp-data"><i class="fa fa-list"></i> Tampilkan Data</a>
+			                  <a href="" class="btn btn-success btn-block disabled" id="tamp-data" table-refresh=".tbl-data-mhs"><i class="fa fa-list"></i> Tampilkan Data</a>
 			                </div>
 			            </div>
 		            </div>

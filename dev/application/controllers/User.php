@@ -91,7 +91,7 @@ class User extends Backend_Controller {
 			$rules = $this->user_model->rules_auth;
 			$this->form_validation->set_rules($rules);
 
-			if ($this->form_validation->run() == TRUE || $this->pass_cookie != NULL && md5($this->user_detail->password) == $this->pass_cookie) {
+			if ($this->form_validation->run() == TRUE || $this->pass_cookie != NULL && $this->pass_cookie == md5($this->user_detail->password)) {
 				if ($this->user_detail->active_status == 1) {
 					$url_target = base_url();
 					$last_online_u = $this->user_detail->last_online;

@@ -13,6 +13,58 @@
 						  	<div class="row">
 							  	<section class="col-md-6">
 									<div class="row">
+										<div class="col-md-12" style="">
+											<img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element" alt="PT Icon Profile" style="width: 30%;display: block;margin-bottom: 10px;margin-right: auto;margin-left: auto;">
+											<div class="form-group">
+												<label>Ganti Logo Perguruan Tinggi</label>
+												<input type="file" class="form-control" name="logo-pt" id="file-select-logo-pt">
+							                </div>
+							                <p><b>Note</b>:
+							                	<ol>
+							                		<li>Dimensi / ukuran logo: 
+							                			<ul style="list-style: disc;margin-left: -24px">
+							                				<li>Lebar maks. 387px - min. 285px</li>
+							                				<li>Tinggi maks. 385px - min. 283px</li>
+							                				<li>Rek. lebar 287px - 290px dan tinggi 285px - 288px </li>
+							                			</ul>
+							                		</li>
+							                		<li>Ukuran file maks. 1MB</li>
+							                		<li>Format logo harus png</li>
+							                	</ol>
+							                </p>
+										</div>
+										<div class="col-md-12">
+											<div class="box box-solid box-danger">
+									            <div class="box-header with-border">
+									              <h3 class="box-title">Data Rinci</h3>
+									              <div class="box-tools pull-right">
+									                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+									                </button>
+									              </div>
+									            </div>
+									            <!-- /.box-header -->
+									            <div class="box-body">
+									            	<dl class="dl-horizontal dl-profil">     
+										                <dt>Sertifikasi ISO</dt>
+										                <dd class="detail-data-pt sertifikat_iso"></dd>
+
+										                <dt>Akses Internet</dt>
+										                <dd class="detail-data-pt akses_internet"></dd>
+
+										                <dt>Sumber Listrik</dt>
+										                <dd class="detail-data-pt sumber_listrik"></dd>
+
+										                <dt>Daya Listrik</dt>
+										                <dd class="detail-data-pt daya_listrik"></dd>									                
+										            </dl>
+									            </div>
+									            <!-- /.box-body -->
+									        </div>
+										</div>
+									</div>
+								</section>
+								<section class="col-md-6">
+									<div class="row">
 										<div class="col-md-12">
 											<div class="box box-solid box-danger">
 									            <div class="box-header with-border">
@@ -61,41 +113,7 @@
 									            </div>
 									            <!-- /.box-body -->
 									        </div>
-										</div>								
-									</div>
-									<div class="row">
-										<div class="col-md-12">
-											<div class="box box-solid box-danger">
-									            <div class="box-header with-border">
-									              <h3 class="box-title">Data Rinci</h3>
-									              <div class="box-tools pull-right">
-									                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-									                </button>
-									              </div>
-									            </div>
-									            <!-- /.box-header -->
-									            <div class="box-body">
-									            	<dl class="dl-horizontal dl-profil">     
-										                <dt>Sertifikasi ISO</dt>
-										                <dd class="detail-data-pt sertifikat_iso"></dd>
-
-										                <dt>Akses Internet</dt>
-										                <dd class="detail-data-pt akses_internet"></dd>
-
-										                <dt>Sumber Listrik</dt>
-										                <dd class="detail-data-pt sumber_listrik"></dd>
-
-										                <dt>Daya Listrik</dt>
-										                <dd class="detail-data-pt daya_listrik"></dd>									                
-										            </dl>
-									            </div>
-									            <!-- /.box-body -->
-									        </div>
 										</div>
-									</div>
-								</section>
-								<section class="col-md-6">
-									<div class="row">
 										<div class="col-md-12">
 											<div class="box box-solid box-danger">
 									            <div class="box-header with-border">
@@ -226,7 +244,7 @@
           </div>
 
           <div class="modal-body">            
-            <form action="" id="form-input">
+            <form action="" class="hide-modal-content" id="form-input">
 	            <div class="row">
 		            <div class="col-md-12">
 			        <!-- Custom Tabs -->

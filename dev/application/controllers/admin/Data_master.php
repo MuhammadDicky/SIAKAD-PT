@@ -770,21 +770,30 @@ class Data_master extends Backend_Controller {
 				elseif ($post['data']=='detail_fk') {
 					$fakultas = $this->prodi_model->get_detail_data('get',array('fakultas'),NULL,array('id_fk_pd' => $post['id']),NULL,array('id_prodi','id_fk_pd','kode_prodi','nama_prodi','status_prodi','jenjang_prodi','nama_fakultas','dekan','akreditasi_fk','tgl_berdiri'));
 					$detail_fak = array();
-					$count_fk_mhs = NULL;
 					if ($fakultas) {
 						foreach ($fakultas as $key) {
 							$arr = array('tgl_berdiri' => date_convert($key->tgl_berdiri));
 							$detail_fak[] = array_merge((array)$key,$arr);
 						}
+						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
+										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
+										WHERE id_fk_pd = '.$post['id'].') AS jml_mhs';
+						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
+										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
+										WHERE id_fk_pd = '.$post['id'].' AND jk = "L") AS jml_lk';
+						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
+										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
+										WHERE id_fk_pd = '.$post['id'].' AND jk = "P") AS jml_pr';
+						$count_mhs = $this->mahasiswa_model->get_detail_data('get',NULL,NULL,NULL,TRUE,$sub_query);
 						$count_fk_mhs = array(
-							'jml_mhs' => number_format($this->mahasiswa_model->get_detail_data('count',array('prodi_mhs'),NULL,array('id_fk_pd' => $key->id_fk_pd)),0,',','.'),
-							'jml_lk' => number_format($this->mahasiswa_model->get_detail_data('count',array('prodi_mhs'),NULL,array('id_fk_pd' => $key->id_fk_pd, 'jk' => 'L')),0,',','.'),
-							'jml_pr' => number_format($this->mahasiswa_model->get_detail_data('count',array('prodi_mhs'),NULL,array('id_fk_pd' => $key->id_fk_pd, 'jk' => 'P')),0,',','.'),
+							'jml_mhs' => number_format($count_mhs->jml_mhs,0,',','.'),
+							'jml_lk' => number_format($count_mhs->jml_lk,0,',','.'),
+							'jml_pr' => number_format($count_mhs->jml_pr,0,',','.')
 							);
 					}
 					$result = array(
 						'data' => $detail_fak,
-						'count_fk_mhs' => $count_fk_mhs
+						'count_fk_mhs' => @$count_fk_mhs
 						);
 				}
 				elseif ($post['data']=='data_prodi') {
@@ -1169,15 +1178,40 @@ class Data_master extends Backend_Controller {
 			$fetch_data = $this->thn_ajaran_model->make_datatables();  
 			$data = array();  
 			foreach($fetch_data as $row){
+				$sub_query[] = '(SELECT COUNT(*) FROM
+									(SELECT * FROM {PRE}kelas_nilai_mhs
+									LEFT JOIN {PRE}jadwal_kuliah ON {PRE}jadwal_kuliah.id_jdl = {PRE}kelas_nilai_mhs.id_jdl_kls
+									LEFT JOIN {PRE}thn_akademik ON {PRE}thn_akademik.id_thn_ak = {PRE}jadwal_kuliah.id_thn_ak_jdl
+									WHERE id_thn_ak_jdl = '.$row->id_thn_ak.' 
+									GROUP BY id_mhs_kls) count_mhs
+								) AS jml_mhs';
+				$sub_query[] = '(SELECT COUNT(*) FROM
+									(SELECT * FROM {PRE}kelas_nilai_mhs
+									LEFT JOIN {PRE}jadwal_kuliah ON {PRE}jadwal_kuliah.id_jdl = {PRE}kelas_nilai_mhs.id_jdl_kls
+									LEFT JOIN {PRE}thn_akademik ON {PRE}thn_akademik.id_thn_ak = {PRE}jadwal_kuliah.id_thn_ak_jdl
+									LEFT JOIN {PRE}mahasiswa ON {PRE}mahasiswa.id = {PRE}kelas_nilai_mhs.id_mhs_kls
+									WHERE id_thn_ak_jdl = '.$row->id_thn_ak.' AND jk = "L"
+									GROUP BY id_mhs_kls) count_mhs
+								) AS jml_mhs_lk';
+				$sub_query[] = '(SELECT COUNT(*) FROM
+									(SELECT * FROM {PRE}kelas_nilai_mhs
+									LEFT JOIN {PRE}jadwal_kuliah ON {PRE}jadwal_kuliah.id_jdl = {PRE}kelas_nilai_mhs.id_jdl_kls
+									LEFT JOIN {PRE}thn_akademik ON {PRE}thn_akademik.id_thn_ak = {PRE}jadwal_kuliah.id_thn_ak_jdl
+									LEFT JOIN {PRE}mahasiswa ON {PRE}mahasiswa.id = {PRE}kelas_nilai_mhs.id_mhs_kls
+									WHERE id_thn_ak_jdl = '.$row->id_thn_ak.' AND jk = "P"
+									GROUP BY id_mhs_kls) count_mhs
+								) AS jml_mhs_pr';
+				$count_mhs = $this->db->select($sub_query)->get()->result();
+
 				$thn = thn_ajaran_conv($row->thn_ajaran_jdl);
 				$o_data = array(
 					'thn_ajaran_jdl' => $thn,
-					'tgl_ma_ajar'    => date_convert($row->tgl_mulai_thn_ajar).' - '.date_convert($row->tgl_akhir_thn_ajar),
-					'jml_mhs'        => $this->kelas_model->get_detail_data('count',array('jadwal','thn_akademik'),NULL,array('id_thn_ak_jdl' => $row->id_thn_ak),FALSE,NULL,array('id_mhs_kls')),
+					'tgl_ma_ajar'    => date_convert($row->tgl_mulai_thn_ajar).' - '.date_convert($row->tgl_akhir_thn_ajar)
+					/*'jml_mhs'        => $this->kelas_model->get_detail_data('count',array('jadwal','thn_akademik'),NULL,array('id_thn_ak_jdl' => $row->id_thn_ak),FALSE,NULL,array('id_mhs_kls')),
 					'jml_mhs_lk'     => $this->kelas_model->get_detail_data('count',array('jadwal','thn_akademik','mahasiswa'),NULL,array('id_thn_ak_jdl' => $row->id_thn_ak,'jk' => 'L'),FALSE,NULL,array('id_mhs_kls')),
-					'jml_mhs_pr'     => $this->kelas_model->get_detail_data('count',array('jadwal','thn_akademik','mahasiswa'),NULL,array('id_thn_ak_jdl' => $row->id_thn_ak,'jk' => 'P'),FALSE,NULL,array('id_mhs_kls')),
+					'jml_mhs_pr'     => $this->kelas_model->get_detail_data('count',array('jadwal','thn_akademik','mahasiswa'),NULL,array('id_thn_ak_jdl' => $row->id_thn_ak,'jk' => 'P'),FALSE,NULL,array('id_mhs_kls')),*/
 					);
-				$data[]      = array_merge((array)$row,$o_data);
+				$data[]      = array_merge((array)$row,$o_data,(array)$count_mhs[0]);
 			}
 			$recordsTotal = $this->thn_ajaran_model->get_all_data();
 			$recordsFiltered = $this->thn_ajaran_model->get_filtered_data();
@@ -1194,15 +1228,12 @@ class Data_master extends Backend_Controller {
 				}
 				$count = array(
 					'tgl_masuk_angkatan' => $tgl_masuk,
-					'laki_laki'       => number_conv($this->mahasiswa_model->count(array('thn_angkatan' => $row->id_thn_angkatan, 'jk' => 'L'))),
-					'perempuan'       => number_conv($this->mahasiswa_model->count(array('thn_angkatan' => $row->id_thn_angkatan, 'jk' => 'P'))),
-					'jumlah'          => number_conv($this->mahasiswa_model->count(array('thn_angkatan' => $row->id_thn_angkatan)))
+					'laki_laki'       => number_conv($row->laki_laki,0,',','.'),
+					'perempuan'       => number_conv($row->perempuan,0,',','.'),
+					'jumlah'          => number_conv($row->jumlah,0,',','.')
 					);
 				$data[]      = array_merge((array)$row,$count);
-			}  
-			/*'laki_laki'       => $this->mahasiswa_model->count(array('thn_angkatan' => $row->id_thn_angkatan, 'jk' => 'L')),
-			'perempuan'       => $this->mahasiswa_model->count(array('thn_angkatan' => $row->id_thn_angkatan, 'jk' => 'P')),
-			'jumlah'          => $this->mahasiswa_model->count(array('thn_angkatan' => $row->id_thn_angkatan))*/
+			}
 			$recordsTotal = $this->thn_angkatan_model->get_all_data();
 			$recordsFiltered = $this->thn_angkatan_model->get_filtered_data();
 		}
@@ -1229,7 +1260,7 @@ class Data_master extends Backend_Controller {
 				/*$count_jml = $this->mahasiswa_model->count(array('id_pd_mhs' => $row->id_prodi));*/
 				$st_pd = array(
 					'status_prodi' => $status_pd,
-					/*'count_mhs_prodi' => number_format($count_jml,0,',','.'),*/
+					'count_mhs_prodi' => number_format($row->count_mhs_prodi,0,',','.')
 					);
 				$data[]      = array_merge((array)$row,$st_pd);
 			}
@@ -1251,7 +1282,17 @@ class Data_master extends Backend_Controller {
 		if ($post['data'] == 'static_mhs_fk') {
 			$count_mhs = $this->mahasiswa_model->count();
 			if ($count_mhs > 0) {
-				$daftar_fk = $this->fakultas_model->get_by_search(NULL,FALSE,array('id_fk','nama_fakultas'));
+				$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
+									LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
+									WHERE id_fk_pd = id_fk) AS count_mhs_fk';
+				$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
+									LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
+									WHERE id_fk_pd = id_fk AND jk = "L") AS count_mhs_lk';
+				$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
+									LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
+									WHERE id_fk_pd = id_fk AND jk = "P") AS count_mhs_pr';
+				$select_fld = array_merge(array('id_fk','nama_fakultas'),$sub_query);
+				$daftar_fk = $this->fakultas_model->get_by_search(NULL,FALSE,$select_fld);
 				$fk = array();
 				$nama_fk = array();
 				$mhs_lk = array();
@@ -1259,11 +1300,7 @@ class Data_master extends Backend_Controller {
 				$color = array();
 				$no = 0;
 				foreach ($daftar_fk as $key) {
-					$where = array('id_fk_pd' => $key->id_fk);
-					$where_l = array('id_fk_pd' => $key->id_fk,'jk' => 'L');
-					$where_p = array('id_fk_pd' => $key->id_fk,'jk' => 'P');
-
-					$count_mhs_fk = $this->mahasiswa_model->get_detail_data('count',array('prodi_mhs'),NULL,$where);
+					$count_mhs_fk = $key->count_mhs_fk;
 					$statik_mhs_fk = $count_mhs_fk/$count_mhs*100;
 					$detail_grafik = array(
 						'count_mhs' => number_format($count_mhs_fk,0,',','.'),
@@ -1276,8 +1313,8 @@ class Data_master extends Backend_Controller {
 
 					$nama_fk[] = $key->nama_fakultas;
 					$color[] = color_pd_static($no);
-					$mhs_lk[] = $this->mahasiswa_model->get_detail_data('count',array('prodi_mhs'),NULL,$where_l);
-					$mhs_pr[] = $this->mahasiswa_model->get_detail_data('count',array('prodi_mhs'),NULL,$where_p);
+					$mhs_lk[] = $key->count_mhs_lk;
+					$mhs_pr[] = $key->count_mhs_pr;
 					$no++;
 				}
 				$result = array(
@@ -1399,10 +1436,19 @@ class Data_master extends Backend_Controller {
 		}
 		elseif ($post['data'] == 'static_mhs_thn_angkatan') {
 			$where = array('id_thn_angkatan' => $post['thn_ak']);
-			$thn = $this->thn_angkatan_model->get_by_search($where,TRUE,array('tahun_angkatan'));
+			$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa WHERE thn_angkatan = id_thn_angkatan) AS count_mhs';
+			$select_fld = array_merge(array('tahun_angkatan'),$sub_query);
+			$thn = $this->thn_angkatan_model->get_by_search($where,TRUE,$select_fld);
+			$count_mhs = $thn->count_mhs;
 
-			$daftar_pd = $this->prodi_model->get_by_search(NULL,FALSE,array('id_prodi','nama_prodi','jenjang_prodi'));
-			$count_mhs = $this->thn_angkatan_model->get_detail_data('count',array('mahasiswa','prodi_mhs'),NULL,$where);
+			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa 
+								WHERE id_pd_mhs = id_prodi AND thn_angkatan = '.$post['thn_ak'].') AS count_mhs_pd';
+			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa 
+								WHERE id_pd_mhs = id_prodi AND thn_angkatan = '.$post['thn_ak'].' AND jk = "L") AS count_mhs_lk';
+			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa 
+								WHERE id_pd_mhs = id_prodi AND thn_angkatan = '.$post['thn_ak'].' AND jk = "P") AS count_mhs_pr';
+			$select_fld = array_merge(array('id_prodi','nama_prodi','jenjang_prodi'),$sub_query_pd);
+			$daftar_pd = $this->prodi_model->get_by_search(NULL,FALSE,$select_fld);
 			$prodi = array();
 			$nama_prodi = array();
 			$mhs_lk = array();
@@ -1411,11 +1457,7 @@ class Data_master extends Backend_Controller {
 			$no = 0;
 			$pd = 1;
 			foreach ($daftar_pd as $key) {
-				$where = array_merge($where,array('id_pd_mhs' => $key->id_prodi));
-				$where_l = array_merge($where,array('id_pd_mhs' => $key->id_prodi,'jk' => 'L'));
-				$where_p = array_merge($where,array('id_pd_mhs' => $key->id_prodi,'jk' => 'P'));
-
-				$count_mhs_pd = $this->thn_angkatan_model->get_detail_data('count',array('mahasiswa','prodi_mhs'),NULL,$where);
+				$count_mhs_pd = $key->count_mhs_pd;
 				$statik_mhs_pd = $count_mhs_pd/$count_mhs*100;
 				$detail_grafik = array(
 					'count_mhs' => number_format($count_mhs_pd,0,',','.'),
@@ -1427,8 +1469,8 @@ class Data_master extends Backend_Controller {
 
 				$nama_prodi[] = 'Prodi '.$pd;
 				$color[] = color_pd_static($no);
-				$mhs_lk[] = $this->thn_angkatan_model->get_detail_data('count',array('mahasiswa','prodi_mhs'),NULL,$where_l,FALSE,NULL,array('mahasiswa.id'));
-				$mhs_pr[] = $this->thn_angkatan_model->get_detail_data('count',array('mahasiswa','prodi_mhs'),NULL,$where_p,FALSE,NULL,array('mahasiswa.id'));
+				$mhs_lk[] = $key->count_mhs_lk;
+				$mhs_pr[] = $key->count_mhs_pr;
 				$no++;
 				$pd++;
 			}

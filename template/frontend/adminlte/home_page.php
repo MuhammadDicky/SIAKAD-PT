@@ -6,7 +6,11 @@
   <title><?php echo web_detail('_web_name'); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')) ?>"/>
+  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon').'?'.rand_val()) ?>"/>
+  <!-- Font -->
+  <!-- <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Source Sans Pro/stylesheet.css') ?>">
+  <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Montserrat/stylesheet.css') ?>"> -->
+  <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Raleway/stylesheet.css') ?>">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo get_template_assets('bootstrap/css/bootstrap.min.css') ?>">
   <!-- Font Awesome -->
@@ -73,7 +77,7 @@
               <div class="row">
                 <div class="col-md-12">
                   <center>
-                    <img src="<?php echo get_templete_dir('','assets/web-images/pt-icon-profile.png') ?>" alt="PT Icon Profile" style="width: 196px;height: 194px">
+                    <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon').'?'.rand_val()) ?>" alt="PT Icon Profile" style="width: 196px;height: 194px">
                     <h4>
                       Selamat Datang Di Sistem Informasi Akademik
                     </h4>
@@ -306,7 +310,7 @@
                         <div class="box-footer">
                           <div class="row" style="margin-top: -35px">
                             <div class="col-md-12">
-                                <center style="margin-bottom: -15px"><h3>Sistem Informasi Akademik</h3></center>
+                                <center style="margin-bottom: -15px"><h3><?php echo web_detail('_app_name'); ?></h3></center>
                                 <center><h3><?php echo web_detail('_pt_name'); ?></h3></center>
                                 <center>Aplikasi berbasis web ini ditujukan untuk pengolahan data akademik perguruan tinggi mulai dari data kemahasiswaan, data tenaga pedidik dan data akademik lainnya.</center>
                             </div>

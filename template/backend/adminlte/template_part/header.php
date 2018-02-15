@@ -9,7 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <title><?php echo title(); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')) ?>"/>
+  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element"/>
+  <!-- Font -->
+  <!-- <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Source Sans Pro/stylesheet.css') ?>">
+  <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Montserrat/stylesheet.css') ?>"> -->
+  <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Raleway/stylesheet.css') ?>">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo get_template_assets('bootstrap/css/bootstrap.min.css') ?>">  
   <!-- Pace style -->
@@ -67,9 +71,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Logo -->
     <a href="<?php echo base_url('admin') ?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b><?php echo web_detail('_logo_mini'); ?></b></span>
+      <span class="logo-mini">
+        <b><?php echo web_detail('_logo_mini'); ?></b>
+        <!-- <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element" alt="PT Icon Profile" style="width: 80%;margin-top: -5px"> -->
+      </span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>SIAKAD</b> <?php echo web_detail('_logo_lg'); ?></span>
+      <span class="logo-lg">
+        <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="hidden-xs logo-pt-element" alt="PT Icon Profile" style="width: 15%;margin-top: -6px">
+        <b>SIAKAD</b> <?php echo web_detail('_logo_lg'); ?>
+      </span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -130,7 +140,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <!-- User image -->
               <li class="user-header" id="user-widget-detail">
                 <img src="<?php echo get_template_assets('dist/img/user-image.png') ?>" class="img-circle" alt="User Image">
-
                 <p>
                   <?php echo $_SESSION['username']; ?><br>
                   Administrator
@@ -196,7 +205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <div class="btn-group centered-content btn-sidebar-set" style="margin-left: 10px;margin-top: -10px">
             <button class="btn btn-sm btn-default" url-target="#"><span class="fa fa-user-circle"></span> Profile</button>
             <button class="btn btn-sm btn-default" url-target="<?php echo base_url('logout') ?>"><span class="fa fa-sign-out"></span> Log Out</button>
-            <button class="btn btn-sm btn-default" data-toggle="control-sidebar"><span class="fa fa-gears"></span></button>
+            <button class="btn btn-sm btn-default" url-target="<?php echo set_url('pengaturan'); ?>" data-toggle="control-sidebar-1"><span class="fa fa-gears"></span></button>
           </div>
         </li>
         <li class="header">MENU UTAMA</li>
@@ -216,23 +225,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <ul class="treeview-menu">
                     <?php foreach ($key['sub_menu'] as $key_sub): ?>
                     <?php if ($key_sub['status_access_sub_menu'] == 1): ?>
-                    <li class="<?php echo active_page_print($key_sub['sort_link'],'active'); ?>"><a href="<?php echo $key_sub['link_sub_menu'] ?>"><i class="fa fa-circle-o"></i> <?php echo $key_sub['nm_sub_menu'] ?></a></li>  
+                    <li class="<?php echo active_page_print($key_sub['sort_link'],'active'); ?>">
+                      <a href="<?php echo $key_sub['link_sub_menu'] ?>">
+                        <i class="fa fa-circle-o"></i> 
+                        <?php
+                        if (strlen($key_sub['nm_sub_menu']) <= 29) {
+                          echo $key_sub['nm_sub_menu'];
+                        }
+                        else{
+                          echo substr($key_sub['nm_sub_menu'],0,28).'...';
+                        }
+                        ?>
+                      </a>
+                    </li>  
                     <?php endif ?>
 
                     <?php if ($key_sub['status_access_sub_menu'] != 1): ?>
                     <?php 
                       if ($key_sub['status_access_sub_menu'] == 0) {
+                        $strlen = 20;
+                        $end_str = 21;
                         $menu_attr = array('text' => 'Soon', 'color' => 'bg-green');
                       }
                       elseif ($key_sub['status_access_sub_menu'] == 2) {
+                        $strlen = 20;
+                        $end_str = 21;
                         $menu_attr = array('text' => 'BETA', 'color' => 'bg-blue');
                       }
                       elseif ($key_sub['status_access_sub_menu'] == 3) {
+                        $strlen = 19;
+                        $end_str = 20;
                         $menu_attr = array('text' => 'Repair', 'color' => 'bg-red');
                       }
                      ?>
                     <li class="<?php echo active_page_print($key_sub['sort_link'],'active'); ?>">
-                      <a href="<?php echo $key_sub['link_sub_menu'] ?>"><i class="fa fa-circle-o"></i> <?php echo $key_sub['nm_sub_menu'] ?>
+                      <a href="<?php echo $key_sub['link_sub_menu'] ?>"><i class="fa fa-circle-o"></i> 
+                        <?php
+                        if (strlen($key_sub['nm_sub_menu']) <= $strlen) {
+                          echo $key_sub['nm_sub_menu'];
+                        }
+                        else{
+                          echo substr($key_sub['nm_sub_menu'],0,$end_str).'...';
+                        }
+                        ?>
                       <span class="pull-right-container">
                         <small class="label pull-right <?php echo $menu_attr['color'] ?>"><?php echo $menu_attr['text'] ?></small>
                       </span>
@@ -411,6 +446,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <?php if (isset($settings)): ?>
           <ul class="treeview-menu">
             <li class="">
+              <a href="#set=config-set">
+                <i class="fa fa-circle-o"></i>
+                <span>Konfigurasi Umum</span>
+              </a>
+            </li>
+            <li class="">
               <a href="">
                 <i class="fa fa-circle-o"></i>
                 <span>Layout</span>
@@ -428,6 +469,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </ul>
             </li>
             <li class="">
+              <a href="#set=template-set">
+                <i class="fa fa-circle-o"></i>
+                <span>Template</span>
+              </a>
+            </li>
+            <li class="">
               <a href="#set=menu-set">
                 <i class="fa fa-circle-o"></i>
                 <span>Menu</span>
@@ -437,6 +484,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <a href="#set=backup-db">
                 <i class="fa fa-circle-o"></i>
                 <span>Pengolahan Database</span>
+              </a>
+            </li>
+            <li class="">
+              <a href="#set=akun-set">
+                <i class="fa fa-circle-o"></i>
+                <span>Akun</span>
               </a>
             </li>
           </ul>

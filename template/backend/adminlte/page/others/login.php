@@ -6,6 +6,10 @@
   <title><?php echo title(); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Font -->
+  <!-- <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Source Sans Pro/stylesheet.css') ?>">
+  <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Montserrat/stylesheet.css') ?>"> -->
+  <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Raleway/stylesheet.css') ?>">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="<?php echo get_template_assets('bootstrap/css/bootstrap.min.css') ?>">
   <!-- Font Awesome -->
@@ -65,7 +69,7 @@
       <div class="col-md-12 col-xs-12">
         <div class="login-box">
           <div class="login-logo">
-            <b style="font-size: 20pt">Sistem Informasi Akademik</b>
+            <b style="font-size: 20pt"><?php echo web_detail('_app_name'); ?></b>
             <b style="font-size: 20pt"><?php echo web_detail('_pt_name'); ?></b>
             <hr>
           </div>  
@@ -166,16 +170,17 @@
 <script src="<?php echo get_plugin('icheck','js')?>"></script>
 <script type="application/javascript" src="<?php echo get_template_assets('dist/js/app.min.js') ?>"></script>
 <script src="<?php echo get_templete_dir(dirname(__FILE__),'../../dist/js/js_conf.min.js',TRUE) ?>"></script>
-<?php if (isset($_SESSION['user_change_info'])): ?>
   <script type="text/javascript">
+    var url_login = "<?php echo web_detail('_site_url'); ?>";
     $(function(){
+      <?php if (isset($_SESSION['user_change_info'])): ?>
       swal({
         title:'Info',
         text:'<?php echo $_SESSION['user_change_info']; ?>',
         type:'info',
       });
+      <?php endif ?>
     });
   </script>
-<?php endif ?>
 </body>
 </html>

@@ -134,7 +134,9 @@ class Beranda_mhs extends Frontend_Controller {
 							);
 						$record_nilai[] = array_merge((array)$key,$mt);
 						$sks += $key->jml_sks;
-						$mutu += $n[2];
+						if ($n[2] != '') {
+							$mutu += $n[2];
+						}
 					}
 					$result = array(
 						'record_nilai' => $record_nilai,

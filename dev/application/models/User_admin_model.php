@@ -18,6 +18,35 @@ class User_admin_model extends My_Models_Configuration{
 			),
 		);
 
+	public $rules_change_password = array(
+		'new_password' => array(
+			'field' => 'new_password',
+			'rules' => 'required|alpha_numeric|min_length[5]|max_length[10]',
+			'errors'=> array(
+							'required' => 'Masukkan password baru',
+							'alpha_numeric' => 'Password hanya boleh mengandung A-Z,a-z,0-9',
+							'min_length' => 'Panjang password minimal 5 karakter',
+							'max_length' => 'Panjang password maksimal 10 karakter'
+						)
+			),
+		'confirm_password' => array(
+			'field' => 'confirm_password',
+			'rules' => 'required|matches[new_password]',
+			'errors'=> array(
+							'required' => 'Masukkan konfirmasi password baru',
+							'matches' => 'Password yang anda masukkan tidak sama dengan password baru',
+						)
+			),
+		'old_password' => array(
+			'field' => 'old_password',
+			'rules' => 'required|callback_check_password',
+			'errors'=> array(
+							'required' => 'Masukkan password lama',
+							'check_password' => 'Password lama yang anda masukkan salah',
+						)
+			)
+		);
+
 
 	function __construct(){
 		parent:: __construct();

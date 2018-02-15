@@ -10,7 +10,7 @@ class My_Controller extends CI_Controller{
 		parent::__construct();						
 		$this->load->helper(array('template_dir_helper','user_helper','form','option_helper'));
 		$this->load->library(array('site'));
-		$this->load->model(array('mahasiswa_model','ptk_model','user_model','identitas_universitas_model','prodi_model','thn_ajaran_model','mata_kuliah_model','konsentrasi_pd_model','kelas_model','jadwal_model','nilai_mhs_model','main_menu_list_model','sub_menu_list_model'));
+		$this->load->model(array('mahasiswa_model','ptk_model','user_model','identitas_universitas_model','prodi_model','thn_ajaran_model','mata_kuliah_model','konsentrasi_pd_model','kelas_model','jadwal_model','nilai_mhs_model','main_menu_list_model','sub_menu_list_model','template_model','konfigurasi_model'));
 	}
 
 	public function page_on_repair($n,$i){

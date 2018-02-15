@@ -61,7 +61,7 @@
 				            </div>
 				            <div class="col-md-12 col-sm-12 col-xs-12">
 				            	<div class="form-group">
-				                  <button class="btn btn-success btn-block disabled" id="created-pass" style="pointer-events: none;"><i class="fa fa-key"></i> Buat Password</button>
+				                  <a class="btn btn-success btn-block disabled" id="created-pass" style="pointer-events:"><i class="fa fa-key"></i> Buat Password</a>
 				                </div>
 				            </div>
 			            </div>

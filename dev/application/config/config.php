@@ -2,11 +2,11 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 define('EXT','.php');
 
-function __autoload($class){
+spl_autoload_register(function ($class){
 	if (file_exists(APPPATH."core/".strtolower($class).EXT)){
 		include_once (APPPATH."core/".strtolower($class).EXT);
 	}
-}
+});
 
 global $Config;
 

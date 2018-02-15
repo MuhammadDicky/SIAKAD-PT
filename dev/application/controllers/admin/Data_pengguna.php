@@ -141,7 +141,7 @@ class Data_pengguna extends Backend_Controller {
 				$vars = explode('-',$post['user_in']);
 				$password = $this->user_model->password_generate();
 				$data = array(
-					'password' => bCrypt($password,12)
+					'password' => password_hash($password,PASSWORD_BCRYPT)
 					);
 				$where = array('md5(id_user)' => $vars[1]);
 				$update_password = $this->user_model->update($data,$where);
@@ -330,22 +330,26 @@ class Data_pengguna extends Backend_Controller {
 	}
 
 	public function print_user_info(){
-		$post = $this->input->post(NULL, TRUE);
+		$post = $this->input->post_get(NULL, TRUE);
 		$this->load->library('user_agent');
-		if ($this->agent->referrer() == set_url('data_pengguna/data_pengguna_mahasiswa')) {
+		if (stristr($this->agent->referrer(), set_url('data_pengguna/data_pengguna_mahasiswa')) == TRUE) {
 			$rules = $this->user_model->rules_print_umhs;
 			$this->form_validation->set_rules($rules);
 			$user_level = 'mhs';
 		}
-		elseif ($this->agent->referrer() == set_url('data_pengguna/data_pengguna_ptk')) {
+		elseif (stristr($this->agent->referrer(), set_url('data_pengguna/data_pengguna_ptk')) == TRUE) {
 			$rules = $this->user_model->rules_print_uptk;
 			$this->form_validation->set_rules($rules);
 			$user_level = 'ptk';
 		}
 
 		if (@$rules) {
+			$this->user_model->print_pdf_user($user_level);
 			if ($this->form_validation->run() == TRUE) {
 			    $this->user_model->print_pdf_user($user_level);
+			}
+			else{
+				echo "Error";
 			}
 		}
 	}
@@ -353,16 +357,16 @@ class Data_pengguna extends Backend_Controller {
 	public function check_print_data(){
 		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			$this->load->library('user_agent');
-			if ($this->agent->referrer() == set_url('data_pengguna/data_pengguna_mahasiswa')) {
+			if (stristr($this->agent->referrer(), set_url('data_pengguna/data_pengguna_mahasiswa')) == TRUE) {
 				$rules = $this->user_model->rules_print_umhs;
 				$this->form_validation->set_rules($rules);
 			}
-			elseif ($this->agent->referrer() == set_url('data_pengguna/data_pengguna_ptk')) {
+			elseif (stristr($this->agent->referrer(), set_url('data_pengguna/data_pengguna_ptk')) == TRUE) {
 				$rules = $this->user_model->rules_print_uptk;
 				$this->form_validation->set_rules($rules);
 			}
 
-			if ($rules) {
+			if (@$rules) {
 				if ($this->form_validation->run() == TRUE) {
 				    $result = array(
 				    	'status' => 'success',

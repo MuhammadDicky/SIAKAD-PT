@@ -54,7 +54,7 @@ $(function(){
         $('#login').find('span').removeClass('fa-sign-in').addClass('fa-spinner fa-spin');
         $('.log-in').removeClass('fa-arrow-right').addClass('fa-spinner fa-spin');
 
-        $.ajax('http://'+host+'/siakad-uncp/user/'+action,{
+        $.ajax(url_login+'/user/'+action,{
           dataType: 'json',
           type: 'POST',
           data: datasend,

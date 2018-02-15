@@ -19,7 +19,7 @@ class Data_akademik extends Backend_Controller {
 	}
 
 	public function index(){
-		$this->page_soon('Data Akademik','fa-list-alt');
+		$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
 	}
 	
 	public function data_mahasiswa(){
@@ -844,7 +844,7 @@ class Data_akademik extends Backend_Controller {
 						$total_rows = $this->jadwal_model->count($id);
 					}
 
-					if ($total_rows > 0) {
+					if (@$total_rows > 0) {
 						$select_jadwal_detail = array('id_jdl','id_mk_jdl','id_ptk_jdl','hari_jdl','jam_mulai_jdl','jam_akhir_jdl','id_thn_ak_jdl','thn_ajaran_jdl','semester','kelas','ruang','nama_prodi','kode_mk','nama_mk','jml_sks','nuptk','nama_ptk','status_jdl','jenis_jdl','nm_konsentrasi');
 						$record = $this->jadwal_model->get_detail_data('get',array('thn_akademik','mata_kuliah','konsentrasi_pd','prodi_mk','ptk'),NULL,$id,NULL,$select_jadwal_detail);
 						$record_jadwal = array();
@@ -914,7 +914,9 @@ class Data_akademik extends Backend_Controller {
 								);
 							$record_nilai[] = array_merge((array)$key,$mt);
 							$sks += $key->jml_sks;
-							$mutu += $n[2];
+							if ($n[2] != '') {
+								$mutu += $n[2];
+							}
 						}
 						$result = array(
 							'total_rows' => count($record_nilai),
@@ -1333,13 +1335,13 @@ class Data_akademik extends Backend_Controller {
 						elseif (isset($post['id_mhs_do'])) {
 							$id_mhs_check = array($post['id_mhs_do']);
 						}
-						/*else{
+						else{
 							foreach ($post['id'] as $key) {
 								$id_mhs = explode(' ',$key);
 								$id_mhs_check[] = $id_mhs[0];
 							}
-						}*/
-						$id_mhs_check = $post['id'];
+						}
+						/*$id_mhs_check = $post['id'];*/
 						$count_check = count($id_mhs_check);
 						if ($count_check > 0) {
 							$act = array(
@@ -1599,19 +1601,35 @@ class Data_akademik extends Backend_Controller {
 					$id = array('id_jdl' => $post['id_jdl']);
 					$select = array('id_jdl','id_thn_ak_jdl','id_pd_mk','nama_prodi','thn_ajaran_jdl','nama_mk','semester','kelas','status_jdl','jenis_jdl','nm_konsentrasi');
 					$record_jadwal = $this->jadwal_model->get_detail_data('get',array('thn_akademik','mata_kuliah','konsentrasi_pd','prodi_mk'),NULL,$id,NULL,$select);
-					$result = array(							
-							'total_rows' => count($record_jadwal),
-							'record_jdl' => $record_jadwal,
-							);					
+					if (@$record_jadwal[0]->status_jdl == 1) {
+						$result = array(							
+								'total_rows' => count($record_jadwal),
+								'record_jdl' => $record_jadwal
+								);
+					}
+					else{
+						$result = array(
+								'total_rows' => 0,
+								'message' => 'Data jadwal kuliah yang anda pilih tidak ditemukan / data telah dihapus / tahun akademik jadwal saat ini sedang tidak diterapkan'
+								);
+					}
 				}								
 				elseif ($post['data']=='kelas_mhs') {
 					$id = array('id_kelas' => $post['id_kls']);
 					$select = array('id_kelas','id_jdl_kls','nama','nisn','nama_prodi','thn_ajaran_jdl','nama_mk','semester','kelas','status_jdl','jenis_jdl','nm_konsentrasi');
 					$record_mhs = $this->kelas_model->get_detail_data('get',array('jadwal','thn_akademik','mahasiswa','mata_kuliah','konsentrasi_pd','prodi_mk'),NULL,$id,NULL,$select);
-					$result = array(							
+					if (@$record_mhs[0]->status_jdl == 1) {
+						$result = array(							
 							'total_rows' => count($record_mhs),
 							'record_mhs' => $record_mhs,
 							);					
+					}
+					else{
+						$result = array(
+								'total_rows' => 0,
+								'message' => 'Data mahasiswa anda pilih tidak ditemukan / data telah dihapus / tahun akademik kelas ini saat ini sedang tidak diterapkan'
+								);
+					}
 				}
 				elseif ($post['data']=='data_alumni') {
 					$id = array('id_mhs_alni' => $post['id']);
@@ -3636,7 +3654,7 @@ class Data_akademik extends Backend_Controller {
 		}
 	}
 
-	/*function created_dummy($param){
+	/*function created_dummy_data($param){
 		if ($param == 'mhs') {
 			$mhs_user = array();
 			$mhs_ortu = array();

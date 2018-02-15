@@ -30,7 +30,11 @@ class Thn_angkatan_model extends My_Models_Configuration{
 
 	function make_query(){  
 		$post  = $this->input->post(NULL, TRUE);		
-		$this->db->from($this->_table_name);
+		$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa WHERE thn_angkatan = id_thn_angkatan) AS jumlah';
+		$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa WHERE thn_angkatan = id_thn_angkatan AND jk = "L") AS laki_laki';
+		$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa WHERE thn_angkatan = id_thn_angkatan AND jk = "P") AS perempuan';
+		$select = array_merge(list_fields(array('thn_angkatan'),$sub_query));
+		$this->db->select($select)->from($this->_table_name);
 
 		if(!empty($post["search"]["value"])){  
 			$cari = $post["search"]["value"];

@@ -849,6 +849,7 @@ $(function(){
     var data_ptk = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'detail_data_ptk'},1000);
     data_ptk.then(function(data_ptk){
       if (data_ptk.studi_ptk != '') {
+        $('.profil-rwt-pendidikan-ptk').text(data_ptk.studi_ptk.length);
         $('.tbl-pend-ptk').find('tbody').text('');
         var no = 1;
         $.each(data_ptk.studi_ptk, function(index, data_record){
@@ -873,6 +874,7 @@ $(function(){
       }
 
       if (data_ptk.riwayat_mengajar != '') {
+        $('.profil-rwt-mengajar-ptk').text(data_ptk.riwayat_mengajar.length);
         $('.tbl-riwayat-ptk').find('tbody').text('');
         var no = 1;
         $.each(data_ptk.riwayat_mengajar, function(index, data_record){
@@ -898,6 +900,7 @@ $(function(){
       }
 
       if (data_ptk.penelitian_ptk != '') {
+        $('.profil-rwt-penelitian-ptk').text(data_ptk.penelitian_ptk.length);
         $('.tbl-penelitian-ptk').find('tbody').text('');
         var no = 1;
         $.each(data_ptk.penelitian_ptk, function(index, data_record){

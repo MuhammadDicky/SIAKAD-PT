@@ -40,7 +40,7 @@
 						</div>
 						<div class="col-md-12 col-sm-12 col-xs-12 semua-data" style="display: none;">
 			      			<div class="form-group">
-			                  <a href="" class="btn btn-success btn-block" id="semua-data"><i class="fa fa-list"></i> Tampilkan Semua Data</a>
+			                  <a href="" class="btn btn-success btn-block" id="semua-data" table-refresh=".tbl-pengunjung-mhs, .tbl-pengunjung-ptk"><i class="fa fa-list"></i> Tampilkan Semua Data</a>
 			                </div>
 			            </div>
 					</div>
@@ -49,7 +49,7 @@
 		            	<div class="col-md-12 col-xs-6">
 			      			<div class="form-group">
 			                  <label>Browser</label>
-			                  <select class="form-control select2 select2_browser" name="browser" style="width: 100%;">
+			                  <select class="form-control select2 select2_browser select2_src_dt" name="browser" style="width: 100%;">
 			                  	<option value=""></option>
 			                  	<option value="Chrome">Chrome</option>
 			                  	<option value="Mozilla">Mozilla Firefox</option>
@@ -64,7 +64,7 @@
 			            <div class="col-md-12 col-xs-6">
 			      			<div class="form-group">
 			                  <label>Platform</label>
-			                  <select class="form-control select2 select2_platform" name="platform" style="width: 100%;">
+			                  <select class="form-control select2 select2_platform select2_src_dt" name="platform" style="width: 100%;">
 			                  	<option value=""></option>
 			                  	<option value="Windows">Windows</option>
 			                  	<option value="Linux">Linux</option>
@@ -77,7 +77,7 @@
 			            </div>
 			            <div class="col-md-12 col-sm-12 col-xs-12">
 			            	<div class="form-group">
-			                  <a href="" class="btn btn-success btn-block disabled" id="tamp-data"><i class="fa fa-list"></i> Tampilkan Data</a>
+			                  <a href="" class="btn btn-success btn-block disabled" id="tamp-data" table-refresh=".tbl-pengunjung-mhs, .tbl-pengunjung-ptk"><i class="fa fa-list"></i> Tampilkan Data</a>
 			                </div>
 			            </div>
 		            </div>

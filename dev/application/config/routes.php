@@ -56,6 +56,7 @@ $route['login'] = 'user/login';
 $route['logout'] = 'user/logout';
 $route['lock_user'] = 'user/lock_user';
 $route['admin'] = 'admin/dashboard';
+$route['admin/upload_file'] = 'admin/dashboard/upload_file';
 $route['admin/html_request'] = 'admin/dashboard/html_request';
 $route['admin/data_content'] = 'admin/dashboard/data_content';
 $route['admin/pusat_unggahan'] = 'admin/dashboard/pusat_unggahan';

@@ -185,6 +185,30 @@ class Site{
 		}		
 	}
 
+	function link_check(){
+		$_this =& get_instance();
+
+		if (array_key_exists('menu',$_SESSION)) {
+			if ($_SESSION['level_akses'] == 'admin') {
+				foreach ($_SESSION['menu'] as $key) {
+					if (count($key['sub_menu']) > 0) {
+						foreach ($key['sub_menu'] as $key_sub) {
+							if ($_this->uri->segment(3) == $key_sub['sort_link'] && $key_sub['status_access_sub_menu'] == 0) {
+								$_this->page_soon($key_sub['nm_sub_menu'],$key_sub['icon_sub_menu']);
+							}
+							elseif ($_this->uri->segment(3) == $key_sub['sort_link'] && $key_sub['status_access_sub_menu'] == 3) {
+								$_this->page_on_repair($key_sub['nm_sub_menu'],$key_sub['icon_sub_menu']);
+							}
+						}
+					}
+					else{
+
+					}
+				}
+			}
+		}
+	}
+
 }
 
 ?>

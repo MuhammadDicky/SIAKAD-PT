@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Dashboard extends Backend_Controller {
 
 	protected $user_detail;
+	protected $current_pass;
+	protected $template_id;
 	protected $filename_backup_db = 'backup_db.zip';
 	protected $filename_backup_tbl_db = 'backup_tbl_db.zip';
 	protected $download_url = 'downloads/temp-download-path/';
@@ -291,7 +293,39 @@ class Dashboard extends Backend_Controller {
 		$post = $this->input->post(NULL, TRUE);
 		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			if ($param == 'tambah') {
-				if (isset($post['data_menu'])) {
+				if (isset($post['data_template'])) {
+					$rules = $this->template_model->rules;
+					$this->form_validation->set_rules($rules);
+
+					if ($this->form_validation->run() == TRUE) {
+						$data_template = array(							
+							'template_name' => ucwords($post['template_name']),
+							'template_directory' => $post['template_directory'],
+							'template_dev' => ucwords($post['template_dev']),
+							'template_version' => $post['template_version'],
+							'template_description' => $post['template_description'],
+							'template_status' => 0
+							);
+						$save_data_template = $this->template_model->insert($data_template);
+						if ($save_data_template) {
+							$data = 'data_template';
+							$result = array(
+								'status' => 'success',
+								'data' => $data
+								);							
+						}
+						else{
+							$result = array('status' => 'failed_db');
+						}
+					}
+					else {
+						$result = array(
+							'status' => 'failed',
+							'errors'=> $this->form_validation->error_array()
+							);
+					}
+				}
+				elseif (isset($post['data_menu'])) {
 					$rules = $this->main_menu_list_model->rules;
 					$this->form_validation->set_rules($rules);
 
@@ -356,7 +390,111 @@ class Dashboard extends Backend_Controller {
 				}
 			}
 			elseif ($param == 'update') {
-				if (isset($post['data_menu'])) {
+				if (isset($post['data_konfigurasi'])) {
+					$rules = $this->konfigurasi_model->rules_web_konfigurasi;
+					$this->form_validation->set_rules($rules);
+
+					if ($this->form_validation->run() == TRUE) {
+						$data = array(
+							'isi_konfigurasi' => serialize(
+									array(
+										'_web_name' => ucwords($post['_web_name']),
+								    	'_pt_name' => ucwords($post['_pt_name']),
+								    	'_app_version' => $post['_app_version'],
+								    	'_plugin_path' => $post['_plugin_path'],
+								    	'_template_assets' => $post['_template_assets'],
+								    	'_AdminLTE_version' => $post['_AdminLTE_version'],
+								    	'_logo_mini' => $post['_logo_mini'],
+								    	'_logo_lg' => $post['_logo_lg']
+									)
+								)
+							);
+						$update_config = $this->konfigurasi_model->update($data,array('nama_konfigurasi' => 'web_konfigurasi'));
+						if ($update_config) {
+							$result = array(
+								'status' => 'success',
+								'data' => 'data_konfigurasi'
+							);
+						}
+						else{
+							$result = array('status' => 'failed_db');
+						}
+					}
+					else {
+						$result = array(
+							'status' => 'failed',
+							'errors'=> $this->form_validation->error_array()
+							);
+					}
+				}
+				elseif (isset($post['data_template'])) {
+					$this->template_id = @$post['template_id'];
+					$rules = $this->template_model->rules;
+					$this->form_validation->set_rules($rules);
+
+					if ($this->form_validation->run() == TRUE) {
+						$data_template = array(							
+							'template_name' => ucwords($post['template_name']),
+							'template_directory' => $post['template_directory'],
+							'template_dev' => ucwords($post['template_dev']),
+							'template_version' => $post['template_version'],
+							'template_description' => $post['template_description']
+							);
+						$update_data_template = $this->template_model->update($data_template,array('template_id' => $post['template_id']));
+						if ($update_data_template) {
+							$data = 'data_template';
+							$result = array(
+								'status' => 'success',
+								'data' => $data
+								);							
+						}
+						else{
+							$result = array('status' => 'failed_db');
+						}
+					}
+					else {
+						$result = array(
+							'status' => 'failed',
+							'errors'=> $this->form_validation->error_array()
+							);
+					}
+				}
+				elseif (isset($post['template_status'])) {
+					if ($post['id'] != '' && $post['status'] != '') {
+						if ($post['status'] == 'true') {
+							$status = 1;
+						}
+						else{
+							$status = 0;
+						}
+						$data = array(
+							'template_status' => $status
+							);
+						$update_status_template = $this->template_model->update($data,array('template_id' => $post['id']));
+						if ($update_status_template) {
+							if ($status == 1) {
+								$data = array(
+									'template_status' => 0
+									);
+								$update_status_template = $this->template_model->update($data,array('template_id !=' => $post['id'], 'template_status' => 1));
+							}
+							$data = 'data_template';
+							$result = array(
+								'status' => 'success',
+								'data' => $data
+								);							
+						}
+						else{
+							$result = array('status' => 'failed_db');
+						}
+					}
+					else {
+						$result = array(
+							'status' => 'failed'
+							);
+					}
+				}
+				elseif (isset($post['data_menu'])) {
 					$rules = $this->main_menu_list_model->rules;
 					$this->form_validation->set_rules($rules);
 
@@ -503,7 +641,21 @@ class Dashboard extends Backend_Controller {
 				}
 			}
 			elseif ($param == 'delete') {
-				if (isset($post['data_menu'])) {
+				if (isset($post['data_template'])) {
+					$delete_template_by = array('template_id' => $post['template_id']);
+					$delete_template = $this->template_model->delete_by($delete_template_by);
+					if ($delete_template) {
+						$data = 'data_template';
+						$result = array(
+							'status' => 'success',
+							'data' => $data
+							);
+					}
+					else{
+						$result = array('status' => 'failed_db');
+					}
+				}
+				elseif (isset($post['data_menu'])) {
 					$delete_menu_by = array('id_menu' => $post['id_menu']);
 					$delete_menu = $this->main_menu_list_model->delete_by($delete_menu_by);
 					if ($delete_menu) {
@@ -546,14 +698,31 @@ class Dashboard extends Backend_Controller {
 				}
 			}
 			elseif ($param == 'ambil') {
-				if ($post['data'] == 'data_menu') {
+				if ($post['data'] == 'data_template') {
+					$id = array('template_id' => $post['in_template']);
+					$total_rows = $this->template_model->count($id);
+					if ($total_rows > 0 ) {
+						$record_template = $this->template_model->get_by_search($id,FALSE,array('template_id','template_name','template_directory','template_dev','template_version','template_description'));
+						$result = array(
+								'total_rows' => $total_rows,
+								'record_template' => $record_template
+								);					
+					}
+					else{
+						$result = array(
+								'total_rows' => $total_rows,
+								'message' => 'Data menu yang anda pilih tidak ditemukan / data telah dihapus'
+								);
+					}
+				}
+				elseif ($post['data'] == 'data_menu') {
 					$id = array('id_menu' => $post['in_menu']);
 					$total_rows = $this->main_menu_list_model->count($id);
 					if ($total_rows > 0 ) {
-						$record_menu = $this->main_menu_list_model->get_by_search($id,FALSE,Array('id_menu','nm_menu','status_access_menu','level_access_menu','link_menu','color_menu','icon_menu'));
+						$record_menu = $this->main_menu_list_model->get_by_search($id,FALSE,array('id_menu','nm_menu','status_access_menu','level_access_menu','link_menu','color_menu','icon_menu'));
 						$result = array(
 								'total_rows' => $total_rows,
-								'record_menu' => $record_menu,
+								'record_menu' => $record_menu
 								);					
 					}
 					else{
@@ -578,6 +747,27 @@ class Dashboard extends Backend_Controller {
 								'total_rows' => $total_rows,
 								'message' => 'Data sub menu yang anda pilih tidak ditemukan / data telah dihapus'
 								);
+					}
+				}
+				elseif ($post['data'] == 'list_template') {
+					$template = $this->template_model->get_by_search();
+					$count_template = count($template);
+					if ($count_template > 0) {
+						foreach ($template as $key) {
+							$template_img_url = array(
+								'template_image' => base_url('uploads/template-image/').$key->template_image
+							);
+							$data_template[] = array_merge((array)$key,$template_img_url);
+						}
+						$result = array(
+							'total_rows' => $count_template,
+							'data' => $data_template
+						);
+					}
+					else{
+						$result = array(
+							'total_rows' => $count_template
+						);
 					}
 				}
 				elseif ($post['data']=='daftar_menu') {
@@ -669,7 +859,7 @@ class Dashboard extends Backend_Controller {
 						foreach ($sub_menu as $key_sub) {
 							if ($key->id_menu == $key_sub->id_parent_menu) {
 								if ($key_sub->status_access_sub_menu == 0) {
-									$status = 'Dalam Pengembagan';
+									$status = 'Dalam Pengembangan';
 								}
 								elseif ($key_sub->status_access_sub_menu == 1) {
 									$status = 'Aktif';
@@ -685,7 +875,7 @@ class Dashboard extends Backend_Controller {
 							}
 						}
 						if ($key->status_access_menu == 0) {
-							$status = 'Dalam Pengembagan';
+							$status = 'Dalam Pengembangan';
 						}
 						elseif ($key->status_access_menu == 1) {
 							$status = 'Aktif';
@@ -709,7 +899,20 @@ class Dashboard extends Backend_Controller {
 							$url_sub_menu = base_url($key_sub->link_menu.'/'.$key_sub->link_sub_menu);
 						}
 
-						$new_dt_sub_menu[] = array_merge((array)$key_sub,array('link_sub_menu' => @$url_sub_menu));
+						if ($key_sub->status_access_sub_menu == 0) {
+							$status = 'Dalam Pengembangan';
+						}
+						elseif ($key_sub->status_access_sub_menu == 1) {
+							$status = 'Aktif';
+						}
+						elseif ($key_sub->status_access_sub_menu == 2) {
+							$status = 'BETA';
+						}
+						elseif ($key_sub->status_access_sub_menu == 3) {
+							$status = 'Dalam Perbaikan';
+						}
+
+						$new_dt_sub_menu[] = array_merge((array)$key_sub,array('link_sub_menu' => @$url_sub_menu,'status' => $status));
 					}
 
 					$this->session->set_userdata(array('menu' => $data_menu));
@@ -735,9 +938,25 @@ class Dashboard extends Backend_Controller {
 						'list_tbl' => $list_tbl,
 						);
 				}
+				elseif ($post['data'] == 'data_konfigurasi') {
+					$konfigurasi = $this->konfigurasi_model->get_by_search(array('nama_konfigurasi' => $post['konfigurasi']),TRUE,array('isi_konfigurasi'));
+					if ($konfigurasi) {
+						$result = array(
+							'total_rows' => 1,
+							'data' => unserialize($konfigurasi->isi_konfigurasi)
+						);
+					}
+					else{
+						$result = array(
+							'total_rows' => 0
+						);
+					}
+				}
 				elseif ($post['data'] == 'general_conf') {
 					global $Config;
-					$result = array('config' => $Config);
+					$result = array(
+						'config' => $Config
+					);
 				}
 				elseif ($post['data'] == 'backup_file') {
 					$this->load->helper('file');
@@ -790,13 +1009,111 @@ class Dashboard extends Backend_Controller {
 					$result = $this->backup_database();
 				}
 			}
+			elseif ($param == 'change_password') {
+				$rules = $this->user_admin_model->rules_change_password;
+				$this->form_validation->set_rules($rules);
+				$this->current_pass = $this->user_admin_model->get_by_search(array('id_user_admin' => $_SESSION['id_user']),TRUE,array('password'));
+
+				if ($this->form_validation->run() == TRUE) {
+					$pass = password_hash($post['new_password'],PASSWORD_BCRYPT);
+					$new_password = array(
+						'password' => $pass,
+						);
+					$update_password = $this->user_admin_model->update($new_password,array('id_user_admin' => $_SESSION['id_user']));
+
+					if ($update_password) {
+						if (get_cookie('pass_u',TRUE) != NULL) {
+							$pass_cookie = array(
+									'name' => 'pass_u',
+									'value' => md5($pass).'-uIn'.rand_val().'_'.md5(get_cookie('ci_session')).'-user',
+									'expire' => 86400 * 7,
+									'httponly' => TRUE,
+									);
+							$this->input->set_cookie($pass_cookie);
+						}
+						$result = array(
+							'status' => 'success'
+							);
+					}
+					else{
+						$result = array(
+							'status' => 'failed_db'
+							);
+					}
+				}
+				else {
+					$result = array(
+						'status' => 'failed',
+						'errors'=> $this->form_validation->error_array()
+						);
+				}
+			}
 		}
-		elseif (!isset($result)) {
+
+		if (!isset($result)) {
 			$result = array(
 				"success" => FALSE,
 				"info" => "Service not found or not set",
 				);
 		}
+		$result['n_token'] = $this->security->get_csrf_hash();
+		echo json_encode($result);
+	}
+
+	public function check_password($string){
+		$old_password = $string;
+		$current_pass = $this->current_pass;
+		if (@$current_pass->password == crypt($old_password,@$current_pass->password)) {
+			return TRUE;
+		}
+		else{
+			return FALSE;
+		}
+	}
+
+	public function upload_file(){
+		$post = $this->input->post(NULL, TRUE);
+		$file_type = $post['file_type'];
+		if ($file_type == 'image') {
+			$data_image = $post['data'];
+			if ($data_image == 'logo-pt') {
+				$config = array(
+					'allowed_types' => 'png',
+					'max_size' => '1024',
+					'max_width' => 387,
+			        'max_height' => 385,
+			        'min_width' => 285,
+			        'min_height' => 283,
+					'overwrite' => TRUE,
+					'upload_path' => './assets/web-images/',
+					'file_name' => web_detail('_web_icon')
+					);
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload('logo-pt')) {
+					if (stristr($this->upload->display_errors(), 'dimensions') == TRUE) {
+						$error = '<li>Dimensi / ukuran foto "<b>'.$_FILES["logo-pt"]["name"].'</b>" yang diupload tidak sesuai!</li>';
+					}
+					elseif (stristr($this->upload->display_errors(), 'permitted size') == TRUE) {
+						$error = '<li>Ukuran file foto "<b>'.$_FILES["logo-pt"]["name"].'</b>" yang diupload melebihi ukuran upload maksimal yaitu 1024 KB!</li>';
+					}
+					elseif (stristr($this->upload->display_errors(), 'filetype') == TRUE) {
+						$error = '<li>Format / ekstensi foto yang diupload tidak diizinkan!. Hanya ekstensi "png" yang diizinkan.</li>';
+					}
+					else{
+						$error = $this->upload->display_errors('<li>','</li>');
+					}
+					$result = array('status' => 'failed', 'errors' => $error);
+				}
+				else{
+					$logo_name = $this->upload->data('file_name');
+					$result = array(
+						'status' => 'success',
+						'new_logo_pt' => base_url('assets/web-images/'.$logo_name.'?'.rand_val())
+					);
+				}
+			}
+		}
+		
 		$result['n_token'] = $this->security->get_csrf_hash();
 		echo json_encode($result);
 	}
@@ -1244,7 +1561,7 @@ class Dashboard extends Backend_Controller {
 		}
 	}
 
-	function check_menu($in_menu){
+	public function check_menu($in_menu){
 		if ($in_menu != '') {
 			$list_menu = $this->main_menu_list_model->count(array('id_menu' => $in_menu));
 			if ($list_menu > 0) {
@@ -1254,6 +1571,23 @@ class Dashboard extends Backend_Controller {
 				$this->form_validation->set_message('check_menu', 'Maaf, menu yang anda pilih tidak ada dalam database');
 				return FALSE;
 			}
+		}
+	}
+
+	public function check_template_dir($string){
+		if ($this->template_id != NULL && $this->template_id != '') {
+			$where = array('template_directory' => $string, 'template_id !=' => $this->template_id);
+		}
+		else{
+			$where = array('template_directory' => $string);
+		}
+
+		$check_dir = $this->template_model->count($where);
+		if ($check_dir > 0) {
+			return FALSE;
+		}
+		else{
+			return TRUE;
 		}
 	}
 

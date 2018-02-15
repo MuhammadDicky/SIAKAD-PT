@@ -3,13 +3,13 @@
 	<section class="content">
 		<div class="row">
 			<div class="col-md-12">
-		      	<div class="box box-solid set-section" id="config-set" settings-section="config" settings-box="#config-set">
+		      	<div class="box box-solid set-section" id="config-set" settings-section="config-set" settings-box="#config-set">
 			        <div class="box-header">
 			          	<h3 class="box-title setting-label"><span class="fa fa-gear"></span> Konfigurasi Umum</h3>
 						<div class="box-tools pull-right">
 							<!-- <button type="button" class="btn btn-box-tool info" data-info="config-set"><i class="fa fa-exclamation-circle"></i></button> -->
-							<button type="button" class="btn btn-box-tool" data-refresh="list-menu" title="Edit Konfigurasi Umum"><i class="fa fa-pencil-square"></i></button>
-							<button type="button" class="btn btn-box-tool refresh-data" data-refresh="" title="Refresh"><i class="fa fa-refresh"></i></button>
+							<a href="#edit?data=config" class="btn btn-box-tool" title="Edit Konfigurasi Umum"><i class="fa fa-pencil-square"></i></a>
+							<button type="button" class="btn btn-box-tool refresh-data" data-refresh="config-app" data-box="#config-set" title="Refresh"><i class="fa fa-refresh"></i></button>
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 			        </div>
@@ -76,6 +76,15 @@
 		              		</section>
 
 		              		<section class="col-md-6">
+		              			<strong><span class="fa fa-fire"></span> CodeIgniter</strong>
+		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
+		              			<div>
+		              				<dl class="dl-horizontal">
+		              					<dt>Version</dt>
+						                <dd><?php echo CI_VERSION; ?></dd>
+					              	</dl>
+						        </div>
+
               					<strong><span class="fa fa-database"></span> Database</strong>
 		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
 		              			<div>
@@ -100,12 +109,6 @@
 
 						                <dt>Table Swap Prefix</dt>
 						                <dd class="detail-config-siakad detail_table_swap_prefix"></dd>
-
-						                <dt>Default Backend Perpage</dt>
-						                <dd class="detail-config-siakad detail_backend_perpage"></dd>
-
-						                <dt>Default Frontend Perpage</dt>
-						                <dd class="detail-config-siakad detail_frontend_perpage"></dd>
 					              	</dl>
 						        </div>
 
@@ -121,23 +124,20 @@
 					              	</dl>
 						        </div>
 
-						        <strong><span class="fa fa-file"></span> AdminLTE</strong>
+						        <strong><span class="fa fa-image"></span> Gambar</strong>
 		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
 		              			<div>
 		              				<dl class="dl-horizontal">
-		              					<dt>AdmiLTE Version</dt>
-						                <dd class="detail-config-siakad detail_AdminLTE_version"></dd>
-
-						                <dt>Text Logo Mini</dt>
-						                <dd class="detail-config-siakad detail_logo_mini"></dd>
-
-						                <dt>Text Logo Big</dt>
-						                <dd class="detail-config-siakad detail_logo_lg"></dd>
+						                <dt>Nama File Logo Perguruan Tinggi</dt>
+						                <dd class="detail-config-siakad detail_web_icon"></dd>
 					              	</dl>
 						        </div>
 		              		</section>
 		              	</div>
 			        </div>
+			        <div class="overlay" style="display: none;">
+					  <i class="fa fa-refresh fa-spin"></i>
+					</div>
 		      	</div>
 			</div>
 		</div>
@@ -593,12 +593,85 @@
 
 		<div class="row">
 			<div class="col-md-12">
+		      	<div class="box box-solid set-section" id="template-set" settings-section="template-set" settings-box="#template-set" collapse-filter="true">
+			        <div class="box-header">
+			          	<h3 class="box-title setting-label"><span class="fa fa-dashboard"></span> Template</h3>
+						<div class="box-tools pull-right">
+							<!-- <button type="button" class="btn btn-box-tool info" data-info="backup-db"><i class="fa fa-exclamation-circle"></i></button> -->
+							<button type="button" class="btn btn-box-tool refresh-data" data-refresh="list-template" data-box="#template-set" title="Refresh List Template"><i class="fa fa-refresh"></i></button>
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus collapse-icon"></i></button>
+						</div>
+			        </div>
+			        <!-- /.box-header -->
+			        <div class="box-body">
+			        	<div class="row">
+			        		<div class="col-md-3">
+			        			<strong>Template Aktif</strong>
+		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
+			        			<dl id="detail_aktif_template_container">
+	              					<dt>Nama</dt>
+					                <dd class="detail_aktif_template detail_template_template_name"></dd>
+
+					                <dt>Developer</dt>
+					                <dd class="detail_aktif_template detail_template_template_dev"></dd>
+
+					                <dt>Versi</dt>
+					                <dd class="detail_aktif_template detail_template_template_version"></dd>
+
+					                <dt>Deskripsi</dt>
+					                <dd class="detail_aktif_template detail_template_template_description"></dd>
+
+					                <dd><img src="" alt="Template Example Image" class="detail_template_template_image" style="width: 100%"></dd>
+				              	</dl>
+			        		</div>
+		              		<div class="col-md-9">
+		              			<strong>Daftar Template <span class="pull-right"><a href="#tambah?data=template"><i class="fa fa-plus text-aqua"></i></a></span></strong>
+		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
+		              			<table class="table table-striped" id="table-list-tamplate">
+	              					<thead>
+	              						<tr>
+	              							<th class="text-center">No.</th>
+	              							<th>Template</th>
+	              							<th class="text-center">Developer</th>
+	              							<th class="text-center">Versi</th>
+	              							<th class="text-center">Status</th>
+	              							<th class="text-center">Aksi</th>
+	              						</tr>
+	              					</thead>
+					                <tbody>
+					             	</tbody>
+					             	<tfoot>
+	              						<tr>
+	              							<th class="text-center">No.</th>
+	              							<th>Template</th>
+	              							<th class="text-center">Developer</th>
+	              							<th class="text-center">Versi</th>
+	              							<th class="text-center">Status</th>
+	              							<th class="text-center">Aksi</th>
+	              						</tr>
+	              					</tfoot>
+					          	</table>
+		              			<div class="row" id="<!-- list-template-container -->">
+							    </div>
+		              		</div>
+		              	</div>
+			        </div>
+			        <!-- /.box-body -->
+			        <div class="overlay" style="display: none;">
+					  <i class="fa fa-refresh fa-spin"></i>
+					</div>
+		      	</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
 		      	<div class="box box-solid set-section" id="menu-set" settings-section="menu-set" settings-box="#menu-set" collapse-filter="true">
 			        <div class="box-header">
 			          	<h3 class="box-title setting-label"><span class="fa fa-list"></span> Menu</h3>
 						<div class="box-tools pull-right">
 							<!-- <button type="button" class="btn btn-box-tool info" data-info="backup-db"><i class="fa fa-exclamation-circle"></i></button> -->
-							<button type="button" class="btn btn-box-tool refresh-data" data-refresh="list-menu" title="Refresh List Menu"><i class="fa fa-refresh"></i></button>
+							<button type="button" class="btn btn-box-tool refresh-data" data-refresh="list-menu" data-box="#menu-set" title="Refresh List Menu"><i class="fa fa-refresh"></i></button>
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus collapse-icon"></i></button>
 						</div>
 			        </div>
@@ -635,6 +708,7 @@
 			          	<h3 class="box-title setting-label"><span class="fa fa-database"></span> Pengolahan Database</h3>
 						<div class="box-tools pull-right">
 							<button type="button" class="btn btn-box-tool info" data-info="backup-db"><i class="fa fa-exclamation-circle"></i></button>
+							<button type="button" class="btn btn-box-tool refresh-data" data-refresh="backup-db" data-box="#database-set" title="Refresh"><i class="fa fa-refresh"></i></button>
 							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
 						</div>
 			        </div>
@@ -714,6 +788,65 @@
 
 		<div class="row">
 			<div class="col-md-12">
+		      	<div class="box box-solid set-section" id="akun-set" settings-section="akun-set" settings-box="#akun-set">
+			        <div class="box-header">
+			          	<h3 class="box-title setting-label"><span class="fa fa-user-circle"></span> Akun</h3>
+						<div class="box-tools pull-right">
+							<a href="<?php echo base_url('logout') ?>" class="btn btn-box-tool" title="Log Out"><i class="fa fa-sign-out"></i></a>
+							<button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+						</div>
+			        </div>
+			        <!-- /.box-header -->
+			        <div class="box-body">
+			        	<div class="row">
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-6">
+								<strong>Detail Akun</strong>
+		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
+								<dl class="dl-horizontal">
+					                <dt>Username</dt>
+					                <dd><?php echo $_SESSION['username']; ?></dd>
+
+					                <dt>Status</dt>
+					                <dd>
+					                <?php if ($_SESSION['active_status'] == 1): ?>
+					                	Aktif
+					                <?php endif ?>
+					                <?php if ($_SESSION['active_status'] == 0): ?>
+					                	Tidak Aktif
+					                <?php endif ?>
+					                </dd>
+
+					                <dt>Terakhir Online</dt>
+					                <dd class="last-online-user-text"></dd>
+				              	</dl>
+							</div>
+							<div class="col-lg-6 col-md-6 col-sm-12 col-xs-6">
+								<strong>Ganti Password</strong>
+		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
+								<div class="form-group" id="old-password">
+									<label for="old-password">Password Lama</label>
+									<input type="password" class="form-control old-password" name="old-password" placeholder="Masukkan password lama">
+				                </div>
+				                <div class="form-group" id="new-password">
+									<label for="new-password">Password Baru</label>
+									<input type="password" class="form-control new-password" name="new-password" placeholder="Masukkan password baru">
+				                </div>
+				                <div class="form-group" id="confirm-password">
+									<label for="confirm-password">Masukkan Ulang Password Baru</label>
+									<input type="password" class="form-control confirm-password" name="confirm-password" placeholder="Masukkan ulang password baru">
+				                </div>
+				                <div class="form-group">
+									<a href="" class="btn btn-success pull-right" id="update-pass-admin"><i class="fa fa-save"></i> Simpan Password</a>
+				                </div>
+							</div>
+						</div>
+			        </div>
+		      	</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
 		      	<div class="box box-solid set-section">
 			        <div class="box-body">
 			        	<center>More settings soon...</center>
@@ -735,8 +868,84 @@
           </div>
 
           <div class="modal-body">
-          	<form action="" id="form-input"></form>
-          	<form action="" id="form-input-menu">
+          	<form action="" class="hide-modal-content" id="form-input" form-data="config">
+          		<div class="row">
+		            <div class="col-md-6 col-xs-6">
+		            	<div class="form-group" id="_web_name">
+							<label for="_web_name">Nama Web</label>
+							<input type="text" class="form-control _web_name" name="_web_name" placeholder="Masukkan nama web">
+		                </div>
+		                <div class="form-group" id="_pt_name">
+							<label for="_pt_name">Nama Perguruan Tinggi</label>
+							<input type="text" class="form-control _pt_name" name="_pt_name" placeholder="Masukkan nama perguruan tinggi">
+		                </div>
+		                <div class="form-group" id="_app_version">
+							<label for="_app_version">App Version</label>
+							<input type="text" class="form-control _app_version" name="_app_version" placeholder="Masukkan versi aplikasi">
+		                </div>
+		                <div class="form-group" id="_plugin_path">
+							<label for="_plugin_path">Plugin Path</label>
+							<input type="text" class="form-control _plugin_path" name="_plugin_path" placeholder="Masukkan alamat direktori plugin">
+		                </div>
+			        </div>
+			        <div class="col-md-6 col-xs-6">
+			        	<div class="form-group" id="_template_assets">
+							<label for="_template_assets">Template Assets Path</label>
+							<input type="text" class="form-control _template_assets" name="_template_assets" placeholder="Masukkan alamat direktori aset template">
+		                </div>
+			        	<div class="form-group" id="_AdminLTE_version">
+							<label for="_AdminLTE_version">Versi AdminLTE</label>
+							<input type="text" class="form-control _AdminLTE_version" name="_AdminLTE_version" placeholder="Masukkan versi AdminLTE">
+		                </div>
+		                <div class="form-group" id="_logo_mini">
+							<label for="_logo_mini">Text Logo Mini</label>
+							<input type="text" class="form-control _logo_mini" name="_logo_mini" placeholder="Masukkan text logo mini AdminLTE">
+		                </div>
+		                <div class="form-group" id="_logo_lg">
+							<label for="_logo_lg">Text Logo Large</label>
+							<input type="text" class="form-control _logo_lg" name="_logo_lg" placeholder="Masukkan text logo large AdminLTE">
+		                </div>
+			        </div>
+			    </div>
+			    <input type="hidden" name="data_konfigurasi">
+          	</form>
+          	<form action="" class="hide-modal-content" id="form-input-template">
+          		<div class="row">
+      				<section class="col-md-6">
+      					<div class="form-group" id="template_name">
+							<label for="template_name">Nama Template</label>
+							<input type="text" class="form-control template_name" name="template_name" placeholder="Masukkan nama template">
+		                </div>
+		                <div class="form-group" id="template_directory">
+							<label for="template_directory">Direktori Template</label>
+							<input type="text" class="form-control template_directory" name="template_directory" placeholder="Masukkan direktori template">
+		                </div>
+      				</section>
+      				<section class="col-md-6">
+      					<div class="form-group" id="template_dev">
+							<label for="template_dev">Pengembang Template</label>
+							<input type="text" class="form-control template_dev" name="template_dev" placeholder="Masukkan nama pengembang template">
+		                </div>
+		                <div class="form-group" id="template_version">
+							<label for="template_version">Versi Template</label>
+							<input type="text" class="form-control template_version" name="template_version" placeholder="Masukkan versi template">
+		                </div>
+      				</section>
+      				<div class="col-md-12">
+      					<div class="form-group" id="template_description">
+							<label for="template_description">Deskripsi Template</label>
+							<textarea class="form-control template_description" name="template_description" placeholder="Masukkan deskripsi/keterangan template" rows="5"></textarea>
+		                </div>
+						<div class="form-group" id="template_image">
+							<label for="template_image">Gambar Template</label>
+							<input type="file" class="form-control" name="template_image" id="file-select-image-template">
+						</div>
+      				</div>
+      			</div>
+      			<input type="hidden" class="template_id" name="template_id">
+      			<input type="hidden" name="data_template">
+          	</form>
+          	<form action="" class="hide-modal-content" id="form-input-menu">
           		<div class="row">
 		            <div class="col-md-6 col-xs-6">
 		            	<div class="form-group" id="nm_menu">
@@ -761,7 +970,7 @@
 									<label for="status_access_menu">Status Akses Menu</label>
 									<select class="form-control select2 select2_status_access_menu status_access_menu" style="width: 100%;" name="status_access_menu">
 										<option value=""></option>
-										<option value="0">Dalam Pengembagan</option>
+										<option value="0">Dalam Pengembangan</option>
 										<option value="1">Aktif</option>
 										<option value="2">Beta</option>
 										<option value="3">Dalam Perbaikan</option>
@@ -796,7 +1005,7 @@
 		        <input type="hidden" class="id_menu" name="id_menu">
 		        <input type="hidden" name="data_menu">
           	</form>
-          	<form action="" id="form-input-sub-menu">
+          	<form action="" class="hide-modal-content" id="form-input-sub-menu">
           		<div class="row">
 		            <div class="col-md-6 col-xs-6">
 		            	<div class="form-group" id="id_parent_menu">
@@ -813,7 +1022,7 @@
 							<label for="status_access_sub_menu">Status Akses Sub Menu</label>
 							<select class="form-control select2 select2_status_access_sub_menu status_access_sub_menu" style="width: 100%;" name="status_access_sub_menu">
 								<option value=""></option>
-								<option value="0">Dalam Pengembagan</option>
+								<option value="0">Dalam Pengembangan</option>
 								<option value="1">Aktif</option>
 								<option value="2">Beta</option>
 								<option value="3">Dalam Perbaikan</option>
@@ -838,7 +1047,7 @@
 		        <input type="hidden" class="id_sub_menu" name="id_sub_menu">
 		        <input type="hidden" name="data_sub_menu">
           	</form>
-          	<form action="" id="backup-form" form-data='backup-db'>
+          	<form action="" class="hide-modal-content" id="backup-form" form-data='backup-db'>
           		<table>
           			<tr>
           				<td valign="top"><li class="fa fa-exclamation-circle"></li></td>

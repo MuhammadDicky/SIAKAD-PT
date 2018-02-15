@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="box-footer">
                       <div class="row" style="margin-top: -35px">
                         <div class="col-md-12">
-                            <center style="margin-bottom: -15px"><h3>Sistem Informasi Akademik</h3></center>
+                            <center style="margin-bottom: -15px"><h3><?php echo web_detail('_app_name'); ?></h3></center>
                             <center><h3><?php echo web_detail('_pt_name'); ?></h3></center>
                             <center>Aplikasi berbasis web ini ditujukan untuk pengolahan data akademik perguruan tinggi mulai dari data kemahasiswaan, data tenaga pedidik dan data akademik lainnya.</center>
                         </div>
@@ -121,6 +121,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </div>
 <!-- ./div content wrapper -->        
 
+  <!-- Footer -->
   <footer class="main-footer">
     <div class="row">
       <div class="col-md-5 col-xs-5">
@@ -149,6 +150,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>
     </div>
   </footer>
+  <!-- ./Footer -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar style-2 control-sidebar-dark" style="">
@@ -309,13 +311,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- AdminLTE App -->
 <script type="application/javascript" src="<?php echo get_template_assets('dist/js/app.min.js') ?>"></script>
 <script type="text/javascript">
+    <?php $token = $this->security->get_csrf_hash(); ?>
     var data_dashboard_path = '<?php echo web_detail('_data_dashboard_path') ?>',
     data_master_path        = '<?php echo web_detail('_data_master_path') ?>',
     data_pengguna_path      = '<?php echo web_detail('_data_pengguna_path') ?>',
     data_akademik_path      = '<?php echo web_detail('_data_akademik_path') ?>',
     admin_url               = '<?php echo set_url() ?>',
     base_url                = '<?php echo base_url() ?>',
-    token                   = '<?php echo $this->security->get_csrf_hash(); ?>',
+    token                   = '<?php if($token) {echo $token;} else {echo rand_val();} ?>',
     my_colors               = new Array();
 
     $(document).ready(function(){

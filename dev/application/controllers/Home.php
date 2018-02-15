@@ -33,8 +33,7 @@ class Home extends Frontend_Controller {
 			$data = array(
 				'count_thn_ak_mhs' => $jumlah_ak_mhs,
 				'count_studi' => $jumlah_studi,
-				/*'count_jadwal' => $count_jadwal,*/
-				'count_all_jadwal' => $count_all_jadwal,
+				'count_all_jadwal' => $count_all_jadwal
 				);
 		}
 		elseif ($_SESSION['level_akses'] == 'ptk') {
@@ -145,15 +144,20 @@ class Home extends Frontend_Controller {
 							'count_ptk_kls' => $this->jadwal_model->get_detail_data('count',array('thn_akademik','mata_kuliah'),NULL,$where_count_kls_ptk,FALSE,NULL,array('kelas','semester','jenis_jdl'))
 						);
 					}
-					$select_jadwal_detail = array('id_jdl AS jdl_no','hari_jdl','jam_mulai_jdl','jam_akhir_jdl','semester','kelas','ruang','jenis_jdl','nm_konsentrasi','nama_prodi','nama_mk','jml_sks','thn_ajaran_jdl');
+
+					$sub_query_count[] = '(SELECT COUNT(*) FROM {PRE}kelas_nilai_mhs WHERE id_jdl = id_jdl_kls) AS jml_mhs';
+					$sub_query_count[] = '(SELECT COUNT(*) FROM {PRE}kelas_nilai_mhs 
+										LEFT JOIN {PRE}mahasiswa ON {PRE}mahasiswa.id = id_mhs_kls
+										WHERE id_jdl = id_jdl_kls AND jk = "L") AS jml_lk';
+					$sub_query_count[] = '(SELECT COUNT(*) FROM {PRE}kelas_nilai_mhs 
+										LEFT JOIN {PRE}mahasiswa ON {PRE}mahasiswa.id = id_mhs_kls
+										WHERE id_jdl = id_jdl_kls AND jk = "P") AS jml_pr';
+					$select_jadwal_detail = array_merge(array('id_jdl AS jdl_no','hari_jdl','jam_mulai_jdl','jam_akhir_jdl','semester','kelas','ruang','jenis_jdl','nm_konsentrasi','nama_prodi','nama_mk','jml_sks','thn_ajaran_jdl'), $sub_query_count);
 					$data = $this->jadwal_model->get_detail_data('get',array('thn_akademik','mata_kuliah','konsentrasi_pd','prodi_mk'),NULL,$where,FALSE,$select_jadwal_detail);
 					$record_jadwal = array();
 					$no = 1;
 					foreach ($data as $key) {
 						$count_mhs = array(
-							'jml_mhs' => $this->kelas_model->count(array('id_jdl_kls' =>$key->jdl_no)),
-							'jml_lk' => $this->kelas_model->get_detail_data('count',array('mahasiswa'),NULL,array('id_jdl_kls' =>$key->jdl_no, 'jk' => 'L')),
-							'jml_pr' => $this->kelas_model->get_detail_data('count',array('mahasiswa'),NULL,array('id_jdl_kls' =>$key->jdl_no, 'jk' => 'P')),
 							'jdl_no' => $no,
 							'jdl_in' => $key->jdl_no,
 							'thn_ajaran' => thn_ajaran_conv($key->thn_ajaran_jdl)
@@ -200,7 +204,15 @@ class Home extends Frontend_Controller {
 							'count_ptk_kls' => $this->jadwal_model->get_detail_data('count',array('thn_akademik','mata_kuliah','kelas_nilai_mhs'),NULL,$where_count_kls_ptk,FALSE,NULL,array('kelas','semester','jenis_jdl'))
 						);
 					}
-					$select_jadwal_detail = array('id_jdl AS jdl_no','hari_jdl','jam_mulai_jdl','jam_akhir_jdl','semester','kelas','ruang','jenis_jdl','nm_konsentrasi','nama_prodi','nama_mk','nama_ptk','jml_sks','thn_ajaran_jdl');
+
+					$sub_query_count[] = '(SELECT COUNT(*) FROM {PRE}kelas_nilai_mhs WHERE id_jdl = id_jdl_kls) AS jml_mhs';
+					$sub_query_count[] = '(SELECT COUNT(*) FROM {PRE}kelas_nilai_mhs 
+										LEFT JOIN {PRE}mahasiswa ON {PRE}mahasiswa.id = id_mhs_kls
+										WHERE id_jdl = id_jdl_kls AND jk = "L") AS jml_lk';
+					$sub_query_count[] = '(SELECT COUNT(*) FROM {PRE}kelas_nilai_mhs 
+										LEFT JOIN {PRE}mahasiswa ON {PRE}mahasiswa.id = id_mhs_kls
+										WHERE id_jdl = id_jdl_kls AND jk = "P") AS jml_pr';
+					$select_jadwal_detail = array_merge(array('id_jdl AS jdl_no','hari_jdl','jam_mulai_jdl','jam_akhir_jdl','semester','kelas','ruang','jenis_jdl','nm_konsentrasi','nama_prodi','nama_mk','nama_ptk','jml_sks','thn_ajaran_jdl'), $sub_query_count);
 					if (!isset($post['all'])) {
 						$data = $this->jadwal_model->get_detail_data('get',array('thn_akademik','mata_kuliah','konsentrasi_pd','ptk','prodi_mk','kelas_nilai_mhs'),NULL,$where,FALSE,$select_jadwal_detail);
 					}
@@ -211,9 +223,6 @@ class Home extends Frontend_Controller {
 					$no = 1;
 					foreach ($data as $key) {
 						$count_mhs = array(
-							'jml_mhs' => $this->kelas_model->count(array('id_jdl_kls' =>$key->jdl_no)),
-							'jml_lk' => $this->kelas_model->get_detail_data('count',array('mahasiswa'),NULL,array('id_jdl_kls' =>$key->jdl_no, 'jk' => 'L')),
-							'jml_pr' => $this->kelas_model->get_detail_data('count',array('mahasiswa'),NULL,array('id_jdl_kls' =>$key->jdl_no, 'jk' => 'P')),
 							'jdl_no' => $no,
 							'jdl_in' => $key->jdl_no,
 							'thn_ajaran' => thn_ajaran_conv($key->thn_ajaran_jdl)
@@ -384,7 +393,7 @@ class Home extends Frontend_Controller {
 				$this->current_pass = $this->user_model->get_by_search(array('id_user' => $_SESSION['id_user']),TRUE,array('password','pass_change'));
 
 				if ($this->form_validation->run() == TRUE) {
-					$pass = bCrypt($post['new_password'],12);
+					$pass = password_hash($post['new_password'],PASSWORD_BCRYPT);
 					if ($this->current_pass->pass_change == 0) {
 						$new_password = array(
 							'password' => $pass,

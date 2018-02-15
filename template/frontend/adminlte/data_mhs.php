@@ -73,13 +73,13 @@
 		            </div>
 		        </div>
 
-		        <div class="box box-warning">
+		        <!-- <div class="box box-warning">
 		            <div class="box-body box-profile">
 		              <img class="profile-user-img img-responsive img-circle" src="<?php echo $_SESSION['photo_u']; ?>" alt="User profile picture">
-
+		        
 		              <h3 class="profile-username text-center profil-nama" style="font-size: 17px"></h3>
 		              <p class="text-muted text-center profil-nisn"></p>
-
+		        
 		              <ul class="list-group list-group-unbordered">
 		                <li class="list-group-item">
 		                  <b>Program Studi</b> <p class="pull-right profil-nama_prodi"></p>
@@ -97,7 +97,7 @@
 		                  <b></b> <p class="pull-right detail-data-mhs"></p>
 		                </li>
 		              </ul>
-
+		        
 		              <?php if ($_SESSION['status_verifikasi'] == 0 || $_SESSION['status_verifikasi'] == 2): ?>
 		              <a href="" class="btn btn-success btn-block verifikasi-data"><b><i class="fa fa-check"></i> Verifikasi Data</b></a>
 		              <a href="" class="btn btn-danger btn-block verifikasi-salah"><b><i class="fa fa-times"></i> Data Salah</b></a>
@@ -107,8 +107,8 @@
 		              <?php endif ?>
 		              
 		            </div>
-		            <!-- /.box-body -->
-		        </div>
+		            /.box-body
+		        </div> -->
 	          	<!-- /.box -->
 	        </div>
 			<div class="col-md-8">

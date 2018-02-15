@@ -159,7 +159,7 @@ class My_Models_Configuration extends CI_Model{
 		}
 	}
 
-	public function count($where = NULL,$group = NULL,$act=NULL){
+	public function count($where=NULL,$group=NULL,$act=NULL){
 		if ($act != NULL) {
 			$this->get_dt_detail($act);
 		}

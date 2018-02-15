@@ -8,28 +8,19 @@ class Backend_Controller extends My_Controller{
 		$this->load->helper(array());
 		$this->load->library(array('form_validation','upload'));
 		$this->load->model(array('fakultas_model','user_admin_model','visitors_logs_model','thn_angkatan_model','ortu_model','ptk_studi_model','ptk_penelitian_model','alumni_model','mahasiswa_do_model'));
+
 		$this->site->side = 'backend';
-		$this->site->template = 'adminlte';
 
-		/*if (array_key_exists('menu',$_SESSION)) {
-			if ($_SESSION['level_akses'] == 'admin') {
-				foreach ($_SESSION['menu'] as $key) {
-					if (count($key['sub_menu']) > 0) {
-						foreach ($key['sub_menu'] as $key_sub) {
-							if ($this->uri->segment(3) == $key_sub['sort_link'] && $key_sub['status_access_sub_menu'] == 0) {
-								$this->page_soon($key_sub['nm_sub_menu'],$key_sub['icon_sub_menu']);
-							}
-							elseif ($this->uri->segment(3) == $key_sub['sort_link'] && $key_sub['status_access_sub_menu'] == 3) {
-								$this->page_on_repair($key_sub['nm_sub_menu'],$key_sub['icon_sub_menu']);
-							}
-						}
-					}
-					else{
-
-					}
-				}
+		/*Get template*/
+		if (!$this->input->is_ajax_request()) {
+			$template = $this->template_model->get_by_search(array('template_status' => 1),TRUE,array('template_directory'));
+			if ($template && $template->template_directory != '') {
+				$this->site->template = $template->template_directory;
 			}
-		}*/
+			else{
+				$this->site->template = 'adminlte';
+			}
+		}
 	}
 
 }

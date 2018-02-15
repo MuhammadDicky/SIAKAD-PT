@@ -74,7 +74,7 @@ $(function(){
     /*END -- Moment JS*/
 
     /*First Load Page*/
-    if (path == '/siakad-uncp/' || path == '/siakad-uncp') {
+    if (path == index_path || path == index_path+'/') {
       if (vars[1] == 'ptk') {
         Pace.once('done', function(){
           daftar_jadwal(true);
@@ -503,65 +503,6 @@ $(function(){
     /*END -- Ajax Success Event*/
 
 });
-
-  /*Function: Get JSON respon*/
-  function getJSON(url,data){
-    if (data != undefined) {
-      data['csrf_key'] = token;
-    }
-    else{
-      data = {'csrf_key' : token};
-    }
-    return JSON.parse($.ajax({
-      type: 'POST',
-      url: url,
-      data: data,
-      dataType:'json',
-      global:false,
-      async:false,
-      success:function(xhr){
-        token = xhr['n_token'];
-      },
-      error:function(){
-        window.history.pushState(null,null,path);
-        if (data.status_mhs_kls) {
-          if (data.status_mhs_kls == true) {
-            delay(function(){
-              $('.status-mhs-'+data.id+'').bootstrapToggle('destroy');
-              $('.status-mhs-'+data.id+'').replaceWith("<input type='checkbox' class='check-status-mhs-kls status-mhs-"+data.id+"' value='"+data.id+"'/>");
-              $('.status-mhs-'+data.id+'').bootstrapToggle({
-                on:'<i class="fa fa-check-circle"></i> Aktif',
-                off:'<i class="fa fa-ban"></i> Tidak Aktif',
-                size:'small',
-                onstyle:'success',
-                offstyle:'danger',
-              });
-            },500);
-          }
-          else {
-            delay(function(){
-              $('.status-mhs-'+data.id+'').bootstrapToggle('destroy');
-              $('.status-mhs-'+data.id+'').replaceWith("<input type='checkbox' class='check-status-mhs-kls status-mhs-"+data.id+"' checked value='"+data.id+"'/>");
-              $('.status-mhs-'+data.id+'').bootstrapToggle({
-                on:'<i class="fa fa-check-circle"></i> Aktif',
-                off:'<i class="fa fa-ban"></i> Tidak Aktif',
-                size:'small',
-                onstyle:'success',
-                offstyle:'danger',
-              });
-            },500);
-          }
-        }
-        swal({
-          title:'Error',
-          text: 'Maaf, telah terjadi error pada server!',
-          type:'error',
-          timer: 2000
-        });
-      }
-    }).responseText);
-  }
-  /*END -- Function: Get JSON respon*/
 
   /*Function: Get JSON respon*/
   function getJSON_async(url,data,timeout,error_message){

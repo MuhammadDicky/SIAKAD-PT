@@ -41,15 +41,15 @@ class User_model extends My_Models_Configuration{
 			),
 		);
 
-	public $rules_change_password = array(		
+	public $rules_change_password = array(
 		'new_password' => array(
 			'field' => 'new_password',
-			'rules' => 'required|alpha_numeric|min_length[5]|max_length[10]',
+			'rules' => 'required|alpha_numeric|min_length[6]|max_length[12]',
 			'errors'=> array(
 							'required' => 'Masukkan password baru',
 							'alpha_numeric' => 'Password hanya boleh mengandung A-Z,a-z,0-9',
-							'min_length' => 'Panjang password minimal 5 karakter',
-							'max_length' => 'Panjang password maksimal 10 karakter'
+							'min_length' => 'Panjang password minimal 6 karakter',
+							'max_length' => 'Panjang password maksimal 12 karakter'
 						)
 			),
 		'renew_password' => array(
@@ -185,7 +185,7 @@ class User_model extends My_Models_Configuration{
 	}
 
 	function print_pdf_user($user_level){
-		$post  = $this->input->post(NULL, TRUE);
+		$post = $this->input->post_get(NULL, TRUE);
 		if ($user_level == 'mhs') {
 			$judul = 'Daftar Info Data Pengguna Mahasiswa';
 			$kolom = array(
@@ -202,7 +202,7 @@ class User_model extends My_Models_Configuration{
 				$new_password = $this->password_generate();
 				$update_pass[] = array(
 					'id_user' => $key->id_user,
-					'password' => bCrypt($new_password,12),
+					'password' => password_hash($new_password,PASSWORD_BCRYPT),
 					);
 				$arr = array(
 					'no' => $no,
@@ -229,7 +229,7 @@ class User_model extends My_Models_Configuration{
 				$new_password = $this->password_generate();
 				$update_pass[] = array(
 					'id_user' => $key->id_user,
-					'password' => bCrypt($new_password,12),
+					'password' => password_hash($new_password,PASSWORD_BCRYPT),
 					);
 				$arr = array(
 					'no' => $no,
@@ -316,7 +316,12 @@ class User_model extends My_Models_Configuration{
         // Set font
 	    $pdf->SetFont('helvetica', '', 12);
 	    // close and output PDF document
-	    $post  = $this->input->post(NULL, TRUE);
+	    if ($this->input->post(NULL, TRUE)) {
+			$post = $this->input->post(NULL, TRUE);
+		}
+		else{
+			$post = $this->input->get(NULL, TRUE);
+		}
 	    $date_created = explode(' ',date('Y-m-d H:i:s'));
 	    if ($lvl == 'mhs') {
 	    	$thn_angkatan = $this->thn_angkatan_model->get_by_search(array('id_thn_angkatan' => $post['thn_angkatan']),TRUE,array('tahun_angkatan'));

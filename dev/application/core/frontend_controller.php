@@ -10,7 +10,17 @@ class Frontend_Controller extends My_Controller{
 		$this->load->model(array('ptk_studi_model','ptk_penelitian_model'));
 
 		$this->site->side = 'frontend';
-		$this->site->template = 'adminlte';
+		
+		/*Get template*/
+		if (!$this->input->is_ajax_request()) {
+			$template = $this->template_model->get_by_search(array('template_status' => 1),TRUE,array('template_directory'));
+			if ($template && $template->template_directory != '') {
+				$this->site->template = $template->template_directory;
+			}
+			else{
+				$this->site->template = 'adminlte';
+			}
+		}
 
 		if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == TRUE && $_SESSION['level_akses'] != 'admin') {
 			$photo = photo_u();
