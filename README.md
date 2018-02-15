@@ -5,6 +5,8 @@ web dimana data yang dikelolah mulai dari data kemahasiswaan, data tenaga pedidi
 dan data akademik lainnya. Aplikasi ini menggunakan framework codeigniter dan
 beberapa template untuk bagian frontend nya.
 
+# Component
+
 # Change Logs
 
 	-- 3/2/2018 v1.7 Beta --
