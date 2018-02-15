@@ -2580,24 +2580,6 @@ $(function(){
         }
       }
 
-      else if (hash == 'pilih_data') {
-        $('#submit-again').hide();
-        $('#form-input').hide();
-        $('.modal').addClass('modal-primary');
-        modal_animated('zoomIn');
-        if (path.search('admin/data_akademik/data_mahasiswa')) {
-          $('#form-pindah-kelas').hide();
-          $('#rincian-siswa').hide();
-          $('#myModal #form-get').show();
-          $('#myModal .modal-title').text('Tampilkan Data Mahasiswa');
-          $('#myModal #form-get').attr('action','ambil');
-          $('#myModal #submit').attr('id','tamp-data');
-          $('#myModal #tamp-data').text('Tampilkan Data');
-        }
-        $('#myModal #submit').text('Tampilkan Data');
-        $('#myModal').modal('show');        
-      }
-
       else if (hash.search('set') == 0 && path == controller_path+'/pengaturan') {
         var selected_set = $('.set-section[settings-section='+hash.split('set=')[1]+']'),
         setting_box = selected_set.attr('settings-box'),
