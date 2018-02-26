@@ -19,10 +19,10 @@ class Identitas_universitas_model extends My_Models_Configuration{
 			),
 		'nama' => array(
 			'field' => 'nama', 
-			'label' => 'Nama Sekolah',
+			'label' => 'Nama Perguruan Tinggi',
 			'rules' => 'required',
 			'errors'=> array(
-							'required' => 'Tolong masukkan nama sekolah',
+							'required' => 'Tolong masukkan nama perguruan tinggi',
 						)
 			),
 		'kpt' => array(
