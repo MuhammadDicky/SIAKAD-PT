@@ -195,24 +195,24 @@ class Dashboard extends Backend_Controller {
 						);
 					$prodi[] = array_merge((array)$key,$detail_grafik);
 					$canvas[] = array(
-						'value' => $count_mhs_pd,
+						'value' => intval($count_mhs_pd),
 						'color' => color_pd_static($no),
 						'highlight' => color_pd_static($no),
 						'label' => $key->nama_prodi.' ('.$key->jenjang_prodi.')',
 						);
 					$nama_prodi[] = 'Prodi '.$pd;
 					$color[] = color_pd_static($no);
-					$mhs_lk[] = $key->mhs_lk;
-					$mhs_pr[] = $key->mhs_pr;
+					$mhs_lk[] = intval($key->mhs_lk);
+					$mhs_pr[] = intval($key->mhs_pr);
 					$no++;
 					$pd++;
 				}
 
-				/*$thn = array();
+				$thn = array();
 				$thn_angkatan = array();
 				$mhs_lk_thn = array();
 				$mhs_pr_thn = array();
-				$color_thn = array();*/
+				$color_thn = array();
 				$no = 7;
 				foreach ($daftar_thn as $key) {
 					$count_mhs_thn = $key->jml_mhs;
@@ -224,8 +224,8 @@ class Dashboard extends Backend_Controller {
 					$thn[] = array_merge((array)$key,$detail_grafik);
 					$thn_angkatan[] = 'Tahun '.$key->tahun_angkatan;
 					$color_thn[] = color_pd_static($no);
-					$mhs_lk_thn[] = $key->mhs_lk;
-					$mhs_pr_thn[] = $key->mhs_pr;
+					$mhs_lk_thn[] = intval($key->mhs_lk);
+					$mhs_pr_thn[] = intval($key->mhs_pr);
 					$no++;
 				}
 				$result = array(
