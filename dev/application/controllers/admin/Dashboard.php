@@ -1127,8 +1127,80 @@ class Dashboard extends Backend_Controller {
 					);
 				}
 			}
+			elseif ($data_image == 'template-image') {
+				$detail = $this->template_model->get($post['in_template'],TRUE);
+				if ($detail) {
+					$config = array(
+						'allowed_types' => 'jpg|jpeg|png',
+						'max_size' => '2024',
+						'max_width' => 1360,
+				        'max_height' => 638,
+				        'min_width' => 1250,
+				        'min_height' => 528,
+						'overwrite' => TRUE,
+						'upload_path' => './uploads/template-image/',
+						'file_name' => rand_val().'_'.md5($detail->template_id).rand_val(),
+						);
+					$this->upload->initialize($config);
+					if (!$this->upload->do_upload('template_image')) {
+						if (stristr($this->upload->display_errors(), 'dimensions') == TRUE) {
+							$error = '<li>Dimensi / ukuran foto "<b>'.$_FILES["template_image"]["name"].'</b>" yang diupload tidak sesuai!</li>';
+						}
+						elseif (stristr($this->upload->display_errors(), 'permitted size') == TRUE) {
+							$error = '<li>Ukuran file foto "<b>'.$_FILES["template_image"]["name"].'</b>" yang diupload melebihi ukuran upload maksimal yaitu 1024 KB!</li>';
+						}
+						elseif (stristr($this->upload->display_errors(), 'filetype') == TRUE) {
+							$error = '<li>Format / ekstensi foto yang diupload tidak diizinkan!. Hanya ekstensi "jpg, jpeg, png" yang diizinkan.</li>';
+						}
+						else{
+							$error = $this->upload->display_errors('<li>','</li>');
+						}
+						$result = array('status' => 'failed', 'errors' => $error);
+					}
+					else{
+						$photo_name = $this->upload->data('file_name');
+						if ($detail->template_image !='') {
+							if ($photo_name != $detail->template_image) {
+								$this->load->helper('file');
+								$check_file = get_file_info('uploads/template-image/'.$detail->template_image);
+								if ($check_file != FALSE) {
+									unlink('./uploads/template-image/'.$detail->template_image);
+								}
+							}
+						}
+						$data = array(
+							'template_image' => $photo_name
+							);
+						$update = $this->template_model->update($data,array('template_id' => $post['in_template']));
+						if ($update) {
+							if (isset($post['upload_act'])) {
+								$this->load->helper('file');
+								$check_file = get_file_info('uploads/mhs-photo/'.$photo_name);
+								if ($check_file != FALSE) {
+									$photo = photo_u('mhs',$photo_name.'?n_img='.rand_val(20));
+									$file_name = $photo_name;
+								}
+								else{
+									$photo = photo_u();
+								}
+							}
+							$result = array(
+								'status' => 'success',
+								'act' => $post['act']
+							);
+						}
+						else{
+							unlink('./uploads/template-image/'.$photo_name);
+							$result = array('status' => 'failed_db');
+						}
+					}
+				}
+				else{
+					$result = array('status' => 'failed');
+				}
+			}
 		}
-		
+
 		$result['n_token'] = $this->security->get_csrf_hash();
 		echo json_encode($result);
 	}
