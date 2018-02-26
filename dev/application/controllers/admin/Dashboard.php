@@ -311,8 +311,9 @@ class Dashboard extends Backend_Controller {
 							$data = 'data_template';
 							$result = array(
 								'status' => 'success',
-								'data' => $data
-								);							
+								'data' => $data,
+								'in_template' => $save_data_template
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
