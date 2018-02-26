@@ -403,9 +403,7 @@ class Dashboard extends Backend_Controller {
 								    	'_app_version' => $post['_app_version'],
 								    	'_plugin_path' => $post['_plugin_path'],
 								    	'_template_assets' => $post['_template_assets'],
-								    	'_AdminLTE_version' => $post['_AdminLTE_version'],
-								    	'_logo_mini' => $post['_logo_mini'],
-								    	'_logo_lg' => $post['_logo_lg']
+								    	'_app_environment' => $post['_app_environment']
 									)
 								)
 							);
