@@ -640,17 +640,33 @@ class Dashboard extends Backend_Controller {
 			}
 			elseif ($param == 'delete') {
 				if (isset($post['data_template'])) {
-					$delete_template_by = array('template_id' => $post['template_id']);
-					$delete_template = $this->template_model->delete_by($delete_template_by);
-					if ($delete_template) {
-						$data = 'data_template';
-						$result = array(
-							'status' => 'success',
-							'data' => $data
-							);
+					$detail = $this->template_model->get($post['template_id'],TRUE);
+					if ($detail) {
+						$delete_template_by = array('template_id' => $post['template_id']);
+						$delete_template = $this->template_model->delete_by($delete_template_by);
+						if ($delete_template) {
+							$data = 'data_template';
+							if ($detail->template_image != '') {
+								$this->load->helper('file');
+								$check_file = get_file_info('uploads/template-image/'.$detail->template_image);
+								if ($check_file != FALSE) {
+									unlink('./uploads/template-image/'.$detail->template_image);
+								}
+							}
+							$result = array(
+								'status' => 'success',
+								'data' => $data
+								);
+						}
+						else{
+							$result = array('status' => 'failed_db');
+						}
 					}
 					else{
-						$result = array('status' => 'failed_db');
+						$result = array(
+							'status' => 'failed',
+							'error' => 'Data not found'
+						);
 					}
 				}
 				elseif (isset($post['data_menu'])) {
