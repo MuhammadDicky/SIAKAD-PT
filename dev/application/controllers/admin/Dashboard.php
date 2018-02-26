@@ -75,7 +75,7 @@ class Dashboard extends Backend_Controller {
 						$statik_pengguna_ptk = round($count_user_ptk/$jumlah_pengguna*100);
 					}
 
-					
+
 					$sub_query_count_status[] = '(SELECT COUNT(*) FROM {PRE}user WHERE active_status = 1 AND level_akses != "admin") AS active_user';
 					$sub_query_count_status[] = '(SELECT COUNT(*) FROM {PRE}user WHERE active_status = 0 AND level_akses != "admin") AS non_active_user';
 					$count_status = $this->user_model->get_by_search(NULL,TRUE,$sub_query_count_status);
@@ -88,26 +88,26 @@ class Dashboard extends Backend_Controller {
 						'level_akses !=' => 'admin',
 						'last_online !=' => '0000-00-00 00:00:00',
 						);
-					$sub_query_user[] = 'CASE WHEN level_akses = "mhs" 
-											THEN (SELECT nisn FROM {PRE}mahasiswa WHERE id = id_user_detail) 
-										WHEN level_akses = "ptk" 
-											THEN (SELECT nuptk FROM {PRE}ptk WHERE id_ptk = id_user_detail) 
+					$sub_query_user[] = 'CASE WHEN level_akses = "mhs"
+											THEN (SELECT nisn FROM {PRE}mahasiswa WHERE id = id_user_detail)
+										WHEN level_akses = "ptk"
+											THEN (SELECT nuptk FROM {PRE}ptk WHERE id_ptk = id_user_detail)
 										END AS username';
-					$sub_query_user[] = 'CASE WHEN level_akses = "mhs" 
-											THEN (SELECT nama FROM {PRE}mahasiswa WHERE id = id_user_detail) 
-										WHEN level_akses = "ptk" 
-											THEN (SELECT nama_ptk FROM {PRE}ptk WHERE id_ptk = id_user_detail) 
+					$sub_query_user[] = 'CASE WHEN level_akses = "mhs"
+											THEN (SELECT nama FROM {PRE}mahasiswa WHERE id = id_user_detail)
+										WHEN level_akses = "ptk"
+											THEN (SELECT nama_ptk FROM {PRE}ptk WHERE id_ptk = id_user_detail)
 										END AS name';
 					$select_fld_user = array_merge(array('id_user_detail','level_akses','last_online'),$sub_query_user);
 					$record_user = $this->user_model->get_by($last_online,5,NULL,NULL,$select_fld_user);
 
 					$result = array(
 						'status' => 'success',
-						'count_user_aktif' => $count_user_aktif, 
-						'count_user_nonaktif' => $count_user_nonaktif, 
+						'count_user_aktif' => $count_user_aktif,
+						'count_user_nonaktif' => $count_user_nonaktif,
 						'statik_pengguna_aktif' => $statik_pengguna_aktif,
 						'statik_pengguna_nonaktif' => $statik_pengguna_nonaktif,
-						'count_user_mhs' => $count_user_mhs, 			
+						'count_user_mhs' => $count_user_mhs,
 						'count_user_ptk' => $count_user_ptk,
 						'statik_pengguna_mhs' => $statik_pengguna_mhs,
 						'statik_pengguna_ptk' => $statik_pengguna_ptk,
@@ -176,12 +176,12 @@ class Dashboard extends Backend_Controller {
 				$select_fld_thn = array_merge(array('id_thn_angkatan','tahun_angkatan'),$sub_query_count_thn);
 				$daftar_thn = $this->thn_angkatan_model->get_by(NULL,4,NULL,FALSE,$select_fld_thn);
 
-				/*$prodi = array();
+				$prodi = array();
 				$canvas = array();
 				$nama_prodi = array();
 				$mhs_lk = array();
 				$mhs_pr = array();
-				$color = array();*/
+				$color = array();
 				$no = 0;
 				$pd = 1;
 				foreach ($daftar_pd as $key) {
