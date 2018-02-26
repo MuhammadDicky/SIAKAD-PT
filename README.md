@@ -82,7 +82,7 @@ Dev By: Muhammad Dicky Hidayat Latif
 
 Aplikasi ini dapat menggunakan lebih dari satu template dan kedapannya akan bertambah. Diantara template yang sudah ada yaitu:
 
-**1. AdminLTE** <br>
+**1. AdminLTE**<br>
 **2. CoreUI (In Dev)**
 
 # Installation
