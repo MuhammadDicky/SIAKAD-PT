@@ -74,13 +74,13 @@ class Home extends Frontend_Controller {
 		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			if ($param == 'ambil') {
 				if ($post['data'] == 'data_identitas_pt') {
-					$record = $this->identitas_universitas_model->get(NULL,NULL);
+					$record = $this->konfigurasi_model->get_by_search(array('nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt), TRUE);
+					$data_identitas_pt[] = unserialize($record->isi_konfigurasi);
 					$record_pt = array();
-					foreach ($record as $key) {
+					foreach ($data_identitas_pt as $key) {
 						$tgl_pt = array(
-							'id' => rand_val(),
-							'tgl_berdiri' => date_convert($key->tgl_berdiri),
-							'tgl_sk_pend' => date_convert($key->tgl_sk_pend),
+							'tgl_berdiri' => date_convert($key['tgl_berdiri']),
+							'tgl_sk_pend' => date_convert($key['tgl_sk_pend']),
 							);
 						$record_pt[] = array_merge((array)$key,$tgl_pt);
 					}
