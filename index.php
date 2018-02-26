@@ -36,6 +36,27 @@
  * @filesource
  */
 
+ /*
+  * -------------------------------------------------------------------
+  *  CUSTOM CONFIG VALUES
+  * -------------------------------------------------------------------
+  *
+  * The $assign_to_config array below will be passed dynamically to the
+  * config class when initialized. This allows you to set custom config
+  * items or override any default config values found in the config.php file.
+  * This can be handy as it permits you to share one application between
+  * multiple front controller files, with each file containing different
+  * config values.
+  *
+  * Un-comment the $assign_to_config array below to use this feature
+  */
+ 	// $assign_to_config['name_of_config_item'] = 'value of config item';
+
+ if (require_once('configuration.php')) {
+ 	$Config = new Config;
+	$app_environment = $Config->_app_environment;
+ }
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -53,7 +74,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : $app_environment);
 
 /*
  *---------------------------------------------------------------
@@ -65,13 +86,13 @@
  */
 switch (ENVIRONMENT)
 {
-	case 'development':
+	case 'development' || 'Development':
 		error_reporting(-1);
 		ini_set('display_errors', 1);
 	break;
 
-	case 'testing':
-	case 'production':
+	case 'testing' || 'Testing':
+	case 'production' || 'Production':
 		ini_set('display_errors', 0);
 		if (version_compare(PHP_VERSION, '5.3', '>='))
 		{
@@ -160,27 +181,6 @@ switch (ENVIRONMENT)
 
 	// The controller function you wish to be called.
 	// $routing['function']	= '';
-
-
-/*
- * -------------------------------------------------------------------
- *  CUSTOM CONFIG VALUES
- * -------------------------------------------------------------------
- *
- * The $assign_to_config array below will be passed dynamically to the
- * config class when initialized. This allows you to set custom config
- * items or override any default config values found in the config.php file.
- * This can be handy as it permits you to share one application between
- * multiple front controller files, with each file containing different
- * config values.
- *
- * Un-comment the $assign_to_config array below to use this feature
- */
-	// $assign_to_config['name_of_config_item'] = 'value of config item';
-
-if (require_once('configuration.php')) {
-	$Config = new Config;
-}
 
 // --------------------------------------------------------------------
 // END OF USER CONFIGURABLE SETTINGS.  DO NOT EDIT BELOW THIS LINE
