@@ -2,12 +2,11 @@
 
 **SIAKAD - PT** adalah aplikasi pengolahan data akademik perguruan tinggi berbasis web dimana data yang dikelolah mulai dari data kemahasiswaan, data tenaga pedidik dan data akademik lainnya. Aplikasi ini menggunakan framework [codeigniter](https://codeigniter.com) dan beberapa template untuk bagian frontend nya.
 
-## Component
+# Component
 
 
-## Change Logs
+# Change Logs
 
-```
 	-- 16/2/2018 v1.8 Beta --
 	=> Coding Improvement
 	=> Major fixed
@@ -69,24 +68,23 @@
 	=> Coding Improvement
 	=> Bugs fixed
 
-	```
 
-## Server Requirements
+# Server Requirements
 
 **PHP version 5.6** atau direkomendasikan menggunakan yang paling terbaru. Server
 disesuaikan dengan spesifikasi codeigniter untuk bisa berjalan dengan baik.
 
-## Contribution
+# Contribution
 
 Dev By: Muhammad Dicky Hidayat Latif
 
-## Template
+# Template
 
 Aplikasi ini dapat menggunakan lebih dari satu template dan kedapannya akan bertambah. Diantara template yang sudah ada yaitu:
 
 **1. AdminLTE**
 
-## Installation
+# Installation
 
 Untuk menggunakan aplikasi dapat dimulai dengan menyesuaikan konfigurasi di file **configuration.php**.
 Untuk lebih lengkapnya contact **muh.dickyhidayat@gmail.com**.
