@@ -319,7 +319,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     admin_url               = '<?php echo set_url() ?>',
     base_url                = '<?php echo base_url() ?>',
     token                   = '<?php if($token) {echo $token;} else {echo rand_val();} ?>',
-    my_colors               = new Array();
+    my_colors               = [],
+    my_layout_settings      = [];
 
     $(document).ready(function(){
       /*$('.content-wrapper').slimScroll({
