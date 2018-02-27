@@ -2605,12 +2605,15 @@ $(function(){
     /*END -- HASHCHANGE*/
     
     /*Modal Event*/
-    $('.modal').on('show.bs.modal',function(e){
+    var modal_show_animated = 'zoomIn';
+    var modal_hide_animated = 'zoomOutDown';
+    $('.modal').on('show.bs.modal', function(e){
+      modal_animated(modal_show_animated, modal_hide_animated);
       $('body').addClass('modal-show');
     });
 
-    $('#myModal').on('hidden.bs.modal',function(e){
-      modal_animated('zoomOutDown');
+    $('#myModal').on('hidden.bs.modal', function(e){
+      modal_animated(modal_hide_animated, modal_show_animated);
       window.history.pushState(null,null,path);
       $('#myModal form,#rincian-siswa,.list-selected,.hide-modal-content').hide();
       $('#myModal .submit-btn, #myModal #tamp-data, #myModal #delete-selected, #myModal #pindah-kelas,#myModal #update-mk').attr('id','submit');
@@ -8755,8 +8758,9 @@ $(function(){
     $('.data_action').attr("checked",true);
   }
 
-  function modal_animated(animated){
-    var animated = $('#myModal .modal-dialog, #myModal-pt .modal-dialog').attr('class','modal-dialog '+animated+' animated');
+  function modal_animated(animated, remove_animated){
+    $('.modal .modal-dialog').removeClass(remove_animated + ' animated');
+    var animated = $('#myModal .modal-dialog, #myModal-pt .modal-dialog').addClass(animated + ' animated')
   }
 
   function collapse_toggle(string){
