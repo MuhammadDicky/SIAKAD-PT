@@ -234,7 +234,7 @@ $(function(){
 
     /*Moment JS*/
     moment.locale('id');
-    var last_online_user = $('#user-widget-detail .user-last-time-login').text();
+    var last_online_user = $('#user-widget-detail .user-last-time-login').attr('data-time');
     $('#user-widget-detail .user-last-time-login').text('Terakhir kali login '+moment(last_online_user).fromNow());
     $('.last-online-user-text').text(moment(last_online_user).fromNow());
     /*END -- Moment JS*/
