@@ -4366,6 +4366,19 @@ $(function(){
               }
               else if(data.data == 'data_template'){
                 get_list_template();
+                if ($('#file-select-image-template').val() != '') {
+                  $('#file-select-image-template').fileinput('refresh',{
+                    'uploadExtraData':{
+                      'file_type': 'image',
+                      'in_template': data.in_template,
+                      'data':'template-image',
+                      'upload_act':'singleUpload',
+                      'act':'insert',
+                      'csrf_key':token
+                    }
+                  });
+                  $('#file-select-image-template').fileinput('upload');
+                }
               }
               else if(data.data == 'data_menu'){
                 list_menu('all');
@@ -4602,7 +4615,22 @@ $(function(){
                 get_app_config();
               }
               else if(data.data == 'data_template'){
-                get_list_template();
+                if ($('#file-select-image-template').val() != '') {
+                  $('#file-select-image-template').fileinput('refresh',{
+                    'uploadExtraData':{
+                      'file_type': 'image',
+                      'in_template': data.in_template,
+                      'data':'template-image',
+                      'upload_act':'singleUpload',
+                      'act':'update',
+                      'csrf_key':token
+                    }
+                  });
+                  $('#file-select-image-template').fileinput('upload');
+                }
+                else{
+                  get_list_template();
+                }
               }
               else if(data.data == 'data_menu'){
                 list_menu('all');
