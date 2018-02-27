@@ -668,8 +668,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         return localStorage.getItem(name);
       }
     }
-
-    /*var data_dashboard_path = '<?php echo web_detail('_data_dashboard_path') ?>',data_master_path = '<?php echo web_detail('_data_master_path') ?>',data_pengguna_path = '<?php echo web_detail('_data_pengguna_path') ?>',data_akademik_path = '<?php echo web_detail('_data_akademik_path') ?>',user_last_online = '<?php echo $_SESSION['last_online']; ?>',token = '<?php echo $this->security->get_csrf_hash(); ?>';$(document).ready(function(){Pace.once("done",function(){setTimeout(function(){$(".content-wrapper").css("background","#ecf0f5"),$("section.content-header").show(),$("section.content").slideDown("slow")},100),setTimeout(function(){$(".content-wrapper").LoadingOverlay("hide")},500)}),$("#control-layout-setting input[type=checkbox]").on("ifChecked",function(){var t=$(this).attr("data-layout");"layout-boxed"==t?($("body").removeClass("fixed"),$("body").addClass(t)):$("body").addClass(t)}),$("#control-layout-setting input[type=checkbox]").on("ifUnchecked",function(){var t=$(this).attr("data-layout");$("body").removeClass(t)})});*/
+    
 </script>
 <?php if (isset($dashboard)): ?>
 <script type="application/javascript" src="<?php echo get_templete_dir(dirname(__FILE__),'../dist/js/app_chart.js','nC') ?>"></script> 
