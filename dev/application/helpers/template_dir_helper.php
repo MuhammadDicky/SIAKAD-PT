@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	function get_configJS($url){
 		global $Config;
 		$_this =& get_instance();
-		return $Config->_site_url.'/template/'.$_this->side.'/'.$_this->template.'/'.$url;
+		return $Config->_site_url.'/template/'.$_this->site->side.'/'.$_this->site->template.'/'.$url;
 	}
 
 	function get_plugin($plugin,$com,$a_com=NULL,$r_con=FALSE){
