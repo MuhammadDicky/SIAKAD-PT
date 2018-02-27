@@ -120,11 +120,11 @@ class Data_master extends Backend_Controller {
 					}
 				}
 				elseif (isset($post['data_identitas_pt'])) {
-					$rules = $this->identitas_universitas_model->rules;
+					$rules = $this->konfigurasi_model->rules_identitas_pt;
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data = array(
+						$data_pt = array(
 							'nama'            => strtoupper($post['nama']),
 							'kpt'             => $post['kpt'],
 							'kategori'        => $post['kategori'],
