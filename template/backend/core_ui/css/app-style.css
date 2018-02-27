@@ -192,9 +192,6 @@
   min-height: .01%;
     overflow-x: auto;
 }
-.table-bordered{
-  border-collapse: separate !important;
-}
 dl.dl-horizontal dd{
   word-wrap: break-word;
 }
