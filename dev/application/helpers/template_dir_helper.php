@@ -254,11 +254,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		return $full_url;
 	}
 
-	/*function get_plugin($dir_file,$r_con=FALSE){
+	function get_plugin_url($dir_file,$r_con=FALSE){
 		global $Config;
 		$full_url = $Config->_site_url.$Config->_plugin_path.$dir_file;
 		if (isset($_SESSION['n_val']) && $r_con == 'nC') {
-			return $full_url.'?nC='.$_SESSION['n_val'];
+			return $full_url.'?nC='.@$_SESSION['n_val'];
 		}
 		elseif ($r_con == TRUE) {
 			return $full_url.'?nC='.rand_val();
@@ -266,7 +266,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		else{
 			return $full_url;
 		}
-	}*/
+	}
 
 	function get_real_path($path){
 		global $Config;
