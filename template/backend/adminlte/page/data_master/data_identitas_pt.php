@@ -265,7 +265,7 @@
 											<section class="col-md-6 col-sm-6 col-xs-12">
 												<div class="form-group" id="nama">
 													<label for="nama">Nama Perguruan Tinggi</label>
-													<input type="text" class="form-control" name="nama" placeholder="Masukkan nama sekolah">
+													<input type="text" class="form-control" name="nama" placeholder="Masukkan nama perguruan tinggi">
 								                </div>
 												<div class="form-group" id="kpt">
 													<label for="kpt">Kode PT</label>
