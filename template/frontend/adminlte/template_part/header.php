@@ -42,7 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/skins/_all-skins.min.css') ?>">
-  <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/animated.min.css') ?>">  
+  <link rel="stylesheet" href="<?php echo get_plugin_url('animated-css/animated.min.css') ?>">
   <link rel="stylesheet" href="<?php echo get_templete_dir(dirname(__FILE__),'../dist/css/style.css','nC') ?>">  
   <style>
     .content-wrapper{
