@@ -341,7 +341,7 @@ class Dashboard extends Backend_Controller {
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data_template = array(							
+						$data_template = array(
 							'template_name' => ucwords($post['template_name']),
 							'template_directory' => $post['template_directory'],
 							'template_dev' => ucwords($post['template_dev']),
@@ -374,7 +374,7 @@ class Dashboard extends Backend_Controller {
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data_menu = array(							
+						$data_menu = array(
 							'nm_menu' => ucwords($post['nm_menu']),
 							'level_access_menu' => $post['level_access_menu'],
 							'status_access_menu' => $post['status_access_menu'],
@@ -388,7 +388,7 @@ class Dashboard extends Backend_Controller {
 							$result = array(
 								'status' => 'success',
 								'data' => $data
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -406,7 +406,7 @@ class Dashboard extends Backend_Controller {
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data_menu = array(							
+						$data_menu = array(
 							'id_parent_menu' => $post['id_parent_menu'],
 							'nm_sub_menu' => ucwords($post['nm_sub_menu']),
 							'status_access_sub_menu' => $post['status_access_sub_menu'],
@@ -419,7 +419,7 @@ class Dashboard extends Backend_Controller {
 							$result = array(
 								'status' => 'success',
 								'data' => $data
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -475,7 +475,7 @@ class Dashboard extends Backend_Controller {
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data_template = array(							
+						$data_template = array(
 							'template_name' => ucwords($post['template_name']),
 							'template_directory' => $post['template_directory'],
 							'template_dev' => ucwords($post['template_dev']),
@@ -488,7 +488,7 @@ class Dashboard extends Backend_Controller {
 							$result = array(
 								'status' => 'success',
 								'data' => $data
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -524,7 +524,7 @@ class Dashboard extends Backend_Controller {
 							$result = array(
 								'status' => 'success',
 								'data' => $data
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -541,7 +541,7 @@ class Dashboard extends Backend_Controller {
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data_menu = array(							
+						$data_menu = array(
 							'nm_menu' => ucwords($post['nm_menu']),
 							'level_access_menu' => $post['level_access_menu'],
 							'status_access_menu' => $post['status_access_menu'],
@@ -555,7 +555,7 @@ class Dashboard extends Backend_Controller {
 							$result = array(
 								'status' => 'success',
 								'data' => $data
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -573,7 +573,7 @@ class Dashboard extends Backend_Controller {
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data_menu = array(							
+						$data_menu = array(
 							'id_parent_menu' => $post['id_parent_menu'],
 							'nm_sub_menu' => ucwords($post['nm_sub_menu']),
 							'status_access_sub_menu' => $post['status_access_sub_menu'],
@@ -586,7 +586,7 @@ class Dashboard extends Backend_Controller {
 							$result = array(
 								'status' => 'success',
 								'data' => $data
-								);							
+								);
 						}
 						else{
 							$result = array('status' => 'failed_db');
@@ -633,7 +633,7 @@ class Dashboard extends Backend_Controller {
 						}
 					}
 					elseif ($post['menu_type'] == 'sub-menu') {
-						
+
 					}*/
 					$id = $post['list_menu'];
 					if ($this->check_list_menu($id,$post['level'],$post['menu_type'],@$post['parent_menu'],@$post['move_sub'],$post['menu']) == TRUE) {
@@ -764,7 +764,7 @@ class Dashboard extends Backend_Controller {
 						$result = array(
 								'total_rows' => $total_rows,
 								'record_template' => $record_template
-								);					
+								);
 					}
 					else{
 						$result = array(
@@ -781,7 +781,7 @@ class Dashboard extends Backend_Controller {
 						$result = array(
 								'total_rows' => $total_rows,
 								'record_menu' => $record_menu
-								);					
+								);
 					}
 					else{
 						$result = array(
@@ -798,7 +798,7 @@ class Dashboard extends Backend_Controller {
 						$result = array(
 								'total_rows' => $total_rows,
 								'record_menu' => $record_menu,
-								);					
+								);
 					}
 					else{
 						$result = array(
@@ -876,15 +876,15 @@ class Dashboard extends Backend_Controller {
 								'color' => $value->color_menu,
 								'link' => $link
 								);
-						}		
+						}
 						$result = array(
 							'menu' => $record,
 							'total_count' => $total_rows
 							);
-					}					
+					}
 					else{
 						$result['menu'] = '';
-					}					
+					}
 				}
 				elseif ($post['data'] == 'list_menu') {
 					if ($post['menu'] == 'admin-menu') {
@@ -1048,7 +1048,7 @@ class Dashboard extends Backend_Controller {
 					}
 
 					$backup_tbl_db = array(
-						'backup_db_name' => $this->filename_backup_tbl_db, 
+						'backup_db_name' => $this->filename_backup_tbl_db,
 						'download_path' => $download_path.$this->filename_backup_tbl_db,
 						'backup_detail' => $data_backup_tbl
 						);
@@ -1375,7 +1375,7 @@ class Dashboard extends Backend_Controller {
 	// 		}
 
 	// 		$backup_tbl_db = array(
-	// 			'backup_db_name' => $this->filename_backup_tbl_db, 
+	// 			'backup_db_name' => $this->filename_backup_tbl_db,
 	// 			'download_path' => $download_path.$this->filename_backup_tbl_db,
 	// 			'backup_detail' => $data_backup_tbl
 	// 			);
@@ -1547,7 +1547,7 @@ class Dashboard extends Backend_Controller {
 			else{
 				$result = 'Password kosong, isi dengan benar';
 				return $result;
-			}			
+			}
 		}
 		else{
 			$result = 'Username kosong, isi dengan benar';
@@ -1589,7 +1589,7 @@ class Dashboard extends Backend_Controller {
 			}
 			else{
 				$result = array('status' => 'form_validation_failed', );
-			}			
+			}
 		}
 		else{
 			$result = array('status' => 'failed_validation', );
@@ -1598,7 +1598,7 @@ class Dashboard extends Backend_Controller {
 		echo json_encode($result);
 	}
 
-	protected function check_list_menu($data,$level,$menu_type,$parent,$move_sub,$menu){
+	protected function check_list_menu($data, $level, $menu_type, $parent, $move_sub, $menu){
 		if ($menu_type == 'main-menu') {
 			if ($level == 'admin') {
 				$act = array(
