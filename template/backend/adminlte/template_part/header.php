@@ -198,9 +198,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      
+
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
+      <ul class="sidebar-menu tree" data-widget="tree">
         <li class="header" style="background: rgba(0,0,0,0);">
           <div class="btn-group centered-content btn-sidebar-set" style="margin-left: 10px;margin-top: -10px">
             <button class="btn btn-sm btn-default" url-target="#"><span class="fa fa-user-circle"></span> Profile</button>
@@ -209,7 +209,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
         </li>
         <li class="header">MENU UTAMA</li>
-        <div id="menu-container" class="sidebar-menu">
+        <div id="menu-container" class="sidebar-menu tree">
           <?php if (isset($_SESSION['menu']) && $_SESSION['menu'] != ''): ?>
 
           <?php foreach ($_SESSION['menu'] as $key): ?>
@@ -259,7 +259,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       }
                      ?>
                     <li class="<?php echo active_page_print($key_sub['sort_link'],'active'); ?>">
-                      <a href="<?php echo $key_sub['link_sub_menu'] ?>"><i class="fa fa-circle-o"></i> 
+                      <a href="<?php echo $key_sub['link_sub_menu'] ?>"><i class="fa fa-circle-o"></i>
                         <?php
                         if (strlen($key_sub['nm_sub_menu']) <= $strlen) {
                           echo $key_sub['nm_sub_menu'];
@@ -280,21 +280,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <?php endif ?>
 
               <?php if (count($key['sub_menu']) == 0): ?>
-                <?php 
+                <?php
                 if ($key['sort_link'] == '') {
                   $key['sort_link'] = 'admin';
                 }
                  ?>
                 <?php if ($key['status_access_menu'] == 1): ?>
-                <li class="<?php echo active_page_print($key['sort_link'],'active'); ?> treeview">
+                <li class="<?php echo active_page_print($key['sort_link'],'active'); ?>">
                   <a href="<?php echo $key['link_menu']; ?>" style="color: <?php echo $key['color_menu'] ?>">
                     <i class="<?php echo $key['icon_menu'] ?>"></i> <span><?php echo $key['nm_menu'] ?></span>
-                  </a>          
+                  </a>
                 </li>
                 <?php endif ?>
 
                 <?php if ($key['status_access_menu'] != 1): ?>
-                <?php 
+                <?php
                   if ($key['status_access_menu'] == 0) {
                     $menu_attr = array('text' => 'Soon', 'color' => 'bg-green');
                   }
@@ -305,33 +305,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $menu_attr = array('text' => 'Repair', 'color' => 'bg-red');
                   }
                  ?>
-                <li class="<?php echo active_page_print($key['sort_link'],'active'); ?> treeview">
+                <li class="<?php echo active_page_print($key['sort_link'],'active'); ?>">
                   <a href="<?php echo $key['link_menu']; ?>" style="color: <?php echo $key['color_menu'] ?>">
                     <i class="<?php echo $key['icon_menu']; ?>"></i>
                     <span><?php echo $key['nm_menu']; ?></span>
                     <span class="pull-right-container">
                       <small class="label pull-right <?php echo $menu_attr['color'] ?>"><?php echo $menu_attr['text'] ?></small>
                     </span>
-                  </a>          
+                  </a>
                 </li>
                 <?php endif ?>
 
               <?php endif ?>
             <?php endif ?>
           <?php endforeach ?>
-          
+
           <?php endif ?>
           <?php if (!isset($_SESSION['menu']) || $_SESSION['menu'] == ''): ?>
-          <li class="treeview">
+          <li class="active">
             <a>
-              <i class="fa fa-exclamation-circle"></i> <span>Gagal memproses menu</span>            
-            </a>          
+              <i class="fa fa-exclamation-circle"></i> <span>Gagal memproses menu</span>
+            </a>
           </li>
           <?php endif ?>
           <!-- <li class="<?php echo active_page_print('admin','active'); ?> treeview">
             <a href="<?php echo base_url('admin'); ?>" class="text-aqua">
-              <i class="fa fa-dashboard"></i> <span>Dashboard</span>            
-            </a>          
+              <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            </a>
           </li>
           <li class="<?php echo active_page_print('data_master','active'); ?> treeview">
             <a href="#">
@@ -428,18 +428,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <span class="pull-right-container">
                 <small class="label pull-right bg-blue">BETA</small>
               </span>
-            </a>          
+            </a>
           </li> -->
         </div>
         <li class="header">LAINNYA</li>
-        <li class="<?php echo active_page_print('pengaturan','active'); ?> treeview">
+        <li class="<?php echo active_page_print('pengaturan','active'); ?> <?php if (isset($settings)): ?>treeview<?php endif ?>">
           <a href="<?php echo set_url('pengaturan'); ?>">
             <i class="fa fa-gears"></i>
             <span>Pengaturan</span>
             <span class="pull-right-container">
-              <?php if (isset($settings)): ?>
-              <i class="fa fa-angle-left pull-right"></i>
-              <?php endif ?>
               <small class="label pull-right bg-blue">BETA</small>
             </span>
           </a>
@@ -451,7 +448,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <span>Konfigurasi Umum</span>
               </a>
             </li>
-            <li class="">
+            <li class="treeview">
               <a href="">
                 <i class="fa fa-circle-o"></i>
                 <span>Layout</span>
@@ -495,20 +492,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </ul>
           <?php endif ?>
         </li>
-        <li class="<?php echo active_page_print('feedback','active'); ?> treeview">
+        <li class="<?php echo active_page_print('feedback','active'); ?>">
           <a href="<?php echo set_url('feedback'); ?>">
             <i class="fa fa-comments-o"></i>
             <span>Feedback</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">Soon</small>
             </span>
-          </a>          
+          </a>
         </li>
-        <li class="<?php echo active_page_print('about','active'); ?> treeview">
+        <li class="<?php echo active_page_print('about','active'); ?>">
           <a href="<?php echo set_url('about'); ?>" class="about">
             <i class="fa fa-exclamation-circle"></i>
             <span>Tentang</span>
-          </a>          
+          </a>
         </li>
       </ul>
     </section>

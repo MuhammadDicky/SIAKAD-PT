@@ -225,7 +225,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
+      <ul class="sidebar-menu tree" data-widget="tree">
         <li class="header" style="background: rgba(0,0,0,0);">
           <div class="btn-group centered-content btn-sidebar-set" style="margin-left: 10px;margin-top: -10px">
             <button class="btn btn-sm btn-default" url-target="
@@ -285,7 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
               <?php if (count($key['sub_menu']) == 0): ?>
                 <?php if ($key['status_access_menu'] == 1): ?>
-                <li class="<?php echo active_page_print($key['sort_link'],'active'); ?> treeview">
+                <li class="<?php echo active_page_print($key['sort_link'],'active'); ?>">
                   <a href="<?php echo $key['link_menu']; ?>" style="color: <?php echo $key['color_menu'] ?>">
                     <i class="<?php echo $key['icon_menu'] ?>"></i> <span><?php echo $key['nm_menu'] ?></span>
                   </a>          
@@ -304,7 +304,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $menu_attr = array('text' => 'Repair', 'color' => 'bg-red');
                   }
                  ?>
-                <li class="<?php echo active_page_print($key['sort_link'],'active'); ?> treeview">
+                <li class="<?php echo active_page_print($key['sort_link'],'active'); ?>">
                   <a href="<?php echo $key['link_menu']; ?>" style="color: <?php echo $key['color_menu'] ?>">
                     <i class="<?php echo $key['icon_menu']; ?>"></i>
                     <span><?php echo $key['nm_menu']; ?></span>
@@ -320,7 +320,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <?php endforeach ?>
         <?php endif ?>
         <?php if (!isset($_SESSION['menu']) || $_SESSION['menu'] == ''): ?>
-        <li class="treeview">
+        <li class="active">
           <a>
             <i class="fa fa-exclamation-circle"></i> <span>Gagal memproses menu</span>            
           </a>          
@@ -378,7 +378,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </a>          
         </li> -->
         <li class="header">LAINNYA</li>
-        <li class="<?php echo active_page_print('feedback','active'); ?> treeview">
+        <li class="<?php echo active_page_print('feedback','active'); ?>">
           <a href="<?php echo base_url('feedback'); ?>">
             <i class="fa fa-comments-o"></i> <span>Feedback</span>
             <span class="pull-right-container">
@@ -386,7 +386,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </span>
           </a>          
         </li>
-        <li class="<?php echo active_page_print('about','active'); ?> treeview">
+        <li class="<?php echo active_page_print('about','active'); ?>">
           <a href="<?php echo base_url('about'); ?>" class="show">
             <i class="fa fa-exclamation-circle"></i> <span>Tentang</span>
           </a>          
