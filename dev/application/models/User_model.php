@@ -251,7 +251,7 @@ class User_model extends My_Models_Configuration{
 				echo "error, reload again!";
 			}
 		}
-	  }
+	}
   
   	private function generatepdf($header,$data,$judul,$lvl){
 	    //load library tcpdf
