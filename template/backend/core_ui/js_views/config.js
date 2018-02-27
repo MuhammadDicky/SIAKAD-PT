@@ -63,10 +63,13 @@ $(function(){
   /*END -- Moment JS*/
 
   /*Mousewheel Horizontal*/
-  $('.control-panel-data').mousewheel(function(eve,delta){
-    eve.preventDefault();
-    this.scrollLeft -= (delta*40);
-  });
+  try{
+    $('.control-panel-data').mousewheel(function(eve,delta){
+      eve.preventDefault();
+      this.scrollLeft -= (delta*40);
+    });
+  }
+  catch(error){}
   /*END -- Mousewheel Horizontal*/
 
   /*HASHCHANGE*/
