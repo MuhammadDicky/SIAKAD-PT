@@ -305,7 +305,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		elseif ($_this->site->side == 'frontend' && !$_this->uri->segment(1)) {
 			if ($page == '') {
 				return $class;
-			}			
+			}
 		}
 	}
 
@@ -368,12 +368,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					return $Config->_web_name;
 				}
 			}
-		}		
+		}
 		elseif($_this->uri->segment(3)){
 			if ($_this->site->side =='backend' && (array_key_exists($_this->uri->segment(3), $array_backend_page))) {
 				return $array_backend_page[$_this->uri->segment(3)].' | '.$Config->_web_name;
 			}
-		}						
+		}
 	}
 
 	function content_header(){
