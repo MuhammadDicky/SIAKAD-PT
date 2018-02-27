@@ -82,6 +82,9 @@
 		              				<dl class="dl-horizontal">
 		              					<dt>Version</dt>
 						                <dd><?php echo CI_VERSION; ?></dd>
+
+														<dt>Status</dt>
+						                <dd class="detail-config-siakad detail_app_environment"></dd>
 					              	</dl>
 						        </div>
 
