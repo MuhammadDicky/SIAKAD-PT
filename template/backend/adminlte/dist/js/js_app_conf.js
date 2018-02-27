@@ -5263,6 +5263,11 @@ $(function(){
       minimumResultsForSearch:-1,
     });
 
+    $(".select2_app_environment").select2({
+      placeholder: "Pilih status aplikasi",
+      minimumResultsForSearch:-1,
+    });
+
     $(".select2_data").select2({
       placeholder: "Pilih data yang ditampilkan",
       minimumResultsForSearch:-1,
