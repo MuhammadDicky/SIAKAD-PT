@@ -273,7 +273,7 @@
 <!-- Slimscroll -->
 <script type="application/javascript" src="<?php echo get_plugin('slimscroll','js')?>"></script>
 <!-- AdminLTE App -->
-<script type="application/javascript" src="<?php echo get_template_assets('dist/js/app.min.js') ?>"></script>
+<script type="application/javascript" src="<?php echo get_template_assets('dist/js/adminlte.min.js') ?>"></script>
 <script type="text/javascript">
     var skins = [
       "skin-blue",
