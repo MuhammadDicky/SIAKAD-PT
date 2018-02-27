@@ -11,26 +11,64 @@ class Dashboard extends Backend_Controller {
 	protected $download_url = 'downloads/temp-download-path/';
 
 	public function __construct(){
-		parent::__construct();		
+		parent::__construct();
 		$this->site->login_status_check();
 	}
-	
+
 	public function index(){
-		$thn = $this->thn_ajaran_model->get_by_search(array('status_jdl ' => 1),TRUE,array('thn_ajaran_jdl'));
-		if ($thn) {
-			$thn_akademik = thn_ajaran_conv($thn->thn_ajaran_jdl);
+		if ($this->site->template == 'adminlte') {
+			$thn = $this->thn_ajaran_model->get_by_search(array('status_jdl ' => 1),TRUE,array('thn_ajaran_jdl'));
+			if ($thn) {
+				$thn_akademik = thn_ajaran_conv($thn->thn_ajaran_jdl);
+			}
+			else{
+				$thn_akademik = '-';
+			}
+			$data = array(
+				'count_mhs' => number_format($this->mahasiswa_model->count(),0,',','.'),
+				'count_alumni' => number_format($this->alumni_model->count(),0,',','.'),
+				'count_ptk' => number_format($this->ptk_model->count(),0,',','.'),
+				'tahun_akademik' => $thn_akademik,
+				'dashboard' => TRUE
+				);
+			$this->site->view('page/'.$this->router->class.'/'.$this->router->method,$data);
 		}
-		else{
-			$thn_akademik = '-';
+		elseif ($this->site->template == 'core_ui') {
+			$data = array(
+				'view' => 'Dashboard'
+				);
+			$this->site->view('index',$data);
 		}
-		$data = array(
-			'count_mhs' => number_format($this->mahasiswa_model->count(),0,',','.'), 
-			'count_alumni' => number_format($this->alumni_model->count(),0,',','.'), 
-			'count_ptk' => number_format($this->ptk_model->count(),0,',','.'), 
-			'tahun_akademik' => $thn_akademik,
-			'dashboard' => TRUE
-			);
-		$this->site->view('page/'.$this->router->class.'/'.$this->router->method,$data);
+
+		$post = $this->input->get(NULL, TRUE);
+		if (isset($post['request_view'])) {
+			if (isset($post['req_info']) && $post['req_info'] == TRUE) {
+				$data = array(
+					'status_page' => 'success',
+					'title_page' => title(),
+					'breadcrumb' => content_path()
+					);
+				echo json_encode($data);
+			}
+			else{
+				if (isset($post['data']) && $post['data'] == TRUE) {
+					$thn = $this->thn_ajaran_model->get_by_search(array('status_jdl ' => 1),TRUE,array('thn_ajaran_jdl'));
+					if ($thn) {
+						$thn_akademik = thn_ajaran_conv($thn->thn_ajaran_jdl);
+					}
+					else{
+						$thn_akademik = '-';
+					}
+					$data = array(
+						'count_mhs' => number_format($this->mahasiswa_model->count(),0,',','.'),
+						'count_alumni' => number_format($this->alumni_model->count(),0,',','.'),
+						'count_ptk' => number_format($this->ptk_model->count(),0,',','.'),
+						'tahun_akademik' => $thn_akademik
+						);
+				}
+				$this->site->view('views/'.$this->router->class.'/'.$this->router->method,@$data);
+			}
+		}
 	}
 
 	public function about(){
@@ -50,7 +88,12 @@ class Dashboard extends Backend_Controller {
 	}
 
 	public function pengaturan(){
-		$this->site->view('page/others/'.$this->router->method,array('settings' => TRUE));
+		if ($this->site->template == 'adminlte') {
+			$this->site->view('page/others/'.$this->router->method,array('settings' => TRUE));
+		}
+		elseif ($this->site->template == 'core_ui') {
+			$this->site->view('index',array('settings' => TRUE));
+		}
 	}
 
 	public function feedback(){
