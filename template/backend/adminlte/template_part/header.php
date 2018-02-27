@@ -474,15 +474,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="content-wrapper">
     <section class="content-header">
         <h1>
-          <?php 
-          echo content_header(); 
+          <?php
+          echo content_header();
           if (content_header() != 'Tentang') {
             echo "<small>Control panel</small>";
           }
-          ?>        
+          ?>
         </h1>
         <ol class="breadcrumb">
-          <li><a href="<?php echo base_url('admin'); ?>" class="text-aqua"><i class="fa fa-cubes"></i>SIAKAD <?php echo web_detail('_logo_lg'); ?></a></li>
-          <?php echo content_path(); ?>
+          <li>
+            <a href="<?php echo base_url('admin'); ?>" class="text-aqua">
+              <i class="fa fa-cubes"></i>SIAKAD <?php echo web_detail('_logo_lg'); ?>
+            </a>
+          </li>
+          <?php foreach (content_path() as $key): ?>
+          <li class="active">
+            <a href="<?php echo $key['link'] ?>" class="<?php echo $key['color'] ?>" style="<?php echo @$key['style'] ?>;">
+              <?php echo $key['icon'].$key['title'] ?>
+            </a>
+          </li>
+          <?php endforeach; ?>
         </ol>
     </section>
