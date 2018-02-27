@@ -500,12 +500,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		if (!$_this->uri->segment(3)) {
 			if ($_this->uri->segment(2)) {
 				if ($_this->site->side =='backend' && (array_key_exists($_this->uri->segment(2), $array_backend_page))) {
-					$content = 
-					'<li class="active"><a href="'.current_url().'" class="'.$array_color_path[$_this->uri->segment(2)].'">'.$array_icon_path[$_this->uri->segment(2)].$array_backend_page[$_this->uri->segment(2)].'</a></li>';
+					$content[] = array(
+						'link' => current_url(),
+						'color' => $array_color_path[$_this->uri->segment(2)],
+						'icon' => $array_icon_path[$_this->uri->segment(2)],
+						'title' => $array_backend_page[$_this->uri->segment(2)]
+					);
 					return $content;
 				}
 				elseif ($_this->site->side =='frontend' && (array_key_exists($_this->uri->segment(2), $array_backend_page))) {
-					$content = 
+					$content =
 					'<li class="active"><a href="'.current_url().'" class="'.$array_color_path[$_this->uri->segment(1)].'">'.$array_icon_path[$_this->uri->segment(1)].$array_backend_page[$_this->uri->segment(1)].'</a></li>'.
 					'<li class="active"><a href="'.current_url().'" style="color:#8aa4af;"><i class="fa fa-circle-o"></i>'.$array_backend_page[$_this->uri->segment(2)].'</a></li>';
 					return $content;
@@ -513,15 +517,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			}
 			elseif ($_this->uri->segment(1)) {
 				if ($_this->site->side =='backend' && (array_key_exists($_this->uri->segment(1), $array_backend_page))) {
-					$content = 
-					'<li class="active"><a href="'.current_url().'" class="'.$array_color_path[$_this->uri->segment(1)].'">'.$array_icon_path[$_this->uri->segment(1)].$array_backend_page[$_this->uri->segment(1)].'</a></li>';
+					$content[] = array(
+						'link' => current_url(),
+						'color' => $array_color_path[$_this->uri->segment(1)],
+						'icon' => $array_icon_path[$_this->uri->segment(1)],
+						'title' => $array_backend_page[$_this->uri->segment(1)]
+					);
 					return $content;
 				}
 				elseif ($_this->site->side =='frontend' && (array_key_exists($_this->uri->segment(1), $array_backend_page))) {
-					$content = 
+					$content =
 					'<li class="active"><a href="'.current_url().'" class="'.$array_color_path[$_this->uri->segment(1)].'">'.$array_icon_path[$_this->uri->segment(1)].$array_backend_page[$_this->uri->segment(1)].'</a></li>';
 					return $content;
-				}				
+				}
 			}
 			elseif(!$_this->uri->segment(1)){
 				$content = '<li class="active"><a href="'.current_url().'" class="text-aqua"><i class="fa fa-dashboard"></i>Dashboard</a></li>';
@@ -530,9 +538,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		elseif($_this->uri->segment(3)){
 			if ($_this->site->side =='backend' && (array_key_exists($_this->uri->segment(3), $array_backend_page))) {
-				$content = 
-				'<li class="active"><a href="'.current_url().'" class="'.$array_color_path[$_this->uri->segment(2)].'">'.$array_icon_path[$_this->uri->segment(2)].$array_backend_page[$_this->uri->segment(2)].'</a></li>'.
-				'<li class="active"><a href="'.current_url().'" style="color:#8aa4af;"><i class="fa fa-circle-o"></i>'.$array_backend_page[$_this->uri->segment(3)].'</a></li>';
+				$content[] = array(
+					'link' => current_url(),
+					'color' => $array_color_path[$_this->uri->segment(2)],
+					'icon' => $array_icon_path[$_this->uri->segment(2)],
+					'title' => $array_backend_page[$_this->uri->segment(2)]
+				);
+				$content[] = array(
+					'link' => current_url(),
+					'color' => '',
+					'icon' => '<i class="fa fa-circle-o"></i>',
+					'title' => $array_backend_page[$_this->uri->segment(3)],
+					'style' => 'color:#8aa4af'
+				);
 				return $content;
 			}
 		}
