@@ -8620,7 +8620,7 @@ $(function(){
 
     /*AJAX Event*/
     $(document).ajaxSuccess(function(eve,xhr){
-      if (xhr.responseJSON['n_token'] != null) {
+      if (xhr.responseJSON && xhr.responseJSON['n_token'] != null) {
         token = xhr.responseJSON['n_token'];
       }
       else{
