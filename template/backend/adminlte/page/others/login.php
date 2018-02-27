@@ -6,6 +6,7 @@
   <title><?php echo title(); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')) ?>" class="logo-pt-element"/>
   <!-- Font -->
   <!-- <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Source Sans Pro/stylesheet.css') ?>">
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Montserrat/stylesheet.css') ?>"> -->
