@@ -1524,8 +1524,8 @@ class Dashboard extends Backend_Controller {
 					);
 				$check_password = $this->user_model->count($where_password);
 				if ($check_password == 1) {
-					$password_crypt = bCrypt($password_baru,12);
-					$update_data = array(						
+					$password_crypt = password_hash($password_baru, PASSWORD_BCRYPT);
+					$update_data = array(
 						'password' => $password_crypt,
 						'uncrypt_password' => $password_baru,
 						);
