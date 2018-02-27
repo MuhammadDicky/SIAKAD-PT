@@ -1680,7 +1680,7 @@ class Data_master extends Backend_Controller {
 
 	public function check_pt(){
 		if ($this->in_pt == NULL) {
-			$check = $this->identitas_universitas_model->count();
+			$check = $this->konfigurasi_model->count(array('nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt));
 			if ($check > 0) {
 				return FALSE;
 			}
@@ -1689,7 +1689,13 @@ class Data_master extends Backend_Controller {
 			}
 		}
 		else{
-			return TRUE;
+			$check = $this->konfigurasi_model->count(array('nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt));
+			if ($check > 0) {
+				return TRUE;
+			}
+			else{
+				return FALSE;
+			}
 		}
 	}
 
