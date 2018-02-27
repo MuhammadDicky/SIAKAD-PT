@@ -62,6 +62,13 @@ $(function(){
   $('.last-online-user-text').text(moment(last_online_user).fromNow());
   /*END -- Moment JS*/
 
+  /*Mousewheel Horizontal*/
+  $('.control-panel-data').mousewheel(function(eve,delta){
+    eve.preventDefault();
+    this.scrollLeft -= (delta*40);
+  });
+  /*END -- Mousewheel Horizontal*/
+
   /*HASHCHANGE*/
   $(window).off('hashchange');
 
