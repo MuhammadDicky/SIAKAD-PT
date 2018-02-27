@@ -6537,7 +6537,7 @@ $(function(){
           var hash = $.param.fragment();
           if (hash.search('edit') == 0) {
             if (path.search('admin/data_akademik/data_mahasiswa') > 0) {
-              $('.file-select-foto').fileinput('refresh',{
+              $(this).fileinput('refresh',{
                 'showUpload':true,
                 'uploadExtraData':{
                   'data':getUrlVars()['mhs'],
@@ -6548,7 +6548,7 @@ $(function(){
               });
             }
             else if (path.search('admin/data_akademik/data_ptk') > 0) {
-              $('.file-select-foto').fileinput('refresh',{
+              $(this).fileinput('refresh',{
                 'showUpload':true,
                 'uploadExtraData':{
                   'data':getUrlVars()['ptk'],
@@ -6560,7 +6560,7 @@ $(function(){
             }
           }
           else{
-            $('.file-select-foto').fileinput('refresh',{
+            $(this).fileinput('refresh',{
               'showUpload':false,
             });
           }
@@ -6572,7 +6572,7 @@ $(function(){
       }
       else{
         $(this).parents().find('.fileinput-remove-button').hide();
-        $('.file-select-foto').fileinput('clear');
+        $(this).fileinput('clear');
       }
     });
     $('.file-select-foto').on('fileuploaded', function(eve,data){
@@ -6583,7 +6583,7 @@ $(function(){
             $('#form-input .photo-file-name').text('Nama File: '+data.response.file_name);
             $('#form-input .remove-photo').show();
           }
-          $('.file-select-foto').fileinput('enable').fileinput('refresh').fileinput('clear');
+          $(this).fileinput('enable').fileinput('refresh').fileinput('clear');
         }
         else{
           $('#alert-place').html(
@@ -6597,7 +6597,7 @@ $(function(){
         }
       }
       else{
-        $('.file-select-foto').fileinput('enable').fileinput('refresh').fileinput('clear');
+        $(this).fileinput('enable').fileinput('refresh').fileinput('clear');
       }
       token = data.response.n_token;
     });
@@ -6615,6 +6615,7 @@ $(function(){
         );
       }
       else{
+        $(this).parents().find('.fileinput-remove-button').show();
         $(this).parents().find('.fileinput-upload-button').replaceWith('');
         $('#alert-place').html(
           '<div class="alert alert-danger alert-dismissible">'
