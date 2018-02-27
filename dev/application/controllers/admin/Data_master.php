@@ -48,7 +48,30 @@ class Data_master extends Backend_Controller {
 	}
 
 	public function data_fakultas_pstudi(){
-		$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
+		if ($this->site->template == 'adminlte') {
+			$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
+		}
+		elseif ($this->site->template == 'core_ui') {
+			$data = array(
+				'view' => 'Data Fakultas & Program Studi'
+				);
+			$this->site->view('index',$data);
+		}
+
+		$post = $this->input->get(NULL, TRUE);
+		if (isset($post['request_view'])) {
+			if (isset($post['req_info']) && $post['req_info'] == TRUE) {
+				$data = array(
+					'status_page' => 'success',
+					'title_page' => title(),
+					'breadcrumb' => content_path()
+					);
+				echo json_encode($data);
+			}
+			else{
+				$this->site->view('views/'.$this->router->class.'/'.$this->router->method);
+			}
+		}
 	}
 
 	public function data_thn_akademik(){
