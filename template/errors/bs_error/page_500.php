@@ -9,44 +9,48 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Gentellela Alela! | </title>
-
+    <title>Error 500 | Page Error</title>
+    <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')) ?>"/>
     <!-- Bootstrap -->
-    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo get_template_assets('adminlte/bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <!-- NProgress -->
-    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="<?php echo get_plugin('fontawesome','css') ?>">
     <!-- Custom Theme Style -->
-    <link href="../build/css/custom.min.css" rel="stylesheet">
+    <link href="<?php echo get_template_assets('adminlte/dist/css/custom.min.css') ?>" rel="stylesheet">
+    <style type="text/css">     
+      .centered-content{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 130px;
+      }
+    </style>
   </head>
 
-  <body class="nav-md">
+  <body class="nav-md bg-red">
     <div class="container body">
       <div class="main_container">
         <!-- page content -->
-        <div class="col-md-12">
+        <div class="col-md-12 col-xs-12 centered-content">
           <div class="col-middle">
-            <div class="text-center">
-              <h1 class="error-number">500</h1>
-              <h2>Internal Server Error</h2>
-              <p>We track these errors automatically, but if the problem persists feel free to contact us. In the meantime, try refreshing. <a href="#">Report this?</a>
+            <div class="text-center text-center">
+              <h1 class="error-number"><li class="fa fa-times"></li> Error 500</h1>
+              <h2>Maaf tapi halaman yang anda cari untuk saat ini tidak bisa diakses atau server error</h2>
+              <p>Halaman ini saat ini tidak bisa dijangkau. 
+              <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']==TRUE): ?>
+              Kembali ke <a href="<?php if ($_SESSION['level_akses']=='admin') {
+                  echo base_url('admin');
+                }
+                else{
+                  echo base_url();
+                }
+                 ?>" class="btn btn-info btn-sm">Halaman Utama</a>                
               </p>
-              <div class="mid_center">
-                <h3>Search</h3>
-                <form>
-                  <div class="col-xs-12 form-group pull-right top_search">
-                    <div class="input-group">
-                      <input type="text" class="form-control" placeholder="Search for...">
-                      <span class="input-group-btn">
-                              <button class="btn btn-default" type="button">Go!</button>
-                          </span>
-                    </div>
-                  </div>
-                </form>
-              </div>
+              <?php endif ?>
+              <?php if (!isset($_SESSION['logged_in'])): ?>
+              Silahkan <a href="<?php echo base_url('login'); ?>" class="btn btn-success">Login</a>
+              </p>
+              <?php endif ?>
             </div>
           </div>
         </div>
@@ -54,16 +58,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>
     </div>
 
-    <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- FastClick -->
-    <script src="../vendors/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
-
-    <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
   </body>
 </html>
