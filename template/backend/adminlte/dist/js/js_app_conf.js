@@ -11086,11 +11086,17 @@ $(function(){
         $.each(results.data, function(index,data_record){
           if (data_record.template_status == 1) {
             $.each(data_record, function(in_dt,dt){
+              if (in_dt == 'template_image' && dt != '') {
+                $('img.detail_template_'+in_dt).attr('src',dt).css('margin-bottom','-10px').show();
+              }
+              else if (in_dt == 'template_image' && dt == '') {
+                $('img.detail_template_'+in_dt).hide();
+              }
+
               if (dt == '') {
                 dt = '-';
               }
               $('#detail_aktif_template_container').find('dd.detail_template_'+in_dt).html(dt);
-              $('img.detail_template_'+in_dt).attr('src',dt).show();
             });
             return false;
           }
