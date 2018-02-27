@@ -160,14 +160,19 @@ class Data_master extends Backend_Controller {
 							'email'           => strtolower($post['email']),
 							'website'         => strtolower($post['website']),
 						);
-						$save = $this->identitas_universitas_model->insert($data);
+						$data = array(
+							'nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt,
+							'isi_konfigurasi' => serialize($data_pt)
+						);
+						$save = $this->konfigurasi_model->insert($data);
 						if ($save) {
-							$record = $this->identitas_universitas_model->get_by(array('id' => $save));
+							$record = $this->konfigurasi_model->get_by_search(array('nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt), TRUE);
+							$data_identitas_pt[] = unserialize($record->isi_konfigurasi);
 							$record_pt = array();
-							foreach ($record as $key) {
+							foreach ($data_identitas_pt as $key) {
 								$tgl_pt = array(
-									'tgl_berdiri' => date_convert($key->tgl_berdiri),
-									'tgl_sk_pend' => date_convert($key->tgl_sk_pend),
+									'tgl_berdiri' => date_convert($key['tgl_berdiri']),
+									'tgl_sk_pend' => date_convert($key['tgl_sk_pend']),
 									);
 								$record_pt[] = array_merge((array)$key,$tgl_pt);
 							}
@@ -305,12 +310,12 @@ class Data_master extends Backend_Controller {
 			}
 			elseif ($param == 'update') {
 				if (isset($post['data_identitas_pt'])) {
-					$this->in_pt = $post['id'];
-					$rules = $this->identitas_universitas_model->rules;
+					$this->in_pt = TRUE;
+					$rules = $this->konfigurasi_model->rules_identitas_pt;
 					$this->form_validation->set_rules($rules);
 
 					if ($this->form_validation->run() == TRUE) {
-						$data = array(
+						$data_pt = array(
 							'nama'            => strtoupper($post['nama']),
 							'kpt'             => $post['kpt'],
 							'kategori'        => $post['kategori'],
@@ -346,16 +351,20 @@ class Data_master extends Backend_Controller {
 							'email'           => strtolower($post['email']),
 							'website'         => strtolower($post['website']),
 						);
-						$where = array('id' => $post['id']);
-						$update = $this->identitas_universitas_model->update($data,$where);
+						$where = array('nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt);
+						$data = array(
+							'isi_konfigurasi' => serialize($data_pt)
+						);
+						$update = $this->konfigurasi_model->update($data, $where);
 						$update_fields = $this->db->affected_rows();
 						if ($update && $update_fields > 0) {
-							$record = $this->identitas_universitas_model->get_by(array('id' => $post['id']));
+							$record = $this->konfigurasi_model->get_by_search(array('nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt), TRUE);
+							$data_identitas_pt[] = unserialize($record->isi_konfigurasi);
 							$record_pt = array();
-							foreach ($record as $key) {
+							foreach ($data_identitas_pt as $key) {
 								$tgl_pt = array(
-									'tgl_berdiri' => date_convert($key->tgl_berdiri),
-									'tgl_sk_pend' => date_convert($key->tgl_sk_pend),
+									'tgl_berdiri' => date_convert($key['tgl_berdiri']),
+									'tgl_sk_pend' => date_convert($key['tgl_sk_pend']),
 									);
 								$record_pt[] = array_merge((array)$key,$tgl_pt);
 							}
