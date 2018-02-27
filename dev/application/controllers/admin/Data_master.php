@@ -69,7 +69,7 @@ class Data_master extends Backend_Controller {
 		$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
 	}
 
-	public function data_kelas(){		
+	public function data_kelas(){
 		$this->site->view('data_kelas');
 	}
 
@@ -83,8 +83,8 @@ class Data_master extends Backend_Controller {
 					$rules = $this->thn_ajaran_model->rules;
 					$this->form_validation->set_rules($rules);
 
-					if ($this->form_validation->run() == TRUE) {					
-						$data = array(						
+					if ($this->form_validation->run() == TRUE) {
+						$data = array(
 							'thn_ajaran_jdl' => $this->thn_ajaran,
 							'tgl_mulai_thn_ajar' => $post['tgl_mulai_thn_ajar'],
 							'tgl_akhir_thn_ajar' => $post['tgl_akhir_thn_ajar'],
@@ -116,8 +116,8 @@ class Data_master extends Backend_Controller {
 					$rules = $this->thn_angkatan_model->rules;
 					$this->form_validation->set_rules($rules);
 
-					if ($this->form_validation->run() == TRUE) {					
-						$data = array(						
+					if ($this->form_validation->run() == TRUE) {
+						$data = array(
 							'tahun_angkatan' => $post['thn_angkatan'],
 							'tgl_masuk_angkatan' => $post['tgl_masuk_angkatan'],
 							);
@@ -164,7 +164,7 @@ class Data_master extends Backend_Controller {
 							'cabang_kcp_unit' => ucwords($post['cabang_kcp_unit']),
 							'rekening_nama'   => $post['rekening_nama'],
 							'luas_tanah_m'    => $post['luas_tanah_m'],
-							'luas_tanah_bm'   => $post['luas_tanah_bm'],							
+							'luas_tanah_bm'   => $post['luas_tanah_bm'],
 							'sertifikat_iso'  => $post['sertifikat_iso'],
 							'sumber_listrik'  => $post['sumber_listrik'],
 							'daya_listrik'    => $post['daya_listrik'],
@@ -223,8 +223,8 @@ class Data_master extends Backend_Controller {
 					$rules = $this->fakultas_model->rules;
 					$this->form_validation->set_rules($rules);
 
-					if ($this->form_validation->run() == TRUE) {					
-						$data = array(						
+					if ($this->form_validation->run() == TRUE) {
+						$data = array(
 							'nama_fakultas' => ucwords($post['nama_fakultas']),
 							'dekan' => ucwords($post['dekan']),
 							'tgl_berdiri' => $post['tgl_berdiri'],
@@ -255,18 +255,18 @@ class Data_master extends Backend_Controller {
 					$rules = $this->prodi_model->rules;
 					$this->form_validation->set_rules($rules);
 
-					if ($this->form_validation->run() == TRUE) {					
+					if ($this->form_validation->run() == TRUE) {
 						$data = array(
 							'id_fk_pd' => $post['id_fk_pd'],
 							'kode_prodi' => $post['kode_prodi'],
 							'nama_prodi' => ucwords($post['nama_prodi']),
 							'nama_kprodi' => ucwords($post['nama_kprodi']),
-							'jenjang_prodi' => $post['jenjang_prodi'],					
+							'jenjang_prodi' => $post['jenjang_prodi'],
 							'akreditasi_prodi' => $post['akreditasi_prodi'],
-							'status_prodi' => $post['status_prodi'],							
+							'status_prodi' => $post['status_prodi'],
 							'tgl_berdiri_prodi' => $post['tgl_berdiri_prodi'],
 							'sk_peny_prodi' => strtoupper($post['sk_peny_prodi']),
-							'tgl_sk_prodi' => $post['tgl_sk_prodi'],							
+							'tgl_sk_prodi' => $post['tgl_sk_prodi'],
 							'alamat_prodi' => $post['alamat_prodi'],
 							'kode_pos_prodi' => $post['kode_pos_prodi'],
 							'telpon_prodi' => $post['telpon_prodi'],
@@ -299,7 +299,7 @@ class Data_master extends Backend_Controller {
 					$rules = $this->konsentrasi_pd_model->rules;
 					$this->form_validation->set_rules($rules);
 
-					if ($this->form_validation->run() == TRUE) {					
+					if ($this->form_validation->run() == TRUE) {
 						$data = array(
 							'id_pd_konst' => $post['id_pd_konst'],
 							'nm_konsentrasi' => ucwords($post['nm_konsentrasi'])
@@ -355,7 +355,7 @@ class Data_master extends Backend_Controller {
 							'cabang_kcp_unit' => ucwords($post['cabang_kcp_unit']),
 							'rekening_nama'   => $post['rekening_nama'],
 							'luas_tanah_m'    => $post['luas_tanah_m'],
-							'luas_tanah_bm'   => $post['luas_tanah_bm'],							
+							'luas_tanah_bm'   => $post['luas_tanah_bm'],
 							'sertifikat_iso'  => $post['sertifikat_iso'],
 							'sumber_listrik'  => $post['sumber_listrik'],
 							'daya_listrik'    => $post['daya_listrik'],
@@ -414,7 +414,7 @@ class Data_master extends Backend_Controller {
 							'status' => 'failed',
 							'errors'=> $this->form_validation->error_array()
 							);
-					}					
+					}
 				}
 				elseif (isset($post['data_thn_akademik'])) {
 					$this->thn_ajaran = $post['thn_ajar'].'/'.$post['smstr'];
@@ -422,8 +422,8 @@ class Data_master extends Backend_Controller {
 					$rules = $this->thn_ajaran_model->rules;
 					$this->form_validation->set_rules($rules);
 
-					if ($this->form_validation->run() == TRUE) {					
-						$data = array(						
+					if ($this->form_validation->run() == TRUE) {
+						$data = array(
 							'thn_ajaran_jdl' => $this->thn_ajaran,
 							'tgl_mulai_thn_ajar' => $post['tgl_mulai_thn_ajar'],
 							'tgl_akhir_thn_ajar' => $post['tgl_akhir_thn_ajar'],
@@ -454,8 +454,8 @@ class Data_master extends Backend_Controller {
 					$rules = $this->thn_angkatan_model->rules;
 					$this->form_validation->set_rules($rules);
 
-					if ($this->form_validation->run() == TRUE) {					
-						$data = array(						
+					if ($this->form_validation->run() == TRUE) {
+						$data = array(
 							'tahun_angkatan' => $post['thn_angkatan'],
 							'tgl_masuk_angkatan' => $post['tgl_masuk_angkatan'],
 							);
@@ -486,7 +486,7 @@ class Data_master extends Backend_Controller {
 
 					if ($this->form_validation->run() == TRUE) {
 						$id_fk = array('id_fk' => $post['id_fk']);
-						$data = array(						
+						$data = array(
 							'nama_fakultas' => ucwords($post['nama_fakultas']),
 							'dekan' => ucwords($post['dekan']),
 							'tgl_berdiri' => $post['tgl_berdiri'],
@@ -518,19 +518,19 @@ class Data_master extends Backend_Controller {
 					$this->form_validation->set_rules($rules);
 					$this->kd_pd = $post['id_prodi'];
 
-					if ($this->form_validation->run() == TRUE) {					
-						$id_pd = array('id_prodi' => $post['id_prodi']);						
+					if ($this->form_validation->run() == TRUE) {
+						$id_pd = array('id_prodi' => $post['id_prodi']);
 						$data = array(
 							'id_fk_pd' => $post['id_fk_pd'],
 							'kode_prodi' => $post['kode_prodi'],
 							'nama_prodi' => ucwords($post['nama_prodi']),
 							'nama_kprodi' => ucwords($post['nama_kprodi']),
-							'jenjang_prodi' => $post['jenjang_prodi'],					
+							'jenjang_prodi' => $post['jenjang_prodi'],
 							'akreditasi_prodi' => $post['akreditasi_prodi'],
-							'status_prodi' => $post['status_prodi'],							
+							'status_prodi' => $post['status_prodi'],
 							'tgl_berdiri_prodi' => $post['tgl_berdiri_prodi'],
 							'sk_peny_prodi' => strtoupper($post['sk_peny_prodi']),
-							'tgl_sk_prodi' => $post['tgl_sk_prodi'],							
+							'tgl_sk_prodi' => $post['tgl_sk_prodi'],
 							'alamat_prodi' => $post['alamat_prodi'],
 							'kode_pos_prodi' => $post['kode_pos_prodi'],
 							'telpon_prodi' => $post['telpon_prodi'],
@@ -557,14 +557,14 @@ class Data_master extends Backend_Controller {
 							'status' => 'failed',
 							'errors'=> $this->form_validation->error_array()
 							);
-					}					
+					}
 				}
 				elseif (isset($post['data_konsentrasi_pd'])) {
 					$rules = $this->konsentrasi_pd_model->rules;
 					$this->in_konst = $post['id_konst'];
 					$this->form_validation->set_rules($rules);
 
-					if ($this->form_validation->run() == TRUE) {					
+					if ($this->form_validation->run() == TRUE) {
 						$data = array(
 							'id_pd_konst' => $post['id_pd_konst'],
 							'nm_konsentrasi' => ucwords($post['nm_konsentrasi'])
@@ -627,15 +627,15 @@ class Data_master extends Backend_Controller {
 								'id' => $value->id_thn_angkatan,
 								'text' => $value->tahun_angkatan
 								);
-						}		
+						}
 						$result = array(
 							'thn_angkatan' => $record,
 							'total_count' => $total_rows
 							);
-					}					
+					}
 					else{
 						$result['thn_angkatan'] = '';
-					}					
+					}
 				}
 				elseif ($post['data']=='data_thn_akademik') {
 					$record = $this->thn_ajaran_model->get_by_search(array('id_thn_ak' => $post['thn']),FALSE,array('id_thn_ak','thn_ajaran_jdl','tgl_mulai_thn_ajar','tgl_akhir_thn_ajar'));
@@ -681,12 +681,12 @@ class Data_master extends Backend_Controller {
 									'text' => thn_ajaran_conv($value->thn_ajaran_jdl),
 									'thn_ajaran_jdl' => $value->thn_ajaran_jdl
 									);
-							}		
+							}
 							$result = array(
 								'thn_ajaran' => $record,
 								'total_count' => $total_rows
 								);
-						}					
+						}
 						else{
 							$result['thn_ajaran'] = '';
 						}
@@ -768,15 +768,15 @@ class Data_master extends Backend_Controller {
 								'id' => $value->id_fk,
 								'text' => $value->nama_fakultas
 								);
-						}		
+						}
 						$result = array(
 							'fk' => $record,
 							'total_count' => $total_rows
 							);
-					}					
+					}
 					else{
 						$result['fk'] = '';
-					}					
+					}
 				}
 				elseif ($post['data']=='daftar_pd') {
 					$cari = $post['value'];
@@ -790,15 +790,15 @@ class Data_master extends Backend_Controller {
 								'id' => $value->id_prodi,
 								'text' => $value->nama_prodi.' ('.$value->jenjang_prodi.')'
 								);
-						}		
+						}
 						$result = array(
 							'pd' => $record,
 							'total_count' => $total_rows
 							);
-					}					
+					}
 					else{
 						$result['pd'] = '';
-					}					
+					}
 				}
 				elseif ($post['data']=='detail_fk') {
 					$fakultas = $this->prodi_model->get_detail_data('get',array('fakultas'),NULL,array('id_fk_pd' => $post['id']),NULL,array('id_prodi','id_fk_pd','kode_prodi','nama_prodi','status_prodi','jenjang_prodi','nama_fakultas','dekan','akreditasi_fk','tgl_berdiri'));
@@ -917,15 +917,15 @@ class Data_master extends Backend_Controller {
 								'nama_prodi' => $value->nama_prodi,
 								'jenjang_prodi' => $value->jenjang_prodi
 								);
-						}		
+						}
 						$result = array(
 							'konsentrasi' => $record,
 							'total_count' => $total_rows
 							);
-					}					
+					}
 					else{
 						$result['konsentrasi'] = '';
-					}					
+					}
 				}
 				elseif ($post['data']=='check_data_master') {
 					$id_ptk_check = array();
@@ -1010,22 +1010,22 @@ class Data_master extends Backend_Controller {
 			}
 			elseif ($param == 'ambil_id') {
 				if ($post['data']=='data_fakultas') {
-					$id = array('id_fk' => $post['id_fk']);					
-					$select_fk = array('id_fk','nama_fakultas');										
-					$record_fk = $this->fakultas_model->get_by_search($id,FALSE,$select_fk);					
+					$id = array('id_fk' => $post['id_fk']);
+					$select_fk = array('id_fk','nama_fakultas');
+					$record_fk = $this->fakultas_model->get_by_search($id,FALSE,$select_fk);
 					$result = array(
 							'total_rows' => count($record_fk),
-							'record_fk' => $record_fk,							
-							);					
+							'record_fk' => $record_fk,
+							);
 				}
 				elseif ($post['data']=='data_prodi') {
-					$id = array('id_prodi' => $post['id_pd']);					
+					$id = array('id_prodi' => $post['id_pd']);
 					$select_pd = array('id_prodi','id_fk_pd','nama_prodi','jenjang_prodi');
 					$record_pd = $this->prodi_model->get_by_search($id,FALSE,$select_pd);
 					$result = array(
 							'total_rows' => count($record_pd),
-							'record_pd' => $record_pd,							
-							);					
+							'record_pd' => $record_pd,
+							);
 				}
 				else{
 					$result = array('status_action' => 'Not find...');
@@ -1038,7 +1038,7 @@ class Data_master extends Backend_Controller {
 					$delete_fk_by = array('id_fk' => $post['id_fk']);
 					$delete_fk = $this->fakultas_model->delete_by($delete_fk_by);
 
-					if ($delete_fk) {						
+					if ($delete_fk) {
 						$data = 'data_fakultas';
 						$result = array(
 							'status' => 'success',
@@ -1053,7 +1053,7 @@ class Data_master extends Backend_Controller {
 					$delete_pd_by = array('id_prodi' => $post['id_prodi']);
 					$delete_pd = $this->prodi_model->delete_by($delete_pd_by);
 
-					if ($delete_pd) {						
+					if ($delete_pd) {
 						$data = 'data_prodi';
 						$result = array(
 							'status' => 'success',
@@ -1068,7 +1068,7 @@ class Data_master extends Backend_Controller {
 					$delete_konst_by = array('id_konst' => $post['id_konst']);
 					$delete_konst = $this->konsentrasi_pd_model->delete_by($delete_konst_by);
 
-					if ($delete_konst) {						
+					if ($delete_konst) {
 						$data = 'data_konsentrasi_pd';
 						$result = array(
 							'status' => 'success',
@@ -1087,7 +1087,7 @@ class Data_master extends Backend_Controller {
 							$id_fk = $key;
 							$where_fk = array('id_fk' => $id_fk);
 							$delete_fk = $this->fakultas_model->delete_by($where_fk);
-						}						
+						}
 						if ($delete_fk) {
 							$result = array('status' => 'success');
 						}
@@ -1103,11 +1103,11 @@ class Data_master extends Backend_Controller {
 							$id_fk = $i[1];
 							$where_pd = array('id_prodi' => $id_pd);
 							$delete_pd = $this->prodi_model->delete_by($where_pd);
-						}						
+						}
 						if ($delete_pd) {
 							$result = array(
-								'status' => 'success', 
-								'data' => $id_fk, 
+								'status' => 'success',
+								'data' => $id_fk,
 								);
 						}
 						else{
@@ -1208,14 +1208,14 @@ class Data_master extends Backend_Controller {
 	public function data_table_request($param){
 		$post = $this->input->post(NULL, TRUE);
 		if ($param == 'data_thn_akademik') {
-			$fetch_data = $this->thn_ajaran_model->make_datatables();  
-			$data = array();  
+			$fetch_data = $this->thn_ajaran_model->make_datatables();
+			$data = array();
 			foreach($fetch_data as $row){
 				$sub_query[] = '(SELECT COUNT(*) FROM
 									(SELECT * FROM {PRE}kelas_nilai_mhs
 									LEFT JOIN {PRE}jadwal_kuliah ON {PRE}jadwal_kuliah.id_jdl = {PRE}kelas_nilai_mhs.id_jdl_kls
 									LEFT JOIN {PRE}thn_akademik ON {PRE}thn_akademik.id_thn_ak = {PRE}jadwal_kuliah.id_thn_ak_jdl
-									WHERE id_thn_ak_jdl = '.$row->id_thn_ak.' 
+									WHERE id_thn_ak_jdl = '.$row->id_thn_ak.'
 									GROUP BY id_mhs_kls) count_mhs
 								) AS jml_mhs';
 				$sub_query[] = '(SELECT COUNT(*) FROM
@@ -1250,8 +1250,8 @@ class Data_master extends Backend_Controller {
 			$recordsFiltered = $this->thn_ajaran_model->get_filtered_data();
 		}
 		elseif ($param == 'data_thn_angkatan') {
-			$fetch_data = $this->thn_angkatan_model->make_datatables();  
-			$data = array();  
+			$fetch_data = $this->thn_angkatan_model->make_datatables();
+			$data = array();
 			foreach($fetch_data as $row){
 				if ($row->tgl_masuk_angkatan == '0000-00-00') {
 					$tgl_masuk = '-';
@@ -1271,8 +1271,8 @@ class Data_master extends Backend_Controller {
 			$recordsFiltered = $this->thn_angkatan_model->get_filtered_data();
 		}
 		elseif ($param == 'data_fakultas') {
-			$fetch_data = $this->fakultas_model->make_datatables();  
-			$data = array();  
+			$fetch_data = $this->fakultas_model->make_datatables();
+			$data = array();
 			foreach($fetch_data as $row){
 				$date = array('tgl_berdiri' => date_convert($row->tgl_berdiri));
 				$data[]      = array_merge((array)$row,$date);
@@ -1282,7 +1282,7 @@ class Data_master extends Backend_Controller {
 		}
 		elseif ($param == 'data_prodi') {
 			$fetch_data = $this->prodi_model->make_datatables();
-			$data = array();  
+			$data = array();
 			foreach($fetch_data as $row){
 				if ($row->status_prodi == 1) {
 					$status_pd = 'Aktif';
@@ -1300,8 +1300,8 @@ class Data_master extends Backend_Controller {
 			$recordsTotal = $this->prodi_model->get_all_data();
 			$recordsFiltered = $this->prodi_model->get_filtered_data();
 		}
-		$output = array(  
-			"draw"            => intval(@$post["draw"]),  
+		$output = array(
+			"draw"            => intval(@$post["draw"]),
 			"recordsTotal"    => @$recordsTotal,
 			"recordsFiltered" => @$recordsFiltered,
 			"data"            => @$data,
@@ -1474,11 +1474,11 @@ class Data_master extends Backend_Controller {
 			$thn = $this->thn_angkatan_model->get_by_search($where,TRUE,$select_fld);
 			$count_mhs = $thn->count_mhs;
 
-			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa 
+			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
 								WHERE id_pd_mhs = id_prodi AND thn_angkatan = '.$post['thn_ak'].') AS count_mhs_pd';
-			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa 
+			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
 								WHERE id_pd_mhs = id_prodi AND thn_angkatan = '.$post['thn_ak'].' AND jk = "L") AS count_mhs_lk';
-			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa 
+			$sub_query_pd[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
 								WHERE id_pd_mhs = id_prodi AND thn_angkatan = '.$post['thn_ak'].' AND jk = "P") AS count_mhs_pr';
 			$select_fld = array_merge(array('id_prodi','nama_prodi','jenjang_prodi'),$sub_query_pd);
 			$daftar_pd = $this->prodi_model->get_by_search(NULL,FALSE,$select_fld);
@@ -1552,7 +1552,7 @@ class Data_master extends Backend_Controller {
 	public function kd_pd_check($string){
 		$id_pd = $this->kd_pd;
 		if ($id_pd == NULL) {
-			if (!empty($string)) {			
+			if (!empty($string)) {
 				$kd_pd_check = array('kode_prodi' => $string);
 				$check = $this->prodi_model->count($kd_pd_check);
 				if ($check > 0) {
@@ -1560,10 +1560,10 @@ class Data_master extends Backend_Controller {
 				}
 				else{
 					return TRUE;
-				}			
+				}
 			}
-			else{			
-				return TRUE;			
+			else{
+				return TRUE;
 			}
 		}
 		else{

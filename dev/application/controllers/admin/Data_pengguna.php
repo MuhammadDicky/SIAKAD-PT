@@ -33,7 +33,7 @@ class Data_pengguna extends Backend_Controller {
 		$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
 	}
 
-	public function action($param){		
+	public function action($param){
 		if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 			$post = $this->input->post(NULL, TRUE);
 			if ($param == 'ambil') {

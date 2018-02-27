@@ -148,17 +148,18 @@ $(function(){
         +'</div>'
         );
       }
-      /*Check Backup File*/
-      load_backup_tbl();
-
-      /*Load List Menu*/
-      list_menu('all');
 
       /*Load Config*/
       get_app_config();
 
       /*Load list template*/
       get_list_template();
+
+      /*Load List Menu*/
+      list_menu('all');
+
+      /*Check Backup File*/
+      load_backup_tbl();
 
       /*Sortable Master Plugin*/
       /*END -- Sortable Master Plugin*/
@@ -2648,7 +2649,7 @@ $(function(){
       $('#myModal .file-select-foto').fileinput('clear');
       $('#myModal .file-select-foto').parents().find('.fileinput-remove-button').hide();
     });
-    $('#myModal-pt').on('hidden.bs.modal',function(e){
+    $('#myModal-pt').on('hidden.bs.modal', function(e){
       modal_animated('zoomOutDown');
       $('#myModal-pt input').val('');
       $("#myModal-pt").find('.has-error').removeClass('has-error');
@@ -3153,7 +3154,7 @@ $(function(){
           btn_act.removeClass('fa-times fa-circle-o-notch fa-spin').addClass('fa-pencil-square');
         },1000);
       });
-    });    
+    });
 
     $('.info').on('click', function(){
       var html;
@@ -6020,10 +6021,10 @@ $(function(){
     $('.form-group .backup_db').on('ifClicked', function(eve){
       $(this).val(this.value);
     });
-    $('input[type="radio"]').iCheck({      
+    $('input[type="radio"]').iCheck({
       radioClass: 'iradio_flat-blue'
     });
-    $('input[type="checkbox"]').iCheck({      
+    $('input[type="checkbox"]').iCheck({
       checkboxClass: 'icheckbox_flat-blue'
     });
 

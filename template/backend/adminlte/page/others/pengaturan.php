@@ -857,7 +857,7 @@
 			        <!-- /.box-body -->
 		      	</div>
 			</div>
-		</div>		
+		</div>
 	</section>
 
 	<div class="modal style-2 modal-default fade" id="myModal" role="dialog" data-keyboard="true">
@@ -981,7 +981,7 @@
 					        	<div class="form-group" id="color_menu">
 									<label for="color_menu">Color Menu</label>
 									<input type="text" class="form-control color_menu color-input-text" name="color_menu" placeholder="Masukkan kode warna, Contoh: #39cccc">
-				                </div>	
+				                </div>
 				        	</div>
 				        	<div class="col-md-6">
 					        	<div class="form-group" id="icon_menu">
@@ -1095,7 +1095,7 @@
 		                  </div>
 		                </div>
 	          		</div>
-          		</div>		          		
+          		</div>
           	</form>
           	<div class="data-message">
             	<div class="centered-content content-message"></div>
@@ -1110,7 +1110,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-outline cancel" id="batal" data-dismiss="modal">Batal</button>
-            <button type="button" class="btn btn-outline submit submit-btn" id="submit">Backup Database</button>            
+            <button type="button" class="btn btn-outline submit submit-btn" id="submit">Backup Database</button>
           </div>
 
         </div>

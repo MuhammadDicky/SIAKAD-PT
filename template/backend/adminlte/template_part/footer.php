@@ -212,7 +212,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="application/javascript" src="<?php echo get_plugin('jquery','js') ?>"></script>
 <script type="text/javascript">
   jQuery.browser = {};
-  (function(){
+  $(function(){
     jQuery.browser.msie = false;
     jQuery.browser.version = 0;
     if (navigator.userAgent.match(/MSIE ([0-9] +)\ . /)) {

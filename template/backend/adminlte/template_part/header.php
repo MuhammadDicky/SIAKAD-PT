@@ -1,4 +1,4 @@
-<?php 
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
@@ -15,16 +15,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Montserrat/stylesheet.css') ?>"> -->
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Raleway/stylesheet.css') ?>">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="<?php echo get_template_assets('bootstrap/css/bootstrap.min.css') ?>">  
+  <link rel="stylesheet" href="<?php echo get_template_assets('bootstrap/css/bootstrap.min.css') ?>">
   <!-- Pace style -->
   <link rel="stylesheet" href="<?php echo get_plugin('pace','css')?>">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="<?php echo get_plugin('fontawesome','css') ?>">
   <!-- Select2 -->
-  <link rel="stylesheet" href="<?php echo get_plugin('select2','css') ?>">  
+  <link rel="stylesheet" href="<?php echo get_plugin('select2','css') ?>">
   <!-- iCheck for checkboxes and radio inputs -->
-  <link rel="stylesheet" href="<?php echo get_plugin('icheck','css','all')?>">  
-  <link rel="stylesheet" href="<?php echo get_plugin('icheck','css','flat_blue') ?>">  
+  <link rel="stylesheet" href="<?php echo get_plugin('icheck','css','all')?>">
+  <link rel="stylesheet" href="<?php echo get_plugin('icheck','css','flat_blue') ?>">
   <!-- bootstrap datepicker -->
   <link rel="stylesheet" href="<?php echo get_plugin('datepicker','css')?>">
   <!-- Fresh Table Boostrap -->
@@ -32,12 +32,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <!-- DataTables -->
   <link rel="stylesheet" href="<?php echo get_plugin('datatables','css','bs')?>">
   <!-- sweetalert2 -->
-  <link rel="stylesheet" href="<?php echo get_plugin('sweetalert2','css') ?>">  
+  <link rel="stylesheet" href="<?php echo get_plugin('sweetalert2','css') ?>">
   <!-- boostrap-toogle -->
-  <link rel="stylesheet" href="<?php echo get_plugin('bs-toogle-master','css') ?>">  
+  <link rel="stylesheet" href="<?php echo get_plugin('bs-toogle-master','css') ?>">
   <!-- boostrap-timepicker -->
   <link rel="stylesheet" href="<?php echo get_plugin('timepicker','css')?>">
-  <!-- Jquery File Select -->  
+  <!-- Jquery File Select -->
   <link rel="stylesheet" href="<?php echo get_plugin('jquery-file-select','css')?>">
   <link rel="stylesheet" href="<?php echo get_plugin('jquery-file-select','css','rtl')?>">
   <!-- AdminLTE style -->
@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="col-xs-4 text-center">
                     <a href="#">Friends</a>
                   </div>
-                </div>                
+                </div>
               </li> -->
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php endif ?>
                 <div class="pull-right">
                   <a href="<?php echo base_url('logout') ?>" class="btn btn-default btn-flat"><i class="fa fa-sign-out"></i> Log Out</a>
-                </div>                
+                </div>
               </li>
             </ul>
           </li>
@@ -142,7 +142,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>
     </nav>
   </header>
-  
+
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
@@ -186,7 +186,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php if ($key_sub['status_access_sub_menu'] == 1): ?>
                     <li class="<?php echo active_page_print($key_sub['sort_link'],'active'); ?>">
                       <a href="<?php echo $key_sub['link_sub_menu'] ?>">
-                        <i class="fa fa-circle-o"></i> 
+                        <i class="fa fa-circle-o"></i>
                         <?php
                         if (strlen($key_sub['nm_sub_menu']) <= 29) {
                           echo $key_sub['nm_sub_menu'];
@@ -196,11 +196,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         }
                         ?>
                       </a>
-                    </li>  
+                    </li>
                     <?php endif ?>
 
                     <?php if ($key_sub['status_access_sub_menu'] != 1): ?>
-                    <?php 
+                    <?php
                       if ($key_sub['status_access_sub_menu'] == 0) {
                         $strlen = 20;
                         $end_str = 21;
@@ -369,7 +369,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <span class="pull-right-container">
                 <small class="label pull-right bg-green">Soon</small>
               </span>
-            </a>          
+            </a>
           </li>
           <li class="<?php echo active_page_print('pusat_unggahan','active'); ?> treeview">
             <a href="<?php echo set_url('pusat_unggahan'); ?>">
@@ -378,7 +378,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               <span class="pull-right-container">
                 <small class="label pull-right bg-green">Soon</small>
               </span>
-            </a>          
+            </a>
           </li> -->
           <!-- <li class="<?php echo active_page_print('pengolahan_database','active'); ?> treeview">
             <a href="<?php echo set_url('pengolahan_database'); ?>">
