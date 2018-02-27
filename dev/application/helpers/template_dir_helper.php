@@ -69,7 +69,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		elseif ($plugin == 'chartjs') {
 			if ($com == 'js') {
-				$full_url = $set_url.'chartjs/Chart.min.js'.$rand;
+				$full_url = $set_url.'chartjs/Chart.min'.$a_com.'.js'.$rand;
 			}
 		}
 		elseif ($plugin == 'datatables') {
@@ -140,7 +140,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		}
 		elseif ($plugin == 'jquery') {
 			if ($com == 'js') {
-				$full_url = $set_url.'jQuery/jquery-2.2.3.min.js'.$rand;
+				$full_url = $set_url.'jQuery/jquery.min.js'.$rand;
 			}
 		}
 		elseif ($plugin == 'jquery-ui') {
