@@ -6520,7 +6520,7 @@ $(function(){
       'showPreview':true,
       'elErrorContainer':'.validation-ft-inp',
     });
-    $('.file-select-foto, #file-select-logo-pt').on('fileclear', function(){
+    $('.file-select-foto, #file-select-logo-pt, #file-select-image-template').on('fileclear', function(){
       $(this).parents().find('.fileinput-remove-button').hide();
       $('#myModal .new-photo-file-name').text('Nama File: -');
       $('#myModal .new-photo-usr').attr('src',$('#myModal .new-photo-usr').attr('default-photo'));
