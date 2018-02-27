@@ -883,27 +883,24 @@
 							<label for="_app_version">App Version</label>
 							<input type="text" class="form-control _app_version" name="_app_version" placeholder="Masukkan versi aplikasi">
 		                </div>
-		                <div class="form-group" id="_plugin_path">
-							<label for="_plugin_path">Plugin Path</label>
-							<input type="text" class="form-control _plugin_path" name="_plugin_path" placeholder="Masukkan alamat direktori plugin">
-		                </div>
 			        </div>
 			        <div class="col-md-6 col-xs-6">
 			        	<div class="form-group" id="_template_assets">
 							<label for="_template_assets">Template Assets Path</label>
 							<input type="text" class="form-control _template_assets" name="_template_assets" placeholder="Masukkan alamat direktori aset template">
 		                </div>
-			        	<div class="form-group" id="_AdminLTE_version">
-							<label for="_AdminLTE_version">Versi AdminLTE</label>
-							<input type="text" class="form-control _AdminLTE_version" name="_AdminLTE_version" placeholder="Masukkan versi AdminLTE">
+			        	<div class="form-group" id="_plugin_path">
+							<label for="_plugin_path">Plugin Path</label>
+							<input type="text" class="form-control _plugin_path" name="_plugin_path" placeholder="Masukkan alamat direktori plugin">
 		                </div>
-		                <div class="form-group" id="_logo_mini">
-							<label for="_logo_mini">Text Logo Mini</label>
-							<input type="text" class="form-control _logo_mini" name="_logo_mini" placeholder="Masukkan text logo mini AdminLTE">
-		                </div>
-		                <div class="form-group" id="_logo_lg">
-							<label for="_logo_lg">Text Logo Large</label>
-							<input type="text" class="form-control _logo_lg" name="_logo_lg" placeholder="Masukkan text logo large AdminLTE">
+		                <div class="form-group" id="_app_environment">
+							<label for="_app_environment">Status</label>
+							<select class="form-control select2 select2_app_environment _app_environment" style="width: 100%;" name="_app_environment">
+								<option value=""></option>
+								<option value="Development">Development</option>
+								<option value="Testing">Testing</option>
+								<option value="Production">Production</option>
+							</select>
 		                </div>
 			        </div>
 			    </div>
