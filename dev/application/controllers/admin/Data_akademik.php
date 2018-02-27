@@ -3024,73 +3024,78 @@ class Data_akademik extends Backend_Controller {
 			);
 		if ($post['pt'] == 'mhs') {
 			$detail = $this->mahasiswa_model->get($post['data'],TRUE);
-			$config_mhs_photo = array(
-				'upload_path' => './uploads/mhs-photo/',
-				'file_name' => rand_val().md5($detail->id).rand_val().'-mhs',
-				);
-			$config = array_merge($config_mhs_photo,$config);
-			/*$config['upload_path'] = './uploads/mhs-photo/';
-			$config['file_name'] = md5($detail->id).'-mhs';
-			$config['allowed_types'] = 'jpg|jpeg|png';
-			$config['max_size'] = '1024';
-			$config['max_width'] = 512;
-            $config['max_height'] = 512;
-            $config['min_width'] = 312;
-            $config['min_height'] = 312;
-			$config['overwrite'] = TRUE;*/
-			$this->upload->initialize($config);
-			if (!$this->upload->do_upload('photo_mhs')) {
-				if (stristr($this->upload->display_errors(), 'dimensions') == TRUE) {
-					$error = '<li>Dimensi / ukuran foto "<b>'.$_FILES["photo_mhs"]["name"].'</b>" yang diupload tidak sesuai!</li>';
-				}
-				elseif (stristr($this->upload->display_errors(), 'permitted size') == TRUE) {
-					$error = '<li>Ukuran file foto "<b>'.$_FILES["photo_mhs"]["name"].'</b>" yang diupload melebihi ukuran upload maksimal yaitu 1024 KB!</li>';
-				}
-				elseif (stristr($this->upload->display_errors(), 'filetype') == TRUE) {
-					$error = '<li>Format / ekstensi foto yang diupload tidak diizinkan!. Hanya ekstensi "jpg, jpeg, png" yang diizinkan.</li>';
+			if ($detail) {
+				$config_mhs_photo = array(
+					'upload_path' => './uploads/mhs-photo/',
+					'file_name' => rand_val().md5($detail->id).rand_val().'-mhs',
+					);
+				$config = array_merge($config_mhs_photo,$config);
+				/*$config['upload_path'] = './uploads/mhs-photo/';
+				$config['file_name'] = md5($detail->id).'-mhs';
+				$config['allowed_types'] = 'jpg|jpeg|png';
+				$config['max_size'] = '1024';
+				$config['max_width'] = 512;
+	            $config['max_height'] = 512;
+	            $config['min_width'] = 312;
+	            $config['min_height'] = 312;
+				$config['overwrite'] = TRUE;*/
+				$this->upload->initialize($config);
+				if (!$this->upload->do_upload('photo_mhs')) {
+					if (stristr($this->upload->display_errors(), 'dimensions') == TRUE) {
+						$error = '<li>Dimensi / ukuran foto "<b>'.$_FILES["photo_mhs"]["name"].'</b>" yang diupload tidak sesuai!</li>';
+					}
+					elseif (stristr($this->upload->display_errors(), 'permitted size') == TRUE) {
+						$error = '<li>Ukuran file foto "<b>'.$_FILES["photo_mhs"]["name"].'</b>" yang diupload melebihi ukuran upload maksimal yaitu 1024 KB!</li>';
+					}
+					elseif (stristr($this->upload->display_errors(), 'filetype') == TRUE) {
+						$error = '<li>Format / ekstensi foto yang diupload tidak diizinkan!. Hanya ekstensi "jpg, jpeg, png" yang diizinkan.</li>';
+					}
+					else{
+						$error = $this->upload->display_errors('<li>','</li>');
+					}
+					$result = array('status' => 'failed', 'errors' => $error);
 				}
 				else{
-					$error = $this->upload->display_errors('<li>','</li>');
+					$photo_name = $this->upload->data('file_name');
+					if ($detail->photo_mhs !='') {
+						if ($photo_name != $detail->photo_mhs) {
+							$this->load->helper('file');
+							$check_file = get_file_info('uploads/mhs-photo/'.$detail->photo_mhs);
+							if ($check_file != FALSE) {
+								unlink('./uploads/mhs-photo/'.$detail->photo_mhs);
+							}
+						}
+					}
+					$data = array(
+						'photo_mhs' => $photo_name,
+						);
+					$update = $this->mahasiswa_model->update($data,array('id' => $post['data']));
+					if ($update) {
+						if (isset($post['upload_act'])) {
+							$this->load->helper('file');
+							$check_file = get_file_info('uploads/mhs-photo/'.$photo_name);
+							if ($check_file != FALSE) {
+								$photo = photo_u('mhs',$photo_name.'?n_img='.rand_val(20));
+								$file_name = $photo_name;
+							}
+							else{
+								$photo = photo_u();
+							}
+						}
+						$result = array(
+							'status' => 'success',
+							'photo_c' => @$photo,
+							'file_name' => @$file_name
+						);
+					}
+					else{
+						unlink('./uploads/mhs-photo/'.$photo_name);
+						$result = array('status' => 'failed_db');
+					}
 				}
-				$result = array('status' => 'failed', 'errors' => $error);
 			}
 			else{
-				$photo_name = $this->upload->data('file_name');
-				if ($detail->photo_mhs !='') {
-					if ($photo_name != $detail->photo_mhs) {
-						$this->load->helper('file');
-						$check_file = get_file_info('uploads/mhs-photo/'.$detail->photo_mhs);
-						if ($check_file != FALSE) {
-							unlink('./uploads/mhs-photo/'.$detail->photo_mhs);
-						}
-					}
-				}
-				$data = array(
-					'photo_mhs' => $photo_name,
-					);
-				$update = $this->mahasiswa_model->update($data,array('id' => $post['data']));
-				if ($update) {
-					if (isset($post['upload_act'])) {
-						$this->load->helper('file');
-						$check_file = get_file_info('uploads/mhs-photo/'.$photo_name);
-						if ($check_file != FALSE) {
-							$photo = photo_u('mhs',$photo_name.'?n_img='.rand_val(20));
-							$file_name = $photo_name;
-						}
-						else{
-							$photo = photo_u();
-						}
-					}
-					$result = array(
-						'status' => 'success',
-						'photo_c' => @$photo,
-						'file_name' => @$file_name
-					);
-				}
-				else{
-					unlink('./uploads/mhs-photo/'.$photo_name);
-					$result = array('status' => 'failed_db');
-				}
+				$result = array('status' => 'failed');
 			}
 		}
 		elseif ($post['pt'] == 'ptk') {
