@@ -15,9 +15,33 @@ class Site{
 	function view($page,$data=NULL){
 		$_this =& get_instance();
 
+		if ($this->template == '') {
+			$template = $_this->template_model->get_by_search(array('template_status' => 1),TRUE,array('template_directory'));
+			if ($template && $template->template_directory != '') {
+				$this->template = $template->template_directory;
+			}
+			else{
+				$this->template = 'adminlte';
+			}
+		}
+
 		$data ?
 			$_this->load->view($this->side."/".$this->template."/".$page,$data):
 			$_this->load->view($this->side."/".$this->template."/".$page);
+	}
+
+	function link_view($page){
+		$_this =& get_instance();
+		if ($this->template == '') {
+			$template = $_this->template_model->get_by_search(array('template_status' => 1),TRUE,array('template_directory'));
+			if ($template && $template->template_directory != '') {
+				$this->template = $template->template_directory;
+			}
+			else{
+				$this->template = 'adminlte';
+			}
+		}
+		return base_url('template/'.$this->side."/".$this->template."/".$page);
 	}
 
 	function login_status_check($level=NULL){
