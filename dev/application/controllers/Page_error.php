@@ -10,7 +10,22 @@ class Page_error extends CI_Controller {
 	}
 	
 	public function index(){
-		$this->load->view('errors/bs_error/page_404');
+		if (!$this->input->is_ajax_request()) {
+			$this->load->view('errors/bs_error/page_404');
+		}
+		else{
+			$post = $this->input->get(NULL, TRUE);
+			if (isset($post['request_view']) && isset($post['template'])) {
+				$this->load->view(@$post['template'].'views/error_page/page_error_404');
+			}
+			else{
+				$errors = array(
+					'status_page' => 'page_error',
+					'message' => 'Page not found...'
+				);
+				echo json_encode($errors);
+			}
+		}
 	}
 
 	public function error_403(){
