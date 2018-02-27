@@ -6694,6 +6694,106 @@ $(function(){
         });
       }
     });
+
+    $('#file-select-image-template').fileinput({
+      'browseClass':'btn btn-info',
+      'browseLabel':'Pilih Berkas',
+      'browseIcon':'<li class="fa fa-folder-open"></li>',
+      'uploadClass':'btn btn-success',
+      'uploadIcon':'<li class="fa fa-upload"></li>',
+      'removeLabel':'Hapus',
+      'removeClass':'btn btn-danger',
+      'removeIcon':'<li class="fa fa-trash"></li>',
+      'cancelIcon':'<li class="fa fa-ban"></li>',
+      'allowedFileExtensions': ['jpeg','jpg','png'],
+      'autoReplace':true,
+      'maxFileCount':1,
+      'maxFileSize':2024,
+      'language':'id',
+      'uploadUrl': "http://"+host+data_dashboard_path+"/upload_file",
+      'uploadAsync':true
+    });
+    $('#file-select-image-template').on('fileloaded', function(eve,file,prevID,index,reader){
+      if (file != '') {
+        var file_type = file['type'].split('/');
+        if (file['size'] <= 2024000 && file_type[1] == 'jpeg' || file['size'] <= 2024000 && file_type[1] == 'jpg' || file['size'] <= 2024000 && file_type[1] == 'png') {
+          var hash = $.param.fragment();
+          if (hash.search('edit') == 0) {
+            $(this).fileinput('refresh',{
+              'showUpload':true,
+              'uploadExtraData':{
+                'file_type': 'image',
+                'in_template': getUrlVars()['in_template'],
+                'data':'template-image',
+                'upload_act':'singleUpload',
+                'act':'update',
+                'csrf_key':token
+              },
+            });
+          }
+          else{
+            $(this).fileinput('refresh',{
+              'showUpload':false,
+            });
+          }
+        }
+        else{
+          $(this).parents().find('.fileinput-remove-button').hide();
+          $('.file-select-foto').fileinput('clear');
+        }
+      }
+      else{
+        $(this).parents().find('.fileinput-remove-button').hide();
+        $(this).fileinput('clear');
+      }
+    });
+    $('#file-select-image-template').on('fileuploaded', function(eve,data){
+      if (data.extra.upload_act != null) {
+        if (data.response.status == 'success') {
+          $(this).fileinput('enable').fileinput('refresh').fileinput('clear');
+          if (data.response.act == 'update') {
+            get_list_template();
+          }
+        }
+        else{
+          $('#alert-place').html(
+            '<div class="alert alert-danger alert-dismissible">'
+            +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+            +'  <h4><i class="icon fa fa-ban"></i> Validasi Gagal!</h4>'                
+            +'  <font><ul style="padding-left:15px">'+data.response.errors+'</ul></font>'
+            +'</div>'
+          );
+          $(this).parents().find('.fileinput-upload-button').replaceWith('');
+        }
+      }
+      else{
+        $(this).fileinput('enable').fileinput('refresh').fileinput('clear');
+      }
+      token = data.response.n_token;
+    });
+    $('#file-select-image-template').on('fileuploaderror', function(eve,data,msg){
+      if (data.jqXHR.readyState == 4) {
+        $('#alert-place').html(
+          '<div class="alert alert-danger alert-dismissible">'
+          +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+          +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+          +'  <font><ul style="padding-left:15px"><li>Terjadi kesalahan pada server saat proses upload photo.</li></ul></font>'
+          +'</div>'
+        );
+      }
+      else{
+        $(this).parents().find('.fileinput-remove-button').show();
+        $(this).parents().find('.fileinput-upload-button').replaceWith('');
+        $('#alert-place').html(
+          '<div class="alert alert-danger alert-dismissible">'
+          +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+          +'  <h4><i class="icon fa fa-ban"></i> Validasi Gagal!</h4>'                
+          +'  <font><ul style="padding-left:15px"><li>'+msg+'</li></ul></font>'
+          +'</div>'
+        );
+      }
+    });
+
     $(document).on('click','.kv-error-close', function(eve){
       eve.preventDefault();
     });
