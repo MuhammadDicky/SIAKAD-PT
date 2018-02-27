@@ -102,7 +102,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <p>
                   <?php echo $_SESSION['username']; ?><br>
                   Administrator
-                  <small class="user-last-time-login"><?php echo $_SESSION['last_online']; ?></small>
+                  <small class="user-last-time-login" data-time="<?php echo $_SESSION['last_online']; ?>"></small>
                 </p>
               </li>
               <!-- Menu Body -->
