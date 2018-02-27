@@ -12,16 +12,39 @@ class Data_master extends Backend_Controller {
 	protected $in_konst;
 
 	public function __construct(){
-		parent::__construct();			
-		$this->site->login_status_check();		
+		parent::__construct();
+		$this->site->login_status_check();
 	}
 
 	public function index(){
 		$this->page_soon('Data Master','fa-archive');
 	}
-	
+
 	public function data_identitas_pt(){
-		$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
+		if ($this->site->template == 'adminlte') {
+			$this->site->view('page/'.$this->router->class.'/'.$this->router->method);
+		}
+		elseif ($this->site->template == 'core_ui') {
+			$data = array(
+				'view' => 'Data Identitas Perguruan Tinggi'
+				);
+			$this->site->view('index',$data);
+		}
+
+		$post = $this->input->get(NULL, TRUE);
+		if (isset($post['request_view'])) {
+			if (isset($post['req_info']) && $post['req_info'] == TRUE) {
+				$data = array(
+					'status_page' => 'success',
+					'title_page' => title(),
+					'breadcrumb' => content_path()
+					);
+				echo json_encode($data);
+			}
+			else{
+				$this->site->view('views/'.$this->router->class.'/'.$this->router->method);
+			}
+		}
 	}
 
 	public function data_fakultas_pstudi(){
