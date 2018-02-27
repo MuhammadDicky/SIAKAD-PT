@@ -212,6 +212,9 @@ dl.dl-horizontal dd{
   vertical-align: middle;
   display: inline-block;
 }
+.control-panel-data .btn{
+  color: #fff;
+}
 .detail-row{
   font-size:20px;
   vertical-align:middle;
