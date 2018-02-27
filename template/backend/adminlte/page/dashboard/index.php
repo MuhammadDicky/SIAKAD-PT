@@ -44,7 +44,7 @@ defined('BASEPATH') OR exit(header('Location: http://localhost/siakad-uncp/page_
 	            <div class="inner">
 	              <h3><?php echo $count_mhs; ?></h3>
 
-	              <p>Jumlah Mahasiswa Yang Terdata</p>
+	              <p>Jumlah Mahasiswa</p>
 	            </div>
 	            <div class="icon">
 	              <i class="fa fa-users"></i>
@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit(header('Location: http://localhost/siakad-uncp/page_
 	            <div class="icon">
 	              <i class="fa fa-graduation-cap"></i>
 	            </div>
-	            <a href="<?php echo set_url('data_akademik/data_alumni'); ?>" class="small-box-footer">Info detail <i class="fa fa-arrow-circle-right"></i></a>
+	            <a href="<?php echo set_url('data_akademik/data_alumni_do'); ?>" class="small-box-footer">Info detail <i class="fa fa-arrow-circle-right"></i></a>
 	          </div>
 	        </div>	           
 		</div>
