@@ -2586,6 +2586,8 @@ $(function(){
         setting_box = selected_set.attr('settings-box'),
         collapse_filter = selected_set.attr('collapse-filter');
         collapse_box(setting_box,collapse_filter);
+        $('ul.sidebar-menu ul.treeview-menu li').removeClass('active');
+        $('ul.sidebar-menu ul.treeview-menu li:has(a[href="#'+hash+'"])').addClass('active');
         for (var i = 1; i <= 6; i++) {
           selected_set.find('.setting-label').fadeToggle();
         }
