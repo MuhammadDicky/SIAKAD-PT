@@ -1209,6 +1209,7 @@ $(function(){
                 $('#form-input').show();
                 $.each(config.data, function(index, data_record){
                   $('#form-input .'+index).val(data_record);
+                  $('#form-input select.'+index).trigger('change.select2');
                 });
               }
             });
@@ -2679,11 +2680,11 @@ $(function(){
         $('.modal-body').LoadingOverlay("hide");
       },2000);
     });*/
-    $('#myModal, #myModal-pt').on('hide.bs.modal',function(e){
+    $('#myModal, #myModal-pt').on('hide.bs.modal', function(e){
       modal_animated('zoomOutDown');
       $('#myModal .overflow-tab, #myModal .content-responsive, #myModal-pt .overflow-tab').scrollTop(0);
       $('.modal .tab-pane, .tab-overflow-container').scrollTop(0);
-      $('.slimScrollDiv').find('.slimScrollBar').css('top','0px');
+      $('.modal .slimScrollDiv').find('.slimScrollBar').css('top','0px');
     });
     $('.modal .nav-tabs li a').on('shown.bs.tab', function(){
       $('.modal .tab-pane').scrollTop(0);
@@ -2693,14 +2694,14 @@ $(function(){
     /*Onclick Event*/
     $('#refresh-form, .refresh-form').on('click', function(eve){
       eve.preventDefault();
-      $('#myModal #form-input, #myModal #form-input-pstudi').find('input[type=text],input[type=number],input[type=email]').val('');
-      $('input[type="radio"]').iCheck('uncheck');            
-      $('form .select2').val(null).trigger('change');
-      $("#myModal").find('.has-error').removeClass('has-error');
-      $('#alert-place').text('');
+      $('.modal').find('input[type=text],input[type=number],input[type=email]').val('');
+      $('.modal input[type="radio"]').iCheck('uncheck');            
+      $('.modal form .select2').val(null).trigger('change');
+      $(".modal").find('.has-error').removeClass('has-error');
+      $('.modal #alert-place').text('');
     });
 
-    $('.refresh-data').on('click',function(eve){
+    $('.refresh-data').on('click', function(eve){
       eve.preventDefault();
       Pace.restart();
       var box_selected = $(this).attr('data-refresh'),
@@ -6039,60 +6040,48 @@ $(function(){
     $(document).on('ifUnchecked','.check-all-data', function(){
       var class_selected = $(this).attr('data-selected'),
       class_all_selected = $(this).attr('data-all-selected'),
-      class_toggle = $(this).attr('data-toggle').split(',');
+      class_toggle = $(this).attr('data-toggle');
       $('.'+class_selected).iCheck('uncheck');
       $('.'+class_all_selected).iCheck('uncheck');
-      $.each(class_toggle, function(index,class_t){
-        $(class_t).addClass('disabled');
-      });
+      $(class_toggle).addClass('disabled');
     });
     $(document).on('ifChecked','.check-data', function(){
-      var id = [],
-      check_num = [],
-      class_selected = $(this).attr('data-selected'),
+      var class_selected = $(this).attr('data-selected'),
       class_all_selected = $(this).attr('data-all-selected'),
-      class_toggle = $(this).attr('data-toggle').split(',');
-      $('.'+class_selected+':checked').each(function() {        
-        id.push($(this).val());        
-      });
-      $('.'+class_selected).each(function() {        
-        check_num.push($(this).val());        
-      });
-      if (check_num.length == id.length) {
+      class_toggle = $(this).attr('data-toggle'),
+      id = $('.'+class_selected+':checked').length,
+      check_num = $('.'+class_selected).length;
+      if (check_num == id) {
         $('.'+class_all_selected).iCheck('check');
       }
       else{
-        $('.'+class_all_selected).iCheck('uncheck');
-      }
-      if (id.length > 0) {
-        $.each(class_toggle, function(index,class_t){
-          $(class_t).removeClass('disabled');
+        $.each($('.'+class_all_selected), function(index,obj){
+          $('.'+class_all_selected)[index].checked = false;
         });
+        $('.'+class_all_selected).iCheck('update');
+      }
+
+      if (id > 0) {
+        $(class_toggle).removeClass('disabled');
       }
       else{
-        $.each(class_toggle, function(index,class_t){
-          $(class_t).addClass('disabled');
-        });
+        $(class_toggle).addClass('disabled');
       }
     });
     $(document).on('ifUnchecked','.check-data', function(){
-      var id = [],
-      class_selected = $(this).attr('data-selected'),
+      var class_selected = $(this).attr('data-selected'),
       class_all_selected = $(this).attr('data-all-selected'),
-      class_toggle = $(this).attr('data-toggle').split(',');
-      $('.'+class_all_selected).removeAttr('checked').iCheck('update');
-      $('.'+class_selected+':checked').each(function() {        
-        id.push($(this).val());        
+      class_toggle = $(this).attr('data-toggle'),
+      id = $('.'+class_selected+':checked').length;
+      $.each($('.'+class_all_selected), function(index,obj){
+        $('.'+class_all_selected)[index].checked = false;
       });
-      if (id.length > 0) {
-        $.each(class_toggle, function(index,class_t){
-          $(class_t).removeClass('disabled');
-        });
+      $('.'+class_all_selected).iCheck('update');
+      if (id > 0) {
+        $(class_toggle).removeClass('disabled');
       }
       else{
-        $.each(class_toggle, function(index,class_t){
-          $(class_t).addClass('disabled');
-        });
+        $(class_toggle).addClass('disabled');
       }
     });
     /*END -- ICheck Plugin*/
@@ -10874,7 +10863,7 @@ $(function(){
           else{
             if (data_record.status_access_menu == 1) {
               $('#menu-container').append(
-                '<li class="treeview">'
+                '<li>'
                 +'  <a href="'+data_record.link_menu+'" style="color: '+data_record.color_menu+'">'
                 +'    <i class="'+data_record.icon_menu+'"></i> <span>'+data_record.nm_menu+'</span>'
                 +'  </a>'
@@ -10892,7 +10881,7 @@ $(function(){
                 var menu_attr = {text:'Repair',class:'bg-red'};
               }
               $('#menu-container').append(
-                '<li class="treeview">'
+                '<li>'
                 +'  <a href="'+data_record.link_menu+'" style="color: '+data_record.color_menu+'">'
                 +'    <i class="'+data_record.icon_menu+'"></i> <span>'+data_record.nm_menu+'</span>'
                 +'    <span class="pull-right-container">'
