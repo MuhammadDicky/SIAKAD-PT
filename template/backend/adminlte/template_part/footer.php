@@ -333,7 +333,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       $.each($('#control-layout-setting a[data-skin]'), function(i){
         my_colors.push($(this).attr('data-skin'));
       });
-      var my_layout_settings = new Array();
       $.each($('#control-layout-setting input[type=checkbox]'), function(i){
         my_layout_settings.push($(this).attr('data-layout'));
       });
