@@ -687,26 +687,27 @@ class Data_master extends Backend_Controller {
 									'nama_prodi' => $value->nama_prodi,
 									'jenjang_prodi' => $value->jenjang_prodi,
 									);
-							}		
+							}
 							$result = array(
 								'jadwal' => $data,
 								'total_count' => $total_rows
 								);
-						}					
+						}
 						else{
 							$result['jadwal'] = '';
 						}
 					}
 				}
 				elseif ($post['data']=='data_identitas_pt') {
-					$total_rows = $this->identitas_universitas_model->count();
+					$total_rows = $this->konfigurasi_model->count(array('nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt));
 					if ($total_rows > 0) {
-						$record = $this->identitas_universitas_model->get();
+						$record = $this->konfigurasi_model->get_by_search(array('nama_konfigurasi' => $this->konfigurasi_model->konfigurasi_pt), TRUE);
+						$data_identitas_pt[] = unserialize($record->isi_konfigurasi);
 						$record_pt = array();
-						foreach ($record as $key) {
+						foreach ($data_identitas_pt as $key) {
 							$tgl_pt = array(
-								'tgl_berdiri' => date_convert($key->tgl_berdiri),
-								'tgl_sk_pend' => date_convert($key->tgl_sk_pend),
+								'tgl_berdiri' => date_convert($key['tgl_berdiri']),
+								'tgl_sk_pend' => date_convert($key['tgl_sk_pend']),
 								);
 							$record_pt[] = array_merge((array)$key,$tgl_pt);
 						}
