@@ -285,7 +285,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- boostrap-timepicker -->
 <script type="application/javascript" src="<?php echo get_plugin('timepicker','js') ?>"></script>
 <!-- AdminLTE App -->
-<script type="application/javascript" src="<?php echo get_template_assets('dist/js/app.min.js') ?>"></script>
+<script type="application/javascript" src="<?php echo get_template_assets('dist/js/adminlte.min.js') ?>"></script>
 <script type="text/javascript">
 <?php global $Config ?>
     var path_home    = '<?php echo web_detail('_path_home') ?>',

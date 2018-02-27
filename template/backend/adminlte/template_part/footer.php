@@ -309,7 +309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="application/javascript" src="<?php echo get_plugin('sortable-master','js') ?>"></script>
 <?php endif ?>
 <!-- AdminLTE App -->
-<script type="application/javascript" src="<?php echo get_template_assets('dist/js/app.min.js') ?>"></script>
+<script type="application/javascript" src="<?php echo get_template_assets('dist/js/adminlte.min.js') ?>"></script>
 <script type="text/javascript">
     <?php $token = $this->security->get_csrf_hash(); ?>
     var data_dashboard_path = '<?php echo web_detail('_data_dashboard_path') ?>',
