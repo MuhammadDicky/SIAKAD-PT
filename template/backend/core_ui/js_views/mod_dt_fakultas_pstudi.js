@@ -5,6 +5,23 @@ $(function(){
     $(this).css('pointer-events','none');
     data_master_chart('static_mhs_fk');
   });
+
+  $('.refresh-table-pd').on('click', function(eve){
+    eve.preventDefault();
+    Pace.restart();
+    var btn = $(this),
+    btn_act = btn.find('i');
+    btn.addClass('disabled');
+    if ($('#box-prodi').is(':visible')) {
+      btn_act.removeClass('fa-list').addClass('fa-refresh fa-spin');
+      setTimeout(function(){
+        btn_act.removeClass('fa-refresh fa-spin').addClass('fa-list');
+      },1070);
+    }
+    $('#box-prodi').slideDown();
+    $('.tbl-data-pd').DataTable().ajax.reload();
+    $('html, body').animate({scrollTop:$('#box-prodi').offset().top - 55},800);
+  });
   /*END -- Onclick Event*/
 
   /*Select2 Plugin*/
@@ -262,8 +279,8 @@ $(function(){
     "searchable": false,*/
     /*"scrollY": "180px",
     "scrollCollapse": false,*/
-    "initComplete": function(settings, json) {
-      /*$('body').find('.dataTables_scrollBody').addClass("style-1");*/
+    "drawCallback": function(settings, json) {
+      $('.refresh-table-pd').removeClass('disabled');
     },
   });
   /*END -- Datatables Plugin*/
