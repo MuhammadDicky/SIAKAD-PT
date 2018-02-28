@@ -56,6 +56,15 @@ else if (check_array_exist(akademik_path_dt,path) == true) {
 
 $(function(){
 
+  /*Default Settings*/
+  try{
+    $.fn.select2.defaults.set("language","id");
+  }
+  catch(error){
+
+  }
+  /*Default Settings*/
+
   /*Moment JS*/
   var last_online_user = $('#user-widget-detail .user-last-time-login').attr('data-time');
   $('#user-widget-detail .user-last-time-login').text('Terakhir kali login '+moment(last_online_user).fromNow());
