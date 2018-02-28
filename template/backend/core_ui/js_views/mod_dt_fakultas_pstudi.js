@@ -219,10 +219,10 @@ $(function(){
         "mRender": function(data,type,full){
           var fk = full.nama_prodi;
           var id_fk = full.id_prodi;
-          return '<a href="#tambah?data=konsentrasi_prodi&prodi_kons='+fk.replace(' ','_').toLowerCase()+'&i='+id_fk+'&token='+token+'" class="btn btn-info btn-sm" title="Tambah Konsentrasi pada Program Studi '+fk+'"><i class="fa fa-plus"></i></a> | '
+          return '<a href="#tambah?data=konsentrasi_prodi&prodi_kons='+fk.replace(' ','_').toLowerCase()+'&i='+id_fk+'&token='+token+'" class="btn btn-info btn-sm text-white" title="Tambah Konsentrasi pada Program Studi '+fk+'"><i class="fa fa-plus"></i></a> | '
                 +'<div class="btn-group">'
-                +' <a href="#edit?pd='+id_fk+'&token='+token+'" class="btn btn-success btn-sm" title="Edit Data Program Studi '+fk+'"><i class="fa fa-pencil-square"></i></a>'
-                +' <a href="#hapus?pd='+id_fk+'&token='+token+'" class="btn btn-danger btn-sm" title="Hapus Data Program Studi '+fk+'"><i class="fa fa-trash"></i></a>'
+                +' <a href="#edit?pd='+id_fk+'&token='+token+'" class="btn btn-success btn-sm text-white" title="Edit Data Program Studi '+fk+'"><i class="fa fa-pencil-square"></i></a>'
+                +' <a href="#hapus?pd='+id_fk+'&token='+token+'" class="btn btn-danger btn-sm text-white" title="Hapus Data Program Studi '+fk+'"><i class="fa fa-trash"></i></a>'
                 +'</div>'
         }
       }
