@@ -1,5 +1,11 @@
 $(function(){
 
+  /*Onclick Event*/
+  $('a[href="#statik-fk"]').on('click', function(){
+    data_master_chart('','static_mhs_fk');
+  });
+  /*END -- Onclick Event*/
+
   /*Select2 Plugin*/
   $(".select2_akreditasi_fk").select2({
     placeholder: "Pilih akreditasi fakultas",      
@@ -260,5 +266,8 @@ $(function(){
     },
   });
   /*END -- Datatables Plugin*/
+
+  /*Function*/
+  /*END -- Function*/
 
 });
