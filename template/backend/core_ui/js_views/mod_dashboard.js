@@ -49,7 +49,9 @@ $(document).ready(function(){
 
   $('#refresh-statik-pengguna').on('click', function(eve){
     eve.preventDefault();
-    var btn_act = $(this).find('i');
+    var btn = $(this),
+    btn_load = btn.css('pointer-events','none'),
+    btn_act = btn.find('i');
     btn_act.addClass('fa-spin');
     setTimeout(function(){
       btn_act.removeClass('fa-spin');
@@ -57,15 +59,19 @@ $(document).ready(function(){
     $('.box-grafik-pengguna').find('div.overlay').fadeIn();
     var detail_pengguna = getJSON_async('http://'+host+path+'/dashboard/data_statistik/pengguna',null,null,true);
     detail_pengguna.then(function(detail_pengguna){
+      btn.css('pointer-events','');
       $('.box-grafik-pengguna').find('div.overlay').fadeOut();
       data_chart_pengguna(detail_pengguna,detail_pengguna.count_user_mhs,detail_pengguna.count_user_ptk,detail_pengguna.count_user_aktif,detail_pengguna.count_user_nonaktif,true);
     }).catch(function(error){
+      btn.css('pointer-events','');
       $('.box-grafik-pengguna').find('div.overlay').fadeOut();
     });
   });
 
   $('#refresh-statik-mhs').on('click', function(){
-    var btn_act = $(this).find('i');
+    var btn = $(this),
+    btn_load = btn.css('pointer-events','none'),
+    btn_act = btn.find('i');
     btn_act.addClass('fa-spin');
     setTimeout(function(){
       btn_act.removeClass('fa-spin');
@@ -77,23 +83,30 @@ $(document).ready(function(){
       $('.detail-jml-mhs .progress-number').text('0%');
       $('.grafik-mhs').find('div.overlay').fadeOut();
       setTimeout(function(){
+        btn.css('pointer-events','');
         data_chart_mhs_pd(detail_mhs,detail_mhs.canvas,true);
       },500);
     }).catch(function(error){
+      btn.css('pointer-events','');
       $('.grafik-mhs').find('div.overlay').fadeOut();
     });
   });
 
   $('#refresh-statik-ptk').on('click', function(){
-    var btn_act = $(this).find('i');
+    var btn = $(this),
+    btn_load = btn.css('pointer-events','none'),
+    btn_act = btn.find('i');
     btn_act.addClass('fa-spin');
     setTimeout(function(){
       btn_act.removeClass('fa-spin');
     },1070);
     var detail_ptk = getJSON_async('http://'+host+path+'/dashboard/data_statistik/ptk',null,null,true);
     detail_ptk.then(function(detail_ptk){
+      btn.css('pointer-events','');
       data_chart_ptk(detail_ptk,detail_ptk.canvas,true);
-    }).catch(function(error){});
+    }).catch(function(error){
+      btn.css('pointer-events','');
+    });
   });
 
   function data_chart_pengguna(detail_pengguna,count_pengguna_mhs,count_pengguna_ptk,count_pengguna_aktif,count_pengguna_nonaktif,update){

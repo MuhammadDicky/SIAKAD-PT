@@ -2,6 +2,7 @@ $(function(){
 
   /*Onclick Event*/
   $('a[href="#statik-fk"]').on('click', function(){
+    $(this).css('pointer-events','none');
     data_master_chart('static_mhs_fk');
   });
   /*END -- Onclick Event*/
@@ -279,6 +280,7 @@ $(function(){
     $('.detail-jml-mhs-dt .progress-bar').css('width','0%');
     var data_static = getJSON_async('http://'+host+controller_path+'/data_statistik',{data:data},500,true);
     data_static.then(function(data_static){
+      $('a[href="#statik-fk"]').css('pointer-events','');
       $('a[href="#statik-fk"], .static-mhs-tab').find('span, i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-bar-chart');
       $('#statik-fk .chart-container, .static-tab .chart-container').show();
       $('#statik-fk .load-row, .static-tab .load-row').remove();
@@ -467,6 +469,7 @@ $(function(){
           options: option_chart
       });
     }).catch(function(){
+      $('a[href="#statik-fk"]').css('pointer-events','');
       $('a[href="#statik-fk"], .static-mhs-tab').find('span, i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-bar-chart');
       $('#statik-fk .load-row, .static-tab .load-row').remove();
     });
