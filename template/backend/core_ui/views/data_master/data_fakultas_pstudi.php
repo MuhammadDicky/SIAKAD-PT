@@ -34,7 +34,12 @@
       'name': 'App Config JS',
       'link': "<?php echo get_configJS('js_views/config.js') ?>",
       'state': false
-    }
+    },
+    {
+  		'name': 'Page JS',
+  		'link': "<?php echo get_configJS('js_views/mod_dt_fakultas_pstudi.js') ?>",
+  		'state': false
+  	}
   ];
   var requireCSS = [
   	{
