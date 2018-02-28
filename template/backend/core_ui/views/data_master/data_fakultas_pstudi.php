@@ -1,5 +1,10 @@
 <script type="text/javascript">
   var requireJS = [
+  	{
+      'name': 'chartJS',
+      'link': "<?php echo get_plugin('chartjs','js',' 2.7.1')?>",
+      'state': true
+    },
     {
   		'name': 'datatables',
   		'link': "<?php echo get_plugin('datatables','js','jquery')?>",
