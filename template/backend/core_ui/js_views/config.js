@@ -63,7 +63,7 @@ $(function(){
   catch(error){
 
   }
-  /*Default Settings*/
+  /*END -- Default Settings*/
 
   /*Moment JS*/
   var last_online_user = $('#user-widget-detail .user-last-time-login').attr('data-time');
@@ -80,6 +80,20 @@ $(function(){
   }
   catch(error){}
   /*END -- Mousewheel Horizontal*/
+
+  /*iCheck*/
+  try{
+    $('input[type="radio"]').iCheck({
+      radioClass: 'iradio_flat-blue'
+    });
+    $('input[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_flat-blue'
+    });
+  }
+  catch(error){
+
+  }
+  /*END -- iCheck*/
 
   /*HASHCHANGE*/
   $(window).off('hashchange');
