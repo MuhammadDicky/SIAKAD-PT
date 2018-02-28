@@ -268,6 +268,210 @@ $(function(){
   /*END -- Datatables Plugin*/
 
   /*Function*/
+  /*Function: Chart data master*/
+  function data_master_chart(data){
+    $('a[href="#statik-fk"], .static-mhs-tab').find('span, i').removeClass('fa-bar-chart').addClass('fa-circle-o-notch fa-spin');
+    $('#statik-fk .load-row').remove();
+    if ($("#barchart-mhs-master-dt").height() <= 315) {
+      $('#statik-fk .chart-container, .static-tab .chart-container').hide();
+      $('#statik-fk, .static-tab').prepend('<div class="row load-row"><div class="col-md-12 text-center"><font class="load-data">Memproses Data</font></div></div>');
+    }
+    $('.detail-jml-mhs-dt .progress-bar').css('width','0%');
+    var data_static = getJSON_async('http://'+host+controller_path+'/data_statistik',{data:data},500,true);
+    data_static.then(function(data_static){
+      $('a[href="#statik-fk"], .static-mhs-tab').find('span, i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-bar-chart');
+      $('#statik-fk .chart-container, .static-tab .chart-container').show();
+      $('#statik-fk .load-row, .static-tab .load-row').remove();
+      $('.detail-jml-mhs-dt').text('');
+      $('.detail-jml-mhs-dt').prepend('<p class="text-center"><strong>Keterangan</strong></p>');
+      $('#barchart-mhs-master-dt').replaceWith('<canvas id="barchart-mhs-master-dt" style="height: 315px; width: 510px;"></canvas>');
+      var no = 1;  
+      $.each(data_static.fk, function(index,data_record){
+        $('.detail-jml-mhs-dt').append(
+          '<div class="progress-group">'
+          +'  <span class="progress-text"><i class="fa fa-circle" style="color: '+data_record.color_detail+';"></i> '+data_record.nama_fakultas+'</span>'
+          +'  <span class="progress-number pull-right">'+data_record.statik_mhs+'%</span>'
+          +'  <div class="progress progress-sm">'
+          +'    <div class="progress-bar p-bar-'+no+'" style="background-color:'+data_record.color_detail+';width:0%"></div>'
+          +'  </div>'
+          +'</div>'
+        );
+        no++;
+      });
+      no = 1;
+      setTimeout(function(){
+        $.each(data_static.fk, function(index,data_record){
+          $('.p-bar-'+no).css('width',data_record.statik_mhs+'%');
+          no++;
+        });
+      },100);
+      
+      var ctx = $("#barchart-mhs-master-dt").get(0).getContext("2d"),
+      color_opc = Chart.helpers.color,
+      new_color = [],
+      chart_label = data_static.nama_fk;;
+      $.each(data_static.color, function(index,clr){
+        new_color.push(color_opc(clr).alpha(0.5).rgbString());
+      });
+
+      var data_chart = {
+              labels: chart_label,
+              datasets: [
+              {
+                  label: "Laki-Laki",
+                  backgroundColor: new_color,
+                  borderColor: data_static.color,
+                  data: data_static.mhs_lk,
+              },
+              {
+                  label: "Perempuan",
+                  backgroundColor: new_color,
+                  borderColor: data_static.color,
+                  data: data_static.mhs_pr,
+              }
+              ]
+          };
+
+      var option_chart = {
+            responsive: true,
+            scales: {
+              yAxes: [{
+                display: true,
+                ticks: {
+                  suggestedMin: 0,
+                }
+              }]
+            },
+            legend: {
+              display: false
+            },
+            tooltips: {
+              enabled: false,
+              position: 'average',
+              mode: 'index',
+              intersect: false,
+              callbacks: {
+                  footer: function(items, data) {
+                    var sum = 0;
+                    items.forEach(function(tooltipItem) {
+                        sum += data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                    });
+                    if (sum > 0) {
+                      return 'Jumlah: ' + sum + ' Orang';
+                    }
+                    else{
+                      return 'Jumlah: 0';
+                    }
+                  },
+              },
+              custom: function(tooltip){
+                if (tooltip.body) {
+                  for (var i = 0; i <= tooltip.body.length; i++) {
+                    if (tooltip.dataPoints[i] && tooltip.dataPoints[i]['yLabel']) {
+                      tooltip.body[i]['lines'] = [tooltip.body[i]['lines'] + ' Orang'];
+                    }
+                  }
+                }
+
+                // console.log(tooltip);
+                if (tooltip.dataPoints) {
+                  tooltip.title = [data_static.fk[tooltip.dataPoints[0]['index']]['nama_fakultas']];
+                }
+
+                // Tooltip Element
+                var tooltipEl = document.getElementById('chartjs-tooltip-mhs-pd');
+
+                if (!tooltipEl) {
+                  tooltipEl = document.createElement('div');
+                  tooltipEl.id = 'chartjs-tooltip-mhs-pd';
+                  tooltipEl.innerHTML = "<table></table>";
+                  tooltipEl.classList.add('chartjs-tooltip');
+                  this._chart.canvas.parentNode.appendChild(tooltipEl);
+                }
+
+                // Hide if no tooltip
+                if (tooltip.opacity === 0) {
+                  tooltipEl.style.opacity = 0;
+                  return;
+                }
+
+                // Set caret Position
+                tooltipEl.classList.remove('above', 'below', 'no-transform');
+                if (tooltip.yAlign) {
+                  tooltipEl.classList.add(tooltip.yAlign);
+                } else {
+                  tooltipEl.classList.add('no-transform');
+                }
+
+                function getBody(bodyItem) {
+                  return bodyItem.lines;
+                }
+
+                // Set Text
+                if (tooltip.body) {
+                  var titleLines = tooltip.title || [];
+                  var bodyLines = tooltip.body.map(getBody);
+
+                  var innerHtml = '<thead>';
+
+                  titleLines.forEach(function(title) {
+                    innerHtml += '<tr><th>' + title + '</th></tr>';
+                  });
+                  innerHtml += '</thead><tbody>';
+
+                  bodyLines.forEach(function(body, i) {
+                    var colors = tooltip.labelColors[i];
+                    var style = 'background:' + colors.borderColor;
+                    style += '; border-color:' + colors.borderColor;
+                    style += '; border-width: 2px'; 
+                    var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
+                    innerHtml += '<tr><td>' + span + body + '</td></tr>';
+                  });
+                  innerHtml += '<tr><td class"text-center">'+ tooltip.footer +'</td></tr>';
+                  innerHtml += '</tbody>';
+
+                  var tableRoot = tooltipEl.querySelector('table');
+                  tableRoot.innerHTML = innerHtml;
+                }
+
+                var positionY = this._chart.canvas.offsetTop;
+                var positionX = this._chart.canvas.offsetLeft;
+
+                // Display, position, and set styles for font
+                tooltipEl.style.opacity = 1;
+                tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+                tooltipEl.style.top = positionY + tooltip.caretY + 'px';
+                tooltipEl.style.fontFamily = tooltip._fontFamily;
+                tooltipEl.style.fontSize = tooltip.fontSize;
+                tooltipEl.style.fontStyle = tooltip._fontStyle;
+                tooltipEl.style.padding = tooltip.yPadding + 'px ' + tooltip.xPadding + 'px';
+              }
+            },
+            animation: {
+              onComplete: function(e){
+                if (e.chart.height > 0 ) {
+                  var dt_mhs = $('.detail-jml-mhs-dt');
+                  dt_mhs.slimScroll({
+                    position: 'right',
+                    height: e.chart.height + 'px',
+                    allowPageScroll:true
+                  });
+                }
+              }
+            }
+          };
+
+      var chart = new Chart(ctx, {
+          type: 'bar',
+          data: data_chart,
+          options: option_chart
+      });
+    }).catch(function(){
+      $('a[href="#statik-fk"], .static-mhs-tab').find('span, i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-bar-chart');
+      $('#statik-fk .load-row, .static-tab .load-row').remove();
+    });
+  }
+  /*END -- Function: Chart data master*/
   /*END -- Function*/
 
 });
