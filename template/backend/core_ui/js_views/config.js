@@ -58,7 +58,59 @@ $(function(){
 
   /*Default Settings*/
   try{
+    /*Select2*/
     $.fn.select2.defaults.set("language","id");
+    /*END -- Select2*/
+
+    /*Datatable With AJAX*/
+    $.fn.dataTable.ext.errMode = 'none';
+    $.extend( true, $.fn.dataTable.defaults, {
+      "oLanguage": {
+        "oPaginate": {
+          "sNext": "<li class='fa fa-angle-double-right' title='Selanjutnya'></li>",
+          "sPrevious": "<li class='fa fa-angle-double-left' title='Sebelumnya'></li>",
+          "sFirst": "Pertama",
+          "sLast": "Terakhir"
+        },
+        "sInfo": "Menampilkan Data (_START_ Sampai _END_) Dari _TOTAL_ Data",
+        "sInfoEmpty": "Data tidak ditemukan",
+        "sProcessing": "<div class='datatable-loading-text load-datatable'>Memuat Data</div>",
+        "sLoadingRecords": "<center>Memproses Data...</center>",
+        "sSearch": "",
+        "sInfoFiltered": " - Hasil Pencarian Dari _MAX_ Data",
+        "sZeroRecords": "<center>Data yang dicari tidak ditemukan</center>"
+      },
+      "fnDrawCallback": function(){
+        $('input[type="checkbox"]').iCheck({
+          /*checkboxClass: 'icheckbox_square-blue',*/
+          checkboxClass: 'icheckbox_flat-blue'
+        });
+      },
+      "initComplete": function(settings, json) {
+      }
+    });
+    $('.datatable-dt').on('preXhr.dt', function(e,settings,data){
+      var i = 0;
+      $('.load-datatable').html('Memuat Data');
+      clearInterval(intval_vars);
+      intval_vars = setInterval(function(){
+        $('.load-datatable').append('. ');
+        i++;
+        if (i == 4) {
+          $('.load-datatable').html('Memuat Data');
+          i = 0;
+        }
+      },400);
+
+      data.csrf_key = token;
+      var selected_vars = $(this).attr('data-tbl-selected');
+      if (selected_vars != undefined) {
+        selected_vars = selected_vars.split(' ');
+        $('.'+selected_vars[0]).iCheck('uncheck');
+        $('.'+selected_vars[1]).iCheck('uncheck');
+      }
+    });
+    /*END -- Datatable With AJAX*/
   }
   catch(error){
 
