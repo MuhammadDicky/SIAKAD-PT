@@ -360,3 +360,14 @@ dl.dl-horizontal dd{
 .fileinput-cancel {
   display: none;
 }
+
+/*
+ * Plugin: Datatables
+ * ---------------
+ */
+table.dataTable {
+  border-collapse: collapse !important;
+}
+.dataTables_wrapper {
+  display: block;
+}
