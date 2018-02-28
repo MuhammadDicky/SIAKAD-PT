@@ -110,11 +110,11 @@ $(function(){
         "mRender": function(data,type,full){
           var fk = full.nama_fakultas;
           var id_fk = full.id_fk;
-          return '<a href="#tambah?fk='+fk.replace(' ','_').toLowerCase()+'&i='+id_fk+'&token='+token+'" class="btn btn-info btn-sm" title="Tambah Program Studi pada Fakultas '+fk+'" value="'+fk+'/'+id_fk+'"><i class="fa fa-plus"></i></a> | '
+          return '<a href="#tambah?fk='+fk.replace(' ','_').toLowerCase()+'&i='+id_fk+'&token='+token+'" class="btn btn-info btn-sm text-white" title="Tambah Program Studi pada Fakultas '+fk+'" value="'+fk+'/'+id_fk+'"><i class="fa fa-plus"></i></a> | '
                 +'<div class="btn-group">'
-                +' <a href="#data?fk='+fk.replace(' ','_').toLowerCase()+'&i='+id_fk+'&token='+token+'" class="btn btn-warning btn-sm detail-data-fk" data-search="'+id_fk+'" title="Lihat Program Studi pada Fakultas '+fk+'"><i class="fa fa-list"></i></a> '
-                +' <a href="#edit?fk='+id_fk+'&token='+token+'" class="btn btn-success btn-sm" title="Edit Data Fakultas '+fk+'"><i class="fa fa-pencil-square"></i></a> '
-                +' <a href="#hapus?fk='+id_fk+'&token='+token+'" class="btn btn-danger btn-sm" title="Hapus Data Fakultas '+fk+'"><i class="fa fa-trash"></i></a>'
+                +' <a href="#data?fk='+fk.replace(' ','_').toLowerCase()+'&i='+id_fk+'&token='+token+'" class="btn btn-warning btn-sm text-white detail-data-fk" data-search="'+id_fk+'" title="Lihat Program Studi pada Fakultas '+fk+'"><i class="fa fa-list"></i></a> '
+                +' <a href="#edit?fk='+id_fk+'&token='+token+'" class="btn btn-success text-white btn-sm" title="Edit Data Fakultas '+fk+'"><i class="fa fa-pencil-square"></i></a> '
+                +' <a href="#hapus?fk='+id_fk+'&token='+token+'" class="btn btn-danger text-white btn-sm" title="Hapus Data Fakultas '+fk+'"><i class="fa fa-trash"></i></a>'
                 +'</div>'
                 /*'<div class="btn-group">'
                   +'  <button type="button" class="btn btn-warning">Aksi</button>'
