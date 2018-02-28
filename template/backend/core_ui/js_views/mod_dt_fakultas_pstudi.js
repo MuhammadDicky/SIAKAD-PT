@@ -2,7 +2,7 @@ $(function(){
 
   /*Onclick Event*/
   $('a[href="#statik-fk"]').on('click', function(){
-    data_master_chart('','static_mhs_fk');
+    data_master_chart('static_mhs_fk');
   });
   /*END -- Onclick Event*/
 
