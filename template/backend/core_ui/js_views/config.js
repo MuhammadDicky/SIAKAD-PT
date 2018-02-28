@@ -145,6 +145,60 @@ $(function(){
   catch(error){
 
   }
+  $(document).off('ifChecked ifUnchecked');
+  $(document).on('ifChecked', '.check-all-data', function(){
+    var class_selected = $(this).attr('data-selected'),
+    class_all_selected = $(this).attr('data-all-selected');
+    $('.'+class_selected).iCheck('check');
+    $('.'+class_all_selected).iCheck('check');
+  });
+  $(document).on('ifUnchecked', '.check-all-data', function(){
+    var class_selected = $(this).attr('data-selected'),
+    class_all_selected = $(this).attr('data-all-selected'),
+    class_toggle = $(this).attr('data-toggle');
+    $('.'+class_selected).iCheck('uncheck');
+    $('.'+class_all_selected).iCheck('uncheck');
+    $(class_toggle).addClass('disabled');
+  });
+  $(document).on('ifChecked', '.check-data', function(){
+    var class_selected = $(this).attr('data-selected'),
+    class_all_selected = $(this).attr('data-all-selected'),
+    class_toggle = $(this).attr('data-toggle'),
+    id = $('.'+class_selected+':checked').length,
+    check_num = $('.'+class_selected).length;
+    if (check_num == id) {
+      $('.'+class_all_selected).iCheck('check');
+    }
+    else{
+      $.each($('.'+class_all_selected), function(index,obj){
+        $('.'+class_all_selected)[index].checked = false;
+      });
+      $('.'+class_all_selected).iCheck('update');
+    }
+
+    if (id > 0) {
+      $(class_toggle).removeClass('disabled');
+    }
+    else{
+      $(class_toggle).addClass('disabled');
+    }
+  });
+  $(document).on('ifUnchecked', '.check-data', function(){
+    var class_selected = $(this).attr('data-selected'),
+    class_all_selected = $(this).attr('data-all-selected'),
+    class_toggle = $(this).attr('data-toggle'),
+    id = $('.'+class_selected+':checked').length;
+    $.each($('.'+class_all_selected), function(index,obj){
+      $('.'+class_all_selected)[index].checked = false;
+    });
+    $('.'+class_all_selected).iCheck('update');
+    if (id > 0) {
+      $(class_toggle).removeClass('disabled');
+    }
+    else{
+      $(class_toggle).addClass('disabled');
+    }
+  });
   /*END -- iCheck*/
 
   /*HASHCHANGE*/
