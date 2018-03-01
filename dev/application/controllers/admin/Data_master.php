@@ -1369,8 +1369,8 @@ class Data_master extends Backend_Controller {
 
 					$nama_fk[] = $key->nama_fakultas;
 					$color[] = color_pd_static($no);
-					$mhs_lk[] = $key->count_mhs_lk;
-					$mhs_pr[] = $key->count_mhs_pr;
+					$mhs_lk[] = intval($key->count_mhs_lk);
+					$mhs_pr[] = intval($key->count_mhs_pr);
 					$no++;
 				}
 				$result = array(
