@@ -107,7 +107,7 @@ $(function(){
         "orderable": false,
         "mRender": function(data,type,full){
           var id = full.id_fk;
-          return '<input type="checkbox" class="check-data check-fk" name="id" value="'+id+'" data-selected="check-fk" data-all-selected="check-all-fk" data-toggle=".hapus">'
+          return '<input type="checkbox" class="check-data check-fk icheck-input-checkbox" name="id" value="'+id+'" data-selected="check-fk" data-all-selected="check-all-fk" data-toggle=".hapus">'
         }
       },
       {
@@ -204,7 +204,7 @@ $(function(){
         "orderable": false,
         "mRender": function(data,type,full){
           var id = full.id_prodi;
-          return '<input type="checkbox" class="check-data check-prodi" name="id" value="'+id+'" data-selected="check-prodi" data-all-selected="check-all-prodi" data-toggle=".hapus-prodi">'
+          return '<input type="checkbox" class="check-data check-prodi icheck-input-checkbox" name="id" value="'+id+'" data-selected="check-prodi" data-all-selected="check-all-prodi" data-toggle=".hapus-prodi">'
         }
       },
       {

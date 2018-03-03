@@ -81,7 +81,7 @@ $(function(){
         "sZeroRecords": "<center>Data yang dicari tidak ditemukan</center>"
       },
       "fnDrawCallback": function(){
-        $('input[type="checkbox"]').iCheck({
+        $('input.icheck-input-checkbox[type="checkbox"]').iCheck({
           /*checkboxClass: 'icheckbox_square-blue',*/
           checkboxClass: 'icheckbox_flat-blue'
         });
@@ -135,10 +135,10 @@ $(function(){
 
   /*iCheck*/
   try{
-    $('input[type="radio"]').iCheck({
+    $('input.icheck-input-radio[type="radio"]').iCheck({
       radioClass: 'iradio_flat-blue'
     });
-    $('input[type="checkbox"]').iCheck({
+    $('input.icheck-input-checkbox[type="checkbox"]').iCheck({
       checkboxClass: 'icheckbox_flat-blue'
     });
   }

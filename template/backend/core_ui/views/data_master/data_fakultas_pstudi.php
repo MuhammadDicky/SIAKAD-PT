@@ -108,7 +108,7 @@
 						        	<table class="table table-responsive-sm table-bordered table-striped tbl-data-fk datatable-dt" table-dt=".tbl-data-fk" data-tbl-selected="check-all-fk check-fk" table-box="#box-content">
 						                <thead>
 							                <tr>
-							                  <th style="width: 10px"><input type="checkbox" class="check-all-data check-all-fk" data-selected="check-fk" data-all-selected="check-all-fk" data-toggle=".hapus"></th>
+							                  <th style="width: 10px"><input type="checkbox" class="check-all-data check-all-fk icheck-input-checkbox" data-selected="check-fk" data-all-selected="check-all-fk" data-toggle=".hapus"></th>
 							                  <th>Nama Fakultas</th>
 							                  <th>Dekan</th>					                  
 							                  <th style="width: 150px">Tanggal Berdiri</th>
@@ -123,7 +123,7 @@
 						                </tbody>
 						                <tfoot>
 							                <tr>			
-							                  <th><input type="checkbox" class="check-all-data check-all-fk" data-selected="check-fk" data-all-selected="check-all-fk" data-toggle=".hapus"></th>
+							                  <th><input type="checkbox" class="check-all-data check-all-fk icheck-input-checkbox" data-selected="check-fk" data-all-selected="check-all-fk" data-toggle=".hapus"></th>
 							                  <th>Nama Fakultas</th>
 							                  <th>Dekan</th>					                  
 							                  <th>Tanggal Berdiri</th>
@@ -385,7 +385,7 @@
 		                <thead>
 			                <tr>
 			                  <th style="width: 5px"></th>
-			                  <th class="text-center"><input type="checkbox" class="check-all-data check-all-prodi" data-selected="check-prodi" data-all-selected="check-all-prodi" data-toggle=".hapus-prodi"></th>
+			                  <th class="text-center"><input type="checkbox" class="check-all-data check-all-prodi icheck-input-checkbox" data-selected="check-prodi" data-all-selected="check-all-prodi" data-toggle=".hapus-prodi"></th>
 			                  <th class="text-center" style="width: 120px">Kode Prodi</th>
 			                  <th style="width: 300px">Nama Program Studi</th>
 			                  <th class="text-center">Status</th>
@@ -402,7 +402,7 @@
 		                <tfoot>
 			                <tr>
 			                  <th></th>
-			                  <th class="text-center"><input type="checkbox" class="check-all-data check-all-prodi" data-selected="check-prodi" data-all-selected="check-all-prodi" data-toggle=".hapus-prodi"></th>
+			                  <th class="text-center"><input type="checkbox" class="check-all-data check-all-prodi icheck-input-checkbox" data-selected="check-prodi" data-all-selected="check-all-prodi" data-toggle=".hapus-prodi"></th>
 			                  <th class="text-center">Kode Prodi</th>
 			                  <th>Nama Program Studi</th>
 			                  <th class="text-center">Status</th>
