@@ -3848,6 +3848,7 @@ $(function(){
         var prodi_p = $('.control-panel-data-tbl .select2_prodi').val();
         var check_print_data = getJSON_async('http://'+host+controller_path+'/check_print_data',{prodi:prodi_p},null,true);
         check_print_data.then(function(check_print_data){
+          $('#created-pass').find('i').removeClass('fa-refresh fa-spin').addClass('fa-key');
           if (check_print_data.status != 'success') {
             if (check_print_data.errors['prodi']) {
               var error_message = check_print_data.errors['prodi'];
