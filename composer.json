@@ -1,0 +1,14 @@
+{
+    "name": "muhammad_dicky_hidayat_latif/siakad-pt",
+    "description": "Sistem Informasi Akademik Perguruan Tinggi",
+    "authors": [
+        {
+            "name": "Muhammad Dicky Hidayat Latif",
+            "email": "muh.dickyhidayat@gmail.com"
+        }
+    ],
+    "require": {
+        "codeigniter/framework": "^3.1",
+        "tecnickcom/tcpdf": "^6.2"
+    }
+}
