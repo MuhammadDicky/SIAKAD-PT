@@ -2,9 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // Include the main TCPDF library (search for installation path).
-require_once('tcpdf.php');
+require_once('vendor/tecnickcom/tcpdf/tcpdf.php');
 
-class CI_CustomHeader extends TCPDF {
+class CustomHeader extends TCPDF {
     /* custom table */
     // Load table data from file
     public function Header() {

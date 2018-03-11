@@ -255,9 +255,9 @@ class User_model extends My_Models_Configuration{
   
   	private function generatepdf($header,$data,$judul,$lvl){
 	    //load library tcpdf
-	    $this->load->library('tcpdf/CustomHeader');
+	    $this->load->library('CustomHeader');
 	    // create new PDF document
-	    $pdf = new CI_CustomHeader(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+	    $pdf = new CustomHeader(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 	        
 	    // set document information
 	    $pdf->SetAuthor('Admin '.web_detail('_site_name'));
