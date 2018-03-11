@@ -1076,8 +1076,7 @@ class Data_akademik extends Backend_Controller {
 
 						$act = NULL;
 						if (count($mhs_list) > 0) {
-							$act = array(
-								0 => array(
+							$act[] = array(
 									'not_in' => array('id' => $mhs_list),
 									'where' => array(
 										'id_pd_mhs' => $pd,
@@ -1086,9 +1085,9 @@ class Data_akademik extends Backend_Controller {
 										),
 									'like' => array(
 										'nisn' => $cari,
-										),
-									),
-								1 => array(
+										)
+								);
+							$act[] = array(
 									'or_not_in' => array('id' => $mhs_list),
 									'where' => array(
 										'id_pd_mhs' => $pd,
@@ -1097,13 +1096,11 @@ class Data_akademik extends Backend_Controller {
 										),
 									'like' => array(
 										'nama' => $cari,
-										),
-									),
+										)
 								);
 						}
 						else{
-							$act = array(
-								0 => array(
+							$act[] = array(
 									'where' => array(
 										'id_pd_mhs' => $pd,
 										'id_mhs_alni' => NULL,
@@ -1111,9 +1108,9 @@ class Data_akademik extends Backend_Controller {
 										),
 									'like' => array(
 										'nisn' => $cari,
-										),
-									),
-								1 => array(
+										)
+								);
+							$act[] = array(
 									'or' => array(
 										'id_pd_mhs' => $pd,
 										),
@@ -1123,25 +1120,23 @@ class Data_akademik extends Backend_Controller {
 										),
 									'like' => array(
 										'nama' => $cari,
-										),
-									),
+										)
 								);
 						}
 						$cari = array('id_pd_mhs' => $pd);
 						$count = $this->mahasiswa_model->get_detail_data('count',array('alumni','mhs_do'),$act,NULL,FALSE,array('id','nisn','nama'),array('id'));
 					}
 					elseif (isset($post['act'])) {
-						$act = array(
-							0 => array(
+						$act[] = array(
 								'where' => array(
 									'id_mhs_alni' => NULL,
 									'id_mhs_DO' => NULL,
 									),
 								'like' => array(
 									'nisn' => $cari,
-									),
-								),
-							1 => array(
+									)
+							);
+						$act[] = array(
 								'or' => array(
 									'id_mhs_alni' => NULL,
 									),
@@ -1150,8 +1145,7 @@ class Data_akademik extends Backend_Controller {
 									),
 								'like' => array(
 									'nama' => $cari,
-									),
-								),
+									)
 							);
 						$count = $this->mahasiswa_model->get_detail_data('count',array('alumni','mhs_do'),$act,NULL,FALSE,array('id','nisn','nama'),array('id'));
 					}

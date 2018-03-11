@@ -369,7 +369,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
           }
         });
-        if (get('skin') != undefined || get('skin') == null) {
+        if (get('skin') != undefined && get('skin') == null) {
           change_skin(get('skin'));
         }
         else{

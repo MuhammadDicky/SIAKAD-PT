@@ -56,6 +56,67 @@ else if (check_array_exist(akademik_path_dt,path) == true) {
 
 $(function(){
 
+  /*Default Settings*/
+  try{
+    /*Select2*/
+    $.fn.select2.defaults.set("language","id");
+    /*END -- Select2*/
+
+    /*Datatable With AJAX*/
+    $.fn.dataTable.ext.errMode = 'none';
+    $.extend( true, $.fn.dataTable.defaults, {
+      "oLanguage": {
+        "oPaginate": {
+          "sNext": "<li class='fa fa-angle-double-right' title='Selanjutnya'></li>",
+          "sPrevious": "<li class='fa fa-angle-double-left' title='Sebelumnya'></li>",
+          "sFirst": "Pertama",
+          "sLast": "Terakhir"
+        },
+        "sInfo": "Menampilkan Data (_START_ Sampai _END_) Dari _TOTAL_ Data",
+        "sInfoEmpty": "Data tidak ditemukan",
+        "sProcessing": "<div class='datatable-loading-text load-datatable'>Memuat Data</div>",
+        "sLoadingRecords": "<center>Memproses Data...</center>",
+        "sSearch": "",
+        "sInfoFiltered": " - Hasil Pencarian Dari _MAX_ Data",
+        "sZeroRecords": "<center>Data yang dicari tidak ditemukan</center>"
+      },
+      "fnDrawCallback": function(){
+        $('input.icheck-input-checkbox[type="checkbox"]').iCheck({
+          /*checkboxClass: 'icheckbox_square-blue',*/
+          checkboxClass: 'icheckbox_flat-blue'
+        });
+      },
+      "initComplete": function(settings, json) {
+      }
+    });
+    $('.datatable-dt').on('preXhr.dt', function(e,settings,data){
+      var i = 0;
+      $('.load-datatable').html('Memuat Data');
+      clearInterval(intval_vars);
+      intval_vars = setInterval(function(){
+        $('.load-datatable').append('. ');
+        i++;
+        if (i == 4) {
+          $('.load-datatable').html('Memuat Data');
+          i = 0;
+        }
+      },400);
+
+      data.csrf_key = token;
+      var selected_vars = $(this).attr('data-tbl-selected');
+      if (selected_vars != undefined) {
+        selected_vars = selected_vars.split(' ');
+        $('.'+selected_vars[0]).iCheck('uncheck');
+        $('.'+selected_vars[1]).iCheck('uncheck');
+      }
+    });
+    /*END -- Datatable With AJAX*/
+  }
+  catch(error){
+
+  }
+  /*END -- Default Settings*/
+
   /*Moment JS*/
   var last_online_user = $('#user-widget-detail .user-last-time-login').attr('data-time');
   $('#user-widget-detail .user-last-time-login').text('Terakhir kali login '+moment(last_online_user).fromNow());
@@ -71,6 +132,74 @@ $(function(){
   }
   catch(error){}
   /*END -- Mousewheel Horizontal*/
+
+  /*iCheck*/
+  try{
+    $('input.icheck-input-radio[type="radio"]').iCheck({
+      radioClass: 'iradio_flat-blue'
+    });
+    $('input.icheck-input-checkbox[type="checkbox"]').iCheck({
+      checkboxClass: 'icheckbox_flat-blue'
+    });
+  }
+  catch(error){
+
+  }
+  $(document).off('ifChecked ifUnchecked');
+  $(document).on('ifChecked', '.check-all-data', function(){
+    var class_selected = $(this).attr('data-selected'),
+    class_all_selected = $(this).attr('data-all-selected');
+    $('.'+class_selected).iCheck('check');
+    $('.'+class_all_selected).iCheck('check');
+  });
+  $(document).on('ifUnchecked', '.check-all-data', function(){
+    var class_selected = $(this).attr('data-selected'),
+    class_all_selected = $(this).attr('data-all-selected'),
+    class_toggle = $(this).attr('data-toggle');
+    $('.'+class_selected).iCheck('uncheck');
+    $('.'+class_all_selected).iCheck('uncheck');
+    $(class_toggle).addClass('disabled');
+  });
+  $(document).on('ifChecked', '.check-data', function(){
+    var class_selected = $(this).attr('data-selected'),
+    class_all_selected = $(this).attr('data-all-selected'),
+    class_toggle = $(this).attr('data-toggle'),
+    id = $('.'+class_selected+':checked').length,
+    check_num = $('.'+class_selected).length;
+    if (check_num == id) {
+      $('.'+class_all_selected).iCheck('check');
+    }
+    else{
+      $.each($('.'+class_all_selected), function(index,obj){
+        $('.'+class_all_selected)[index].checked = false;
+      });
+      $('.'+class_all_selected).iCheck('update');
+    }
+
+    if (id > 0) {
+      $(class_toggle).removeClass('disabled');
+    }
+    else{
+      $(class_toggle).addClass('disabled');
+    }
+  });
+  $(document).on('ifUnchecked', '.check-data', function(){
+    var class_selected = $(this).attr('data-selected'),
+    class_all_selected = $(this).attr('data-all-selected'),
+    class_toggle = $(this).attr('data-toggle'),
+    id = $('.'+class_selected+':checked').length;
+    $.each($('.'+class_all_selected), function(index,obj){
+      $('.'+class_all_selected)[index].checked = false;
+    });
+    $('.'+class_all_selected).iCheck('update');
+    if (id > 0) {
+      $(class_toggle).removeClass('disabled');
+    }
+    else{
+      $(class_toggle).addClass('disabled');
+    }
+  });
+  /*END -- iCheck*/
 
   /*HASHCHANGE*/
   $(window).off('hashchange');
