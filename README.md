@@ -84,8 +84,8 @@ Aplikasi ini dapat menggunakan lebih dari satu template dan kedapannya akan bert
 
 No. | Template | Version | Status
 --- | -------- | ------- | ------
-1. | [AdminLTE](https://github.com/almasaeed2010/AdminLTE) | 2.4.3 | Production
-2. | [CoreUI](https://github.com/mrholek/CoreUI-Free-Bootstrap-Admin-Template) | 1.0.10 | In Development
+1\. | [AdminLTE](https://github.com/almasaeed2010/AdminLTE) | 2.4.3 | Production
+2\. | [CoreUI](https://github.com/mrholek/CoreUI-Free-Bootstrap-Admin-Template) | 1.0.10 | In Development
 
 # Installation
 
