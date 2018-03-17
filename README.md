@@ -71,7 +71,7 @@
 
 # Server Requirements
 
-**PHP version 5.6** atau direkomendasikan menggunakan yang paling terbaru. Server
+**PHP version 7.0** atau direkomendasikan menggunakan yang paling terbaru. Server
 disesuaikan dengan spesifikasi codeigniter untuk bisa berjalan dengan baik.
 
 # Contribution
@@ -82,10 +82,11 @@ Dev By: Muhammad Dicky Hidayat Latif
 
 Aplikasi ini dapat menggunakan lebih dari satu template dan kedapannya akan bertambah. Diantara template yang sudah ada yaitu:
 
-**1. AdminLTE** <br>
-**2. CoreUI (In Dev)**
+No. | Template | Version | Status
+--- | -------- | ------- | ------
+1. | [AdminLTE](https://github.com/almasaeed2010/AdminLTE) | 2.4.3 | Production
+2. | [CoreUI](https://github.com/mrholek/CoreUI-Free-Bootstrap-Admin-Template) | 1.0.10 | In Development
 
 # Installation
 
-Untuk menggunakan aplikasi dapat dimulai dengan menyesuaikan konfigurasi di file **configuration.php**.
-Untuk lebih lengkapnya contact **muh.dickyhidayat@gmail.com**.
+Untuk menggunakan aplikasi dapat dimulai dengan menyesuaikan konfigurasi di file **configuration.php**. Untuk lebih lengkapnya contact **muh.dickyhidayat@gmail.com**.
