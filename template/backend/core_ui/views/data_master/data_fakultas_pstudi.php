@@ -86,7 +86,7 @@
 		            			<a href="#tambah" class="btn btn-info"><i class="fa fa-plus"></i> Tambah Fakultas</a> 
 		            			<a href="#delete_selected?fk" class="btn btn-danger disabled hapus"><i class="fa fa-trash"></i> hapus</a> | 
 		            			<a href="#tambah?prodi" class="btn btn-info"><i class="fa fa-plus"></i> Tambah Program Studi</a> 
-		            			<a href="#" class="btn btn-warning refresh-table-pd"><i class="fa fa-list"></i> Daftar Program Studi</a> 
+		            			<a href="#" class="btn btn-warning refresh-table-pd datatables-refresh-btn"><i class="fa fa-list"></i> Daftar Program Studi</a> 
 		            			<a href="#delete_selected?pd" class="btn btn-danger hapus-prodi disabled"><i class="fa fa-trash"></i> hapus</a>
 		        			</div>
 		        		</div>
