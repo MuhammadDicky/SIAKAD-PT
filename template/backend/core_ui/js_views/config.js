@@ -85,6 +85,7 @@ $(function(){
           /*checkboxClass: 'icheckbox_square-blue',*/
           checkboxClass: 'icheckbox_flat-blue'
         });
+        $('.datatables-refresh-btn').removeClass('disabled');
       },
       "initComplete": function(settings, json) {
       }
