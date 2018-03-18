@@ -274,14 +274,7 @@ $(function(){
     "searching": true,
     "ordering": true,
     "info": true,
-    "autoWidth": false,
-    /*"visible": false,
-    "searchable": false,*/
-    /*"scrollY": "180px",
-    "scrollCollapse": false,*/
-    "drawCallback": function(settings, json) {
-      $('.refresh-table-pd').removeClass('disabled');
-    },
+    "autoWidth": false
   });
   /*END -- Datatables Plugin*/
 
