@@ -538,6 +538,84 @@ $(function(){
   });
   /*END -- Modal Event*/
 
+  /*Onclick Event*/
+  $('.info').on('click', function(){
+    var html;
+    var data_info = $(this).attr('data-info');
+    if (path == controller_path+'/data_fakultas_pstudi') {
+      html = '<ol style="text-align:left">'
+      +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Fakultas</a> untuk menambah data fakultas</li>'
+      +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Program Studi</a> untuk menambah program studi</li>'
+      +'<li>klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i></a> pada daftar fakultas untuk menambah program studi</li>'
+      +'</ol>';
+    }
+    else if (path == controller_path+'/data_thn_akademik') {
+      html = '<ol style="text-align:left">'
+        +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Tahun Akademik</a> Untuk menambah tahun akademik</li>'
+        +'<li>Klik tombol <a class="btn btn-danger text-white"><i class="fa fa-ban"></i> Tutup Tahun Akademik</a> Untuk menutup/nonaktifkan tahun akademik yang sedang berjalan</li>'
+        +'<li>klik <div class="toggle btn btn-success btn-sm" data-toggle="toggle" style="width: 140px; height: 30px;"><div class="toggle-group"><label class="btn btn-success btn-sm toggle-on"><i class="fa fa-check-circle"></i> Diterapkan</label><span class="toggle-handle btn btn-default btn-sm"></span></div></div> | <div class="toggle btn btn-danger off btn-sm" data-toggle="toggle" style="width: 140px; height: 30px;"><div class="toggle-group"><label class="btn btn-danger btn-sm active toggle-off"><i class="fa fa-ban"></i> Tidak Diterapkan</label><span class="toggle-handle btn btn-default btn-sm"></span></div></div>'
+        +' pada daftar tahun akademik untuk menerapkan atau menutup tahun akademik</li>'
+        +'<li>klik <div class="toggle btn btn-success btn-sm" data-toggle="toggle" style="width: 140px; height: 30px;"><div class="toggle-group"><label class="btn btn-success btn-sm toggle-on"><i class="fa fa-check-circle"></i> Input Nilai</label><span class="toggle-handle btn btn-default btn-sm"></span></div></div> | <div class="toggle btn btn-danger off btn-sm" data-toggle="toggle" style="width: 140px; height: 30px;"><div class="toggle-group"><label class="btn btn-danger btn-sm active toggle-off"><i class="fa fa-ban"></i> Input Nilai</label><span class="toggle-handle btn btn-default btn-sm"></span></div></div>'
+        +' pada daftar tahun akademik agar proses input nilai bisa dilakukan maupun sebaliknya</li>'
+        +'</ol>';
+    }
+    else if (path == controller_path+'/data_angkatan') {
+      html = '<ol style="text-align:left">'
+        +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Tahun Angkatan</a> Untuk menambah tahun angkatan mahasiswa</li>'
+        +'<li>Klik tombol <a class="btn btn-danger text-white"><i class="fa fa-trash"></i> Hapus</a> Untuk menghapus tahun angkatan mahasiswa</li>'
+        +'<li>klik tombol <a class="btn btn-warning text-white"><i class="fa fa-list"></i></a> Untuk melihat daftar angkatan mahasiswa dan klik tombol <a class="btn btn-success"><i class="fa fa-pencil-square"></i></a> Untuk mengedit data tahun angkatan</li>'
+        +'</ol>';
+    }
+    else if (path == controller_path+'/data_mata_kuliah') {
+      html = '<ol style="text-align:left">'
+        +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Mata Kuliah</a> untuk menambah mata kuliah</li>'
+        +'<li>Klik tombol <a class="btn btn-danger text-white"><i class="fa fa-trash"></i> Hapus</a> pada control panel untuk menghapus multiple data</li>'
+        +'<li>Klik tombol <a class="btn btn-success text-white"><i class="fa fa-list"></i> Tampilkan Mata Kuliah</a> untuk Menampilkan mata kuliah berdasarkan prodi yang dipilih</li>'
+        +'</ol>';
+    }
+    else if (path == controller_path+'/data_jadwal_kuliah') {
+      html = '<ol style="text-align:left">'
+        +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Buat Jadwal Kuliah</a> untuk menambah jadwal kuliah kuliah</li>'
+        +'<li>Klik tombol <a class="btn btn-danger text-white"><i class="fa fa-trash"></i> Hapus</a> pada control panel untuk menghapus multiple data</li>'
+        +'<li>Klik tombol <a class="btn btn-success text-white"><i class="fa fa-list"></i> Tampilkan Jadwal Kuliah</a> untuk menampilkan jadwal kuliah berdasarkan tahun akademik dan prodi yang dipilih</li>'
+        +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Mahasiswa</a> untuk menambah mahasiswa kedalam kelas yang bersangkutan</li>'
+        +'</ol>';
+    }
+    else if (path == controller_path+'/pengaturan') {
+      if (data_info == 'layout-setting') {
+        html = '<ol style="text-align:left;">'
+          +'<li>Pilihan layout untuk merubah tampilan sistem dimana terdiri dari:'
+          +'<ul style="margin-left:-22px;list-style-type:square">'
+          +'<li><b>Fixed-Layout</b></li>'
+          +'<li><b>Boxed-Layout</b></li>'
+          +'<li><b>Toggle Sidebar</b></li>'
+          +'<li><b>Toggle Right Sidebar</b></li>'
+          +'</ul>'
+          +'</li>'
+          +'<li>Warna layout untuk merubah warna dasar tampilan sistem yang terdiri dari 12 pilihan warna</li>'
+          +'<li>Pengaturan default layout ialah <b>Fixed-Layout</b> dan <b>Skin Yellow</b></li>'
+          +'</ol>';
+      }
+      else if (data_info == 'backup-db') {
+        html = '<ol style="text-align:left;">'
+          +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-download"></i></a> untuk download backup database dan klik tombol <a class="btn btn-danger"><i class="fa fa-trash"></i></a> untuk menghapus backup database</li>'
+          +'<li>Klik tombol <a class="btn btn-default text-white"><i class="fa fa-download"></i> Backup Database</a> untuk memulai proses backup database</li>'
+          +'<li>Klik tombol <a class="btn btn-default text-white"><i class="fa fa-download"></i> Backup Tabel</a> untuk memulai proses backup tabel database yang dipilih</li>'
+          +'</ol>';
+      }
+    }
+
+    if (html != '' && html != undefined) {
+      swal({          
+        type:'info',
+        title:'Petunjuk',
+        html: html,
+        confirmButtonText:'<i class="fa fa-check"></i> Ok'
+      });
+    }
+  });
+  /*END -- Onclick Event*/
+
   /*Submit AJAX*/
   $('#submit').on('click', function(eve){
     eve.preventDefault();
