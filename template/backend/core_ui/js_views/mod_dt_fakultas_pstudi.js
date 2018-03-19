@@ -27,10 +27,12 @@ $(function(){
   /*Select2 Plugin*/
   $(".select2_akreditasi_fk").select2({
     placeholder: "Pilih akreditasi fakultas",      
+    minimumResultsForSearch:-1,
   });
 
   $(".select2_jenjang").select2({
     placeholder: "Pilih jenjang program studi",      
+    minimumResultsForSearch:-1,
   });
 
   $(".select2_akreditasi_prodi").select2({
