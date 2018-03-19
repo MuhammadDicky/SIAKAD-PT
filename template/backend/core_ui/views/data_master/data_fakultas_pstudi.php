@@ -86,7 +86,7 @@
 		            			<a href="#tambah" class="btn btn-info"><i class="fa fa-plus"></i> Tambah Fakultas</a> 
 		            			<a href="#delete_selected?fk" class="btn btn-danger disabled hapus"><i class="fa fa-trash"></i> hapus</a> | 
 		            			<a href="#tambah?prodi" class="btn btn-info"><i class="fa fa-plus"></i> Tambah Program Studi</a> 
-		            			<a href="#" class="btn btn-warning refresh-table-pd"><i class="fa fa-list"></i> Daftar Program Studi</a> 
+		            			<a href="#" class="btn btn-warning refresh-table-pd datatables-refresh-btn"><i class="fa fa-list"></i> Daftar Program Studi</a> 
 		            			<a href="#delete_selected?pd" class="btn btn-danger hapus-prodi disabled"><i class="fa fa-trash"></i> hapus</a>
 		        			</div>
 		        		</div>
@@ -443,10 +443,10 @@
                 <section class="col-md-6 col-xs-6">
 	                <div class="form-group" id="tgl_berdiri">
 						<label for="tgl_berdiri">Tanggal Berdiri</label>
-						<div class="input-group date">
-							<div class="input-group-addon">
-								<i class="fa fa-calendar"></i>
-							</div>
+						<div class="input-group">
+							<div class="input-group-prepend">
+			                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+			                </div>
 							<input type="text" class="form-control pull-right datepicker tgl_berdiri" name="tgl_berdiri" placeholder="Contoh: 1995-08-14">
 						</div>
 	                </div>
