@@ -212,7 +212,29 @@ $(function(){
     $('.modal .load-data').replaceWith('');
     $('.modal .modal-body').append('<p class="load-data text-center mb-0">Memproses Data</p>');
 
-    if(hash.search('detail') == 0){
+    if (hash == 'tambah') {
+      $('.modal .load-data').replaceWith('');
+      $('#myModal form, #myModal .list-selected, #myModal .data-message').hide();
+      $('.modal .submit-btn, .modal .submit-again-btn').show();
+      $('#myModal').modal('show');
+      $('.modal').addClass('modal-info');
+      modal_animated('zoomIn');
+      if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
+        $('#myModal #form-input').show();
+        $('#myModal #form-input-pstudi').hide();
+        $('#myModal .modal-title').text('Tambah Data Fakultas');
+      }
+      else{
+        $('#myModal').modal('hide');
+      }
+
+      $('#myModal #form-input').attr('action','tambah');
+      $('#myModal #submit').text('Simpan');
+      $('#myModal #submit').prepend('<li class="fa fa-save"></li> ');
+      $('#myModal #submit-again').prepend('<li class="fa fa-clone"></li> ');
+    }
+
+    else if(hash.search('detail') == 0){
       $('#submit, #submit-again, .data-message').hide();
       $('#batal').text('Tutup');
       if (path.search('admin/data_akademik/data_mahasiswa') > 0 || path.search('admin/data_akademik/data_alumni_do') > 0) {
