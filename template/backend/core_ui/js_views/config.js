@@ -58,6 +58,20 @@ $(function(){
 
   /*Default Settings*/
   try{
+    /*DatePicker Plugin*/
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      language: 'id'
+    });
+
+    $('.datepicker').datepicker().on('changeDate',function(eve){
+    }).on('hide',function(eve){
+      eve.preventDefault();
+      eve.stopPropagation();
+    });
+    /*END -- DatePicker Plugin*/
+    
     /*Select2*/
     $.fn.select2.defaults.set("language","id");
     /*END -- Select2*/
