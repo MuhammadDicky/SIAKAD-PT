@@ -248,6 +248,106 @@ $(function(){
       $('#myModal #submit-again').prepend('<li class="fa fa-clone"></li> ');
     }
 
+    else if (hash.search('tambah') == 0) {
+      $('#myModal form, #myModal .list-selected, #myModal .data-message').hide();
+      $('#myModal .submit-btn').attr('id','submit');
+      $('#myModal #form-input').attr('action','tambah');
+      $('.modal').addClass('modal-info').find('.modal-dialog').addClass('modal-lg');;
+      $('#myModal').modal('show');
+      modal_animated('zoomIn');
+      if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
+        if (getUrlVars() == 'prodi') {
+          $('#myModal #form-input-pstudi, .modal .submit-btn, .modal .submit-again-btn').show();
+          $('#myModal .modal-title').text('Tambah Program Studi');
+          $('#myModal #submit').text('Simpan');
+          $('#myModal #submit').prepend('<li class="fa fa-save"></li> ');
+          $('#myModal #submit-again').prepend('<li class="fa fa-clone"></li> ');
+        }
+        else if (getUrlVars()['fk'] != undefined) {
+          $('#myModal .modal-title').text('Tambah Program Studi');
+          var fk = getUrlVars()['fk'],
+          id = getUrlVars()['i'],
+          data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_fk:id,data:'data_fakultas'},1000);
+          data.then(function(nama_fk){
+            $('#form-input-pstudi').show();
+            if (nama_fk.record != '') {
+              $('#form-input-pstudi .select2_fk').prepend('<option value="'+nama_fk.record[0]['id_fk']+'">'+nama_fk.record[0]['nama_fakultas']+'</option>');
+            }
+            else{
+              $('#form-input-pstudi .select2_fk').text('');
+            }
+          });
+        }
+        else if (getUrlVars()['prodi_kons'] != undefined) {
+          if ($('#box-prodi').is(':visible') || $('#box-detail-fk').is(':visible')) {
+            $('#myModal .modal-title').text('Tambah Konsentrasi Program Studi');
+            var pd = getUrlVars()['prodi_kons'],
+            id = getUrlVars()['i'],
+            data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_pd:id,data:'data_prodi'},1000);
+            data.then(function(nama_pd){
+              $('#form-input-konsentrasi-pd').show();
+              if (nama_pd.record_pd != '') {
+                $('#form-input-konsentrasi-pd .select2_prodi').prepend('<option value="'+nama_pd.record_pd[0]['id_prodi']+'">'+nama_pd.record_pd[0]['nama_prodi']+' ('+nama_pd.record_pd[0]['jenjang_prodi']+')</option>');
+              }
+              else{
+                $('#form-input-konsentrasi-pd .select2_prodi').text('');
+              }
+            });
+          }
+          else{
+            $('#myModal').modal('hide');
+          }
+        }
+        else{
+          $('#myModal').modal('hide');
+        }
+      }
+
+      if (data != undefined) {
+        data.then(function(dt){
+          $('#myModal .submit-btn').attr('id','submit').html('<li class="fa fa-save"></li> Simpan</button>');
+          if (load_state == true && load_state != false) {
+            load_state = false;
+            $('.modal .modal-body').append('<p class="load-data text-center">Memproses Data</p>');
+            $('#myModal form, #myModal .submit-btn, #myModal .list-selected').hide();
+            load_inval();
+          }
+          else{
+            if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1 || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['fk'] != undefined || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['prodi_kons'] != undefined) {
+              if (getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'alumni' || getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'drop_out') {
+                $('.modal .submit-btn').show();
+              }
+              else{
+                $('.modal .submit-btn, .modal .submit-again-btn').show();
+              }
+              $('#myModal .submit-btn').html('<li class="fa fa-save"></li> Simpan');
+              $('#myModal .submit-again-btn').html('<li class="fa fa-clone"></li> Simpan dan Tambah');
+            }
+            else{
+              if (dt.message != null && dt.message != '') {
+                $('.data-message .content-message').addClass('centered-text').html(dt.message);
+              }
+              else{
+                $('.data-message .content-message').addClass('centered-text').html('Maaf, data yang anda cari tidak ditemukan');
+              }
+              $('.modal .submit-btn, .modal .submit-again-btn').hide();
+              $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+              $('.data-message').show();
+            }
+          }
+        }).catch(function(error){
+          $('#myModal .submit-btn').attr('id','submit').html('<li class="fa fa-save"></li> Simpan</button>').hide();
+          $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+          $('.modal .submit-btn, .modal .submit-again-btn').hide();
+          $('.data-message').show();
+          $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+        });
+      }
+      else{
+        $('.modal .load-data').remove();
+      }
+    }
+
     else if(hash.search('edit') == 0){
       $('#myModal form, #myModal .submit-again-btn, .data-message').hide();
       $('.modal').addClass('modal-success').find('.modal-dialog').addClass('modal-lg');
