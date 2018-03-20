@@ -217,7 +217,7 @@ $(function(){
       $('#myModal form, #myModal .list-selected, #myModal .data-message').hide();
       $('.modal .submit-btn, .modal .submit-again-btn').show();
       $('#myModal').modal('show');
-      $('.modal').addClass('modal-info');
+      $('.modal').addClass('modal-info').find('.modal-dialog').addClass('modal-lg');
       modal_animated('zoomIn');
       if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
         $('#myModal #form-input').show();
