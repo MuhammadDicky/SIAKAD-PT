@@ -352,6 +352,96 @@ $(function(){
       }
     }
 
+    else if(hash.search('hapus') == 0){
+      $('#myModal').modal('show');
+      $('#myModal form, #myModal #submit-again, .data-message').hide();
+      $('.modal').addClass('modal-danger');
+      modal_animated('zoomIn');
+      if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
+        var urlvar = getUrlVars();
+        if (urlvar[0] == 'fk') {
+          var id = getUrlVars()['fk'];
+          var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_fk:id,data:'data_fakultas'},500);
+          data.then(function(detail_fk){
+            if (detail_fk.total_rows > 0) {
+              $.each(detail_fk.record_fk, function(index, data_record){              
+                  $('.data-message').show();                
+                  $('.data-message .content-message').html('Apakah anda yakin ingin menghapus data fakultas&nbsp<strong>'+data_record.nama_fakultas+'</strong>&nbsp?').addClass('centered-text');
+                  $('#form-input .id_fk').attr('value',data_record.id_fk);                
+                });            
+            }
+          });
+          $('#myModal .modal-title').text('Hapus Data Fakultas');
+        }
+        else if (urlvar[0] == 'pd') {
+          var id = getUrlVars()['pd'];            
+          var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_pd:id,data:'data_prodi'},500);
+          data.then(function(detail_pd){
+            if (detail_pd.total_rows > 0) {
+              $.each(detail_pd.record_pd, function(index, data_record){              
+                  $('.data-message').show();
+                  $('.data-message .content-message').html('Apakah anda yakin ingin menghapus data program studi&nbsp<strong>'+data_record.nama_prodi+' ('+data_record.jenjang_prodi+')</strong>&nbsp?').addClass('centered-text');
+                  $('#form-input-pstudi .id_prodi').attr('value',data_record.id_prodi);
+                  $('#form-input-pstudi .id_fk_pd').attr('value',data_record.id_fk_pd);
+                });            
+            }
+          });
+          $('#myModal .modal-title').text('Hapus Data Program Studi');
+        }
+        else if (urlvar['data'] == 'konsentrasi_prodi'){
+          if ($('#box-detail-fk').is(':visible')) {
+            var id = getUrlVars()['konsentrasi'];
+            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id,data:'data_konsentrasi_pd'},500);
+            data.then(function(edit_konsentrasi_pd){
+              if (edit_konsentrasi_pd.total_rows > 0) {
+                $.each(edit_konsentrasi_pd.data, function(index, data_record){            
+                  $('.data-message').show();
+                  $('.data-message .content-message').html('Apakah anda yakin ingin menghapus data konsentrasi&nbsp<strong>'+data_record.nm_konsentrasi+'</strong>&nbsp pada program studi <strong>'+data_record.nama_prodi+' ('+data_record.jenjang_prodi+')</strong>&nbsp?').addClass('centered-text');
+                  $('#form-input-konsentrasi-pd .select2_prodi').prepend('<option value="'+data_record.id_pd_konst+'">'+data_record.nama_prodi+' ('+data_record.jenjang_prodi+')</option>');
+                  $('#form-input-konsentrasi-pd .id_konst').attr('value',data_record.id_konst);
+                });
+              }
+            });
+            $('#myModal .modal-title').text('Hapus Konsentrasi Program Studi');
+          }
+          else{
+            $('.modal').modal('hide');
+          }
+        }
+        else{
+          $('#myModal').modal('hide');
+        }
+      }
+
+      if (data != undefined) {
+        data.then(function(dt){
+          if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1) {
+            $('#myModal #form-input').attr('action','delete');
+            $('#myModal #submit').text('Hapus').show().prepend('<li class="fa fa-trash"></li> ');
+          }
+          else{
+            if (dt.message != null && dt.message != '') {
+              $('.data-message .content-message').addClass('centered-text').html(dt.message);
+            }
+            else{
+              $('.data-message .content-message').addClass('centered-content').html('Data yang ingin anda hapus tidak ditemukan');
+            }
+            $('#myModal form,#myModal .submit-btn, #myModal .submit-again-btn, #myModal .list-selected').hide();
+            $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+            $('.data-message').show();
+          }
+        }).catch(function(error){
+          $('#myModal form, .modal .submit-btn, .modal .submit-again-btn, .list-selected').hide();
+          $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+          $('.data-message').show();
+          $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+        });
+      }
+      else{
+        $('.modal .load-data').remove();
+      }
+    }
+
     else if(hash.search('detail') == 0){
       $('#submit, #submit-again, .data-message').hide();
       $('#batal').text('Tutup');
