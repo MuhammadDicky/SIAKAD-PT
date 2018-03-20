@@ -542,6 +542,102 @@ $(function(){
       }
     }
 
+    else if (hash == 'delete_selected' || hash.search('delete_selected')==0) {
+      $('#myModal form, #submit-again').hide();
+      $('.modal').addClass('modal-danger').find('.modal-dialog').removeClass('modal-lg modal-sm');
+      $('#myModal').modal('show');
+      $('.data-message').show().find('.content-message').text('');
+      modal_animated('zoomIn');
+      if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
+        var selectedItems = [],
+        vars = getUrlVars();
+        if (vars == 'fk') {
+          var check = 'data_fk';
+          $(".check-fk:checked").each(function() {
+            selectedItems.push($(this).val());
+          });       
+        }
+        else if (vars == 'pd') {
+          var check = 'data_pd';
+          $(".check-prodi:checked").each(function() {
+            selectedItems.push($(this).val());
+          });       
+        }
+        $('.data-message').show();
+        var count = selectedItems.length;          
+        if (count > 0 ) {
+          var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_data_master',check:check},1000);
+          data.then(function(detail_data){
+            $('.data-message .content-message').addClass('centered-text');
+            if (detail_data.total_rows > 0 ) {
+              if (vars == 'fk') {
+                $('.data-message .content-message').html('Apakah anda yakin ingin menghapus&nbsp<strong>'+detail_data.total_rows+'&nbspdata</strong>&nbspFakultas ?');
+              }
+              else if (vars == 'pd') {
+                $('.data-message .content-message').html('Apakah anda yakin ingin menghapus&nbsp<strong>'+detail_data.total_rows+'&nbspdata</strong>&nbspProgram Studi ?');
+              }
+            }
+            else{
+              if (vars == 'fk') {
+                $('.data-message .content-message').html('Data fakultas yang anda ingin hapus tidak ditemukan dalam database!');
+              }
+              else if (vars == 'pd') {
+                $('.data-message .content-message').html('Data program studi yang anda ingin hapus tidak ditemukan dalam database!');
+              }
+            }
+          });
+        }
+        else{
+          $('.data-message .content-message').addClass('centered-content');
+          if (vars == 'fk') {
+            $('.data-message .content-message').html('Silahkan pilih data Fakultas yang ingin dihapus!');
+          }
+          else if (vars == 'pd') {
+            $('.data-message .content-message').html('Silahkan pilih data Program Studi yang ingin dihapus!');
+          }
+          $('#submit, #delete-selected').hide();
+          $('#batal').text('Tutup');
+        }
+
+        if (vars == 'fk') {
+          $('#myModal .modal-title').text('Hapus Data Fakultas');
+        }
+        else if (vars == 'pd') {
+          $('#myModal .modal-title').text('Hapus Data Program Studi');
+        }
+      }
+
+      if (data != undefined) {
+        data.then(function(dt){
+          if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1) {
+            $('#myModal #form-input').attr('action','delete');
+            $('#myModal #submit').attr('id','delete-selected').html('<li class="fa fa-trash"></li> Hapus').show();
+            $('#myModal #delete-selected').html('<li class="fa fa-trash"></li> Hapus').show();
+          }
+          else{
+            if (dt.message != null && dt.message != '') {
+              $('.data-message .content-message').addClass('centered-text').html(dt.message);
+            }
+            else{
+              $('.data-message .content-message').addClass('centered-text').html('Maaf, data yang anda cari tidak ditemukan');
+            }
+            $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+            $('#myModal #batal').html('<li class="fa fa-times"></li> Tutup');
+            $('.data-message').show();
+          }
+          $('#myModal form').hide();
+        }).catch(function(error){
+          $('#myModal #batal').html('<li class="fa fa-times"></li> Tutup');
+          $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+          $('.data-message').show();
+          $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+        });
+      }
+      else{
+        $('.modal .load-data').remove();
+      }
+    }
+
     else if(hash.search('detail') == 0){
       $('#submit, #submit-again, .data-message').hide();
       $('#batal').text('Tutup');
