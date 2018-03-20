@@ -971,15 +971,18 @@ $(function(){
             );
             $.each(data.errors, function(key, value){
               $('#alert-place font ul').append('<li>'+value+'</li>');
-              if (mp != 'jadwal') {
-                $("#"+key).addClass('is-invalid');
+              $("[name="+key+"]").addClass('is-invalid');
+              var input_dt = $("[name="+key+"]")[0];
+              var text = document.createElement('div');
+              text.setAttribute('class', 'invalid-feedback');
+              text.innerHTML = value;
+              if (input_dt.localName == 'input') {
+                input_dt.parentNode.insertBefore(text, input_dt.nextSibling);
               }
               else{
-                if (key != 'mata_pelajaran') {
-                  $("#"+key).addClass('is-invalid');
-                }
-                else{
-                  $("#jadwal_mata_pelajaran").addClass('is-invalid');
+                if (input_dt.localName == 'select' && check_array_exist(input_dt.classList, 'select2')) {
+                  $("[name="+key+"]").siblings('.select2').find('.select2-selection ').addClass('is-invalid-select');
+                  input_dt.parentNode.append(text);
                 }
               }
             });
@@ -1650,15 +1653,18 @@ $(function(){
             );
             $.each(data.errors, function(key, value){
               $('#alert-place font ul').append('<li>'+value+'</li>');
-              if (mp != 'jadwal') {
-                $("#"+key).addClass('is-invalid');
+              $("[name="+key+"]").addClass('is-invalid');
+              var input_dt = $("[name="+key+"]")[0];
+              var text = document.createElement('div');
+              text.setAttribute('class', 'invalid-feedback');
+              text.innerHTML = value;
+              if (input_dt.localName == 'input') {
+                input_dt.parentNode.insertBefore(text, input_dt.nextSibling);
               }
               else{
-                if (key != 'mata_pelajaran') {
-                  $("#"+key).addClass('is-invalid');
-                }
-                else{
-                  $("#jadwal_mata_pelajaran").addClass('is-invalid');
+                if (input_dt.localName == 'select' && check_array_exist(input_dt.classList, 'select2')) {
+                  $("[name="+key+"]").siblings('.select2').find('.select2-selection ').addClass('is-invalid-select');
+                  input_dt.parentNode.append(text);
                 }
               }
             });
