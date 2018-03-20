@@ -1448,6 +1448,7 @@ $(function(){
     eve.preventDefault();
     
     $('#form-input, form').find('.is-invalid').removeClass('is-invalid');
+    $('#form-input, form').find('.is-invalid-select').removeClass('is-invalid-select');
     $('#form-input, form').find('.invalid-feedback').remove();
     var submit_btn = $(this).find('li');
     var action = $('#form-input').attr('action');
