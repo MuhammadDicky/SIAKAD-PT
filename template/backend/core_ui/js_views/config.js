@@ -2103,4 +2103,111 @@ $(function(){
   });
   /*END -- Submit AJAX*/
 
+  /*Ajax process for multiple delete data*/
+  $(document).on('click','#delete-selected', function(eve){
+    eve.stopImmediatePropagation();
+    eve.preventDefault();
+    var id = [],
+    data = $('#data').attr('name'),
+    btn_act = $(this).find('li');
+    btn_act.removeClass('fa-trash').addClass('fa-circle-o-notch fa-spin');
+    if (path == controller_path+'/data_fakultas_pstudi') {
+      if (getUrlVars() == 'fk') {
+        $(".check-fk:checked").each(function() {
+          if ($(this).val() != '') {
+            id.push($(this).val());
+          }
+        });
+        var selected_data = id.length;
+        if (selected_data > 0) {
+          var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_fakultas'},1000);
+          hapus.then(function(hapus){
+            if (hapus.status =='success') {
+              $('.tbl-data-fk').DataTable().ajax.reload();
+              if ($('#box-detail-fk').is(':visible')) {
+                $('#box-detail-fk').slideUp();
+              }
+              $('#myModal').modal('hide');
+            }
+          });
+        }
+      }
+      else if (getUrlVars() == 'pd') {
+        $(".check-prodi:checked").each(function() {
+          if ($(this).val() != '') {
+            id.push($(this).val());
+          }
+        });
+        var selected_data = id.length;
+        if (selected_data > 0) {
+          var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_prodi'},1000);
+          hapus.then(function(hapus){
+            if (hapus.status =='success') {
+              $('#box-detail-fk').find('div.overlay').fadeIn();
+              $(document).bind('ajaxComplete', function(){
+                $('#box-detail-fk').find('div.overlay').fadeOut();
+              });
+              if ($('#box-detail-fk').is(':visible')) {
+                $('.close-dt-pd-bt').fadeOut();
+                $('.detail-prodi').fadeOut().removeClass('active').find('a').attr('aria-expanded','false');
+                $('#detail-prodi').removeClass('active');
+                $('.daftar-prodi').addClass('active').find('a').attr('aria-expanded','true');
+                $('#daftar-prodi').addClass('active');
+                data_detail_fk(hapus.data);
+              }
+              $('#myModal').modal('hide');
+            }
+          });
+        }
+      }
+    }
+
+    if (selected_data != undefined && selected_data < 1) {
+      $('#alert-place').html(
+        '<div class="alert alert-danger alert-dismissible">'
+        +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+        +'  <h4><i class="icon fa fa-ban"></i> Validasi Gagal!</h4>'                
+        +'  <font>Silahkan pilih data yang ingin dihapus</font>'
+        +'</div>'
+      );
+    }
+    if (hapus != undefined) {
+      hapus.then(function(data){
+        btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+        if (data.status == 'success') {
+          swal({
+            title:'Data Berhasil Di Hapus',
+            type:'success',
+            timer: 2000
+          });
+        }
+        else{
+          if (data.message != null) {
+            $('#alert-place').html(
+              '<div class="alert alert-danger alert-dismissible">'
+              +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+              +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+              +'  <font>'+data.message+'</font>'
+              +'</div>'
+            );
+          }
+          else if (data.errors == null || data.message == null) {
+            $('.data-message').show();
+            $('.data-message .content-message').addClass('centered-content').html('Maaf, terjadi kesalahan ketika menghapus data!');
+          }
+        }
+      }).catch(function(error){
+        btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+        $('#alert-place').html(
+            '<div class="alert alert-danger alert-dismissible">'
+            +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+            +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+            +'  <font>Terjadi kesalahan saat menghapus data, <b>Error '+error.status+': '+error.statusText+'</b></font>'
+            +'</div>'
+          );
+      });
+    }
+  });
+  /*END -- Ajax process for multiple delete data*/
+
 });
