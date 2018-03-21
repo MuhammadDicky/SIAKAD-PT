@@ -1,6 +1,11 @@
 <script type="text/javascript">
   var requireJS = [
   	{
+  		'name': 'datepicker',
+  		'link': "<?php echo get_plugin('datepicker','js') ?>",
+  		'state': true
+  	},
+  	{
       'name': 'chartJS',
       'link': "<?php echo get_plugin('chartjs','js',' 2.7.1')?>",
       'state': true
@@ -47,6 +52,11 @@
   	}
   ];
   var requireCSS = [
+  	{
+  		'name': 'datepicker',
+  		'link': "<?php echo get_plugin('datepicker','css')?>",
+  		'state': true
+  	},
   	{
   		'name': 'datatables',
   		'link': "<?php echo get_plugin('datatables','css','bs')?>",
