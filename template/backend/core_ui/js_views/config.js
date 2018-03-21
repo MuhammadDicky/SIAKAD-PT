@@ -1044,7 +1044,8 @@ $(function(){
   /*END -- Onclick Event*/
 
   /*Submit AJAX*/
-  $('#submit').on('click', function(eve){
+  $(document).on('click', '#submit', function(eve){
+    eve.stopImmediatePropagation();
     eve.preventDefault();
     
     $('#form-input, form').find('.is-invalid').removeClass('is-invalid');
@@ -1848,7 +1849,8 @@ $(function(){
       }       
     });
   });
-  $('#submit-again').on('click', function(eve){
+  $(document).on('click', '#submit-again', function(eve){
+    eve.stopImmediatePropagation();
     eve.preventDefault();
     
     $('#form-input, form').find('.is-invalid').removeClass('is-invalid');
