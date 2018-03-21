@@ -132,6 +132,13 @@ $(function(){
   }
   /*END -- Default Settings*/
 
+  /*slimScroll Plugin*/
+  $('.default-overflow-container').slimScroll({
+    position: 'right',
+    height: '340px',
+  });
+  /*END -- slimScroll Plugin*/
+
   /*Moment JS*/
   var last_online_user = $('#user-widget-detail .user-last-time-login').attr('data-time');
   $('#user-widget-detail .user-last-time-login').text('Terakhir kali login '+moment(last_online_user).fromNow());
