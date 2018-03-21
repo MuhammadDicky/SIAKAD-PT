@@ -58,6 +58,20 @@ $(function(){
 
   /*Default Settings*/
   try{
+    /*DatePicker Plugin*/
+    $('.datepicker').datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      language: 'id'
+    });
+
+    $('.datepicker').datepicker().on('changeDate',function(eve){
+    }).on('hide',function(eve){
+      eve.preventDefault();
+      eve.stopPropagation();
+    });
+    /*END -- DatePicker Plugin*/
+
     /*Select2*/
     $.fn.select2.defaults.set("language","id");
     /*END -- Select2*/
@@ -117,6 +131,13 @@ $(function(){
 
   }
   /*END -- Default Settings*/
+
+  /*slimScroll Plugin*/
+  $('.default-overflow-container').slimScroll({
+    position: 'right',
+    height: '340px',
+  });
+  /*END -- slimScroll Plugin*/
 
   /*Moment JS*/
   var last_online_user = $('#user-widget-detail .user-last-time-login').attr('data-time');
@@ -217,7 +238,7 @@ $(function(){
       $('#myModal form, #myModal .list-selected, #myModal .data-message').hide();
       $('.modal .submit-btn, .modal .submit-again-btn').show();
       $('#myModal').modal('show');
-      $('.modal').addClass('modal-info');
+      $('.modal').addClass('modal-info').find('.modal-dialog').addClass('modal-lg');
       modal_animated('zoomIn');
       if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
         $('#myModal #form-input').show();
@@ -232,6 +253,396 @@ $(function(){
       $('#myModal #submit').text('Simpan');
       $('#myModal #submit').prepend('<li class="fa fa-save"></li> ');
       $('#myModal #submit-again').prepend('<li class="fa fa-clone"></li> ');
+    }
+
+    else if (hash.search('tambah') == 0) {
+      $('#myModal form, #myModal .list-selected, #myModal .data-message').hide();
+      $('#myModal .submit-btn').attr('id','submit');
+      $('#myModal #form-input').attr('action','tambah');
+      $('.modal').addClass('modal-info').find('.modal-dialog').addClass('modal-lg');;
+      $('#myModal').modal('show');
+      modal_animated('zoomIn');
+      if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
+        if (getUrlVars() == 'prodi') {
+          $('#myModal #form-input-pstudi, .modal .submit-btn, .modal .submit-again-btn').show();
+          $('#myModal .modal-title').text('Tambah Program Studi');
+          $('#myModal #submit').text('Simpan');
+          $('#myModal #submit').prepend('<li class="fa fa-save"></li> ');
+          $('#myModal #submit-again').prepend('<li class="fa fa-clone"></li> ');
+        }
+        else if (getUrlVars()['fk'] != undefined) {
+          $('#myModal .modal-title').text('Tambah Program Studi');
+          var fk = getUrlVars()['fk'],
+          id = getUrlVars()['i'],
+          data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_fk:id,data:'data_fakultas'},1000);
+          data.then(function(nama_fk){
+            $('#form-input-pstudi').show();
+            if (nama_fk.record != '') {
+              $('#form-input-pstudi .select2_fk').prepend('<option value="'+nama_fk.record[0]['id_fk']+'">'+nama_fk.record[0]['nama_fakultas']+'</option>');
+            }
+            else{
+              $('#form-input-pstudi .select2_fk').text('');
+            }
+          });
+        }
+        else if (getUrlVars()['prodi_kons'] != undefined) {
+          if ($('#box-prodi').is(':visible') || $('#box-detail-fk').is(':visible')) {
+            $('#myModal .modal-title').text('Tambah Konsentrasi Program Studi');
+            var pd = getUrlVars()['prodi_kons'],
+            id = getUrlVars()['i'],
+            data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_pd:id,data:'data_prodi'},1000);
+            data.then(function(nama_pd){
+              $('#form-input-konsentrasi-pd').show();
+              if (nama_pd.record_pd != '') {
+                $('#form-input-konsentrasi-pd .select2_prodi').prepend('<option value="'+nama_pd.record_pd[0]['id_prodi']+'">'+nama_pd.record_pd[0]['nama_prodi']+' ('+nama_pd.record_pd[0]['jenjang_prodi']+')</option>');
+              }
+              else{
+                $('#form-input-konsentrasi-pd .select2_prodi').text('');
+              }
+            });
+          }
+          else{
+            $('#myModal').modal('hide');
+          }
+        }
+        else{
+          $('#myModal').modal('hide');
+        }
+      }
+
+      if (data != undefined) {
+        data.then(function(dt){
+          $('#myModal .submit-btn').attr('id','submit').html('<li class="fa fa-save"></li> Simpan</button>');
+          if (load_state == true && load_state != false) {
+            load_state = false;
+            $('.modal .modal-body').append('<p class="load-data text-center">Memproses Data</p>');
+            $('#myModal form, #myModal .submit-btn, #myModal .list-selected').hide();
+            load_inval();
+          }
+          else{
+            if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1 || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['fk'] != undefined || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['prodi_kons'] != undefined) {
+              if (getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'alumni' || getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'drop_out') {
+                $('.modal .submit-btn').show();
+              }
+              else{
+                $('.modal .submit-btn, .modal .submit-again-btn').show();
+              }
+              $('#myModal .submit-btn').html('<li class="fa fa-save"></li> Simpan');
+              $('#myModal .submit-again-btn').html('<li class="fa fa-clone"></li> Simpan dan Tambah');
+            }
+            else{
+              if (dt.message != null && dt.message != '') {
+                $('.data-message .content-message').addClass('centered-text').html(dt.message);
+              }
+              else{
+                $('.data-message .content-message').addClass('centered-text').html('Maaf, data yang anda cari tidak ditemukan');
+              }
+              $('.modal .submit-btn, .modal .submit-again-btn').hide();
+              $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+              $('.data-message').show();
+            }
+          }
+        }).catch(function(error){
+          $('#myModal .submit-btn').attr('id','submit').html('<li class="fa fa-save"></li> Simpan</button>').hide();
+          $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+          $('.modal .submit-btn, .modal .submit-again-btn').hide();
+          $('.data-message').show();
+          $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+        });
+      }
+      else{
+        $('.modal .load-data').remove();
+      }
+    }
+
+    else if(hash.search('edit') == 0){
+      $('#myModal form, #myModal .submit-again-btn, .data-message').hide();
+      $('.modal').addClass('modal-success').find('.modal-dialog').addClass('modal-lg');
+      $('#myModal').modal('show');
+      modal_animated('zoomIn');
+      if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
+        var urlvar = getUrlVars();          
+        if (urlvar[0] == 'fk') {
+          var id = getUrlVars()['fk'];
+          var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_fk:id,data:'data_fakultas'},500);
+          data.then(function(edit_fk){
+            if (edit_fk.total_rows > 0) {
+              $('#myModal #form-input').show();
+              $.each(edit_fk.record[0], function(index, data_record){
+                $('#form-input .'+index).val(data_record);
+                if (index == 'akreditasi_fk') {
+                  $('#form-input .'+index).trigger('change.select2');
+                }
+                if (index == 'tgl_berdiri') {
+                  $('#form-input .'+index).datepicker("update", new Date(data_record));
+                }
+              });
+            }
+          });
+          $('#myModal .modal-title').text('Edit Data Fakultas');
+          $('#form-input-pstudi').hide();
+        }
+        else if (urlvar[0] == 'pd'){
+          var id = getUrlVars()['pd'];            
+          var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_pd:id,data:'data_prodi',act:'edit'},500);
+          data.then(function(edit_pd){
+            if (edit_pd.total_rows > 0) {
+              $('#myModal #form-input-pstudi').show();
+              $.each(edit_pd.data, function(index, data_record){            
+                $.each(data_record, function(index, data_record){                
+                  $('#form-input-pstudi .'+index).val(data_record);
+                  $('#form-input-pstudi .'+index).trigger('change.select2');
+                  if (index == 'tgl_berdiri_prodi' || index == 'tgl_sk_prodi') {
+                    $('#form-input-pstudi .'+index).datepicker("update", new Date(data_record));
+                  }
+                });
+                $('#form-input-pstudi .select2_fk').prepend('<option value="'+data_record.id_fk_pd+'">'+data_record.nama_fakultas+'</option>');
+              });
+            }
+          });
+          $('#myModal .modal-title').text('Edit Data Program Studi');
+          $('#form-input').hide();
+        }
+        else if (urlvar['data'] == 'konsentrasi_prodi'){
+          if ($('#box-detail-fk').is(':visible')) {
+            var id = getUrlVars()['konsentrasi'];
+            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id,data:'data_konsentrasi_pd'},500);
+            data.then(function(edit_konsentrasi_pd){
+              if (edit_konsentrasi_pd.total_rows > 0) {
+                $('#form-input-konsentrasi-pd').show();
+                $.each(edit_konsentrasi_pd.data, function(index, data_record){            
+                  $.each(data_record, function(index, data_record){                
+                    $('#form-input-konsentrasi-pd .'+index).val(data_record);
+                  });
+                  $('#form-input-konsentrasi-pd .select2_prodi').prepend('<option value="'+data_record.id_pd_konst+'">'+data_record.nama_prodi+' ('+data_record.jenjang_prodi+')</option>');
+                });
+              }
+            });
+            $('#myModal .modal-title').text('Edit Konsentrasi Program Studi');
+          }
+          else{
+            $('.modal').modal('hide');
+          }
+        }
+      }
+      else{
+        $('#myModal').modal('hide');
+      }
+
+      if (data != undefined) {
+        Pace.restart();
+        data.then(function(dt){
+          if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1) {
+            $('#myModal #form-input').attr('action','update');
+            $('#myModal .submit-btn').text('Update').prepend('<li class="fa fa-pencil-square"></li> ').show();
+          }
+          else{
+            if (dt.message != null && dt.message != '') {
+              $('.data-message .content-message').addClass('centered-text').html(dt.message);
+            }
+            else{
+              $('.data-message .content-message').addClass('centered-text').html('Maaf, data yang anda cari tidak ditemukan');
+            }
+            $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+            $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+            $('.data-message').show();
+          }
+        }).catch(function(error){
+          $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+          $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+          $('.data-message').show();
+          $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+        });
+      }
+      else{
+        $('.modal .load-data').remove();
+      }
+    }
+
+    else if(hash.search('hapus') == 0){
+      $('#myModal').modal('show');
+      $('#myModal form, #myModal #submit-again, .data-message').hide();
+      $('.modal').addClass('modal-danger').find('.modal-dialog').removeClass('modal-lg modal-sm');
+      modal_animated('zoomIn');
+      if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
+        var urlvar = getUrlVars();
+        if (urlvar[0] == 'fk') {
+          var id = getUrlVars()['fk'];
+          var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_fk:id,data:'data_fakultas'},500);
+          data.then(function(detail_fk){
+            if (detail_fk.total_rows > 0) {
+              $.each(detail_fk.record_fk, function(index, data_record){              
+                  $('.data-message').show();                
+                  $('.data-message .content-message').html('Apakah anda yakin ingin menghapus data fakultas&nbsp<strong>'+data_record.nama_fakultas+'</strong>&nbsp?').addClass('centered-text');
+                  $('#form-input .id_fk').attr('value',data_record.id_fk);                
+                });            
+            }
+          });
+          $('#myModal .modal-title').text('Hapus Data Fakultas');
+        }
+        else if (urlvar[0] == 'pd') {
+          var id = getUrlVars()['pd'];            
+          var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_pd:id,data:'data_prodi'},500);
+          data.then(function(detail_pd){
+            if (detail_pd.total_rows > 0) {
+              $.each(detail_pd.record_pd, function(index, data_record){              
+                  $('.data-message').show();
+                  $('.data-message .content-message').html('Apakah anda yakin ingin menghapus data program studi&nbsp<strong>'+data_record.nama_prodi+' ('+data_record.jenjang_prodi+')</strong>&nbsp?').addClass('centered-text');
+                  $('#form-input-pstudi .id_prodi').attr('value',data_record.id_prodi);
+                  $('#form-input-pstudi .id_fk_pd').attr('value',data_record.id_fk_pd);
+                });            
+            }
+          });
+          $('#myModal .modal-title').text('Hapus Data Program Studi');
+        }
+        else if (urlvar['data'] == 'konsentrasi_prodi'){
+          if ($('#box-detail-fk').is(':visible')) {
+            var id = getUrlVars()['konsentrasi'];
+            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id,data:'data_konsentrasi_pd'},500);
+            data.then(function(edit_konsentrasi_pd){
+              if (edit_konsentrasi_pd.total_rows > 0) {
+                $.each(edit_konsentrasi_pd.data, function(index, data_record){            
+                  $('.data-message').show();
+                  $('.data-message .content-message').html('Apakah anda yakin ingin menghapus data konsentrasi&nbsp<strong>'+data_record.nm_konsentrasi+'</strong>&nbsp pada program studi <strong>'+data_record.nama_prodi+' ('+data_record.jenjang_prodi+')</strong>&nbsp?').addClass('centered-text');
+                  $('#form-input-konsentrasi-pd .select2_prodi').prepend('<option value="'+data_record.id_pd_konst+'">'+data_record.nama_prodi+' ('+data_record.jenjang_prodi+')</option>');
+                  $('#form-input-konsentrasi-pd .id_konst').attr('value',data_record.id_konst);
+                });
+              }
+            });
+            $('#myModal .modal-title').text('Hapus Konsentrasi Program Studi');
+          }
+          else{
+            $('.modal').modal('hide');
+          }
+        }
+        else{
+          $('#myModal').modal('hide');
+        }
+      }
+
+      if (data != undefined) {
+        data.then(function(dt){
+          if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1) {
+            $('#myModal #form-input').attr('action','delete');
+            $('#myModal #submit').text('Hapus').show().prepend('<li class="fa fa-trash"></li> ');
+          }
+          else{
+            if (dt.message != null && dt.message != '') {
+              $('.data-message .content-message').addClass('centered-text').html(dt.message);
+            }
+            else{
+              $('.data-message .content-message').addClass('centered-content').html('Data yang ingin anda hapus tidak ditemukan');
+            }
+            $('#myModal form,#myModal .submit-btn, #myModal .submit-again-btn, #myModal .list-selected').hide();
+            $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+            $('.data-message').show();
+          }
+        }).catch(function(error){
+          $('#myModal form, .modal .submit-btn, .modal .submit-again-btn, .list-selected').hide();
+          $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+          $('.data-message').show();
+          $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+        });
+      }
+      else{
+        $('.modal .load-data').remove();
+      }
+    }
+
+    else if (hash == 'delete_selected' || hash.search('delete_selected')==0) {
+      $('#myModal form, #submit-again').hide();
+      $('.modal').addClass('modal-danger').find('.modal-dialog').removeClass('modal-lg modal-sm');
+      $('#myModal').modal('show');
+      $('.data-message').show().find('.content-message').text('');
+      modal_animated('zoomIn');
+      if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
+        var selectedItems = [],
+        vars = getUrlVars();
+        if (vars == 'fk') {
+          var check = 'data_fk';
+          $(".check-fk:checked").each(function() {
+            selectedItems.push($(this).val());
+          });       
+        }
+        else if (vars == 'pd') {
+          var check = 'data_pd';
+          $(".check-prodi:checked").each(function() {
+            selectedItems.push($(this).val());
+          });       
+        }
+        $('.data-message').show();
+        var count = selectedItems.length;          
+        if (count > 0 ) {
+          var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_data_master',check:check},1000);
+          data.then(function(detail_data){
+            $('.data-message .content-message').addClass('centered-text');
+            if (detail_data.total_rows > 0 ) {
+              if (vars == 'fk') {
+                $('.data-message .content-message').html('Apakah anda yakin ingin menghapus&nbsp<strong>'+detail_data.total_rows+'&nbspdata</strong>&nbspFakultas ?');
+              }
+              else if (vars == 'pd') {
+                $('.data-message .content-message').html('Apakah anda yakin ingin menghapus&nbsp<strong>'+detail_data.total_rows+'&nbspdata</strong>&nbspProgram Studi ?');
+              }
+            }
+            else{
+              if (vars == 'fk') {
+                $('.data-message .content-message').html('Data fakultas yang anda ingin hapus tidak ditemukan dalam database!');
+              }
+              else if (vars == 'pd') {
+                $('.data-message .content-message').html('Data program studi yang anda ingin hapus tidak ditemukan dalam database!');
+              }
+            }
+          });
+        }
+        else{
+          $('.data-message .content-message').addClass('centered-content');
+          if (vars == 'fk') {
+            $('.data-message .content-message').html('Silahkan pilih data Fakultas yang ingin dihapus!');
+          }
+          else if (vars == 'pd') {
+            $('.data-message .content-message').html('Silahkan pilih data Program Studi yang ingin dihapus!');
+          }
+          $('#submit, #delete-selected').hide();
+          $('#batal').text('Tutup');
+        }
+
+        if (vars == 'fk') {
+          $('#myModal .modal-title').text('Hapus Data Fakultas');
+        }
+        else if (vars == 'pd') {
+          $('#myModal .modal-title').text('Hapus Data Program Studi');
+        }
+      }
+
+      if (data != undefined) {
+        data.then(function(dt){
+          if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1) {
+            $('#myModal #form-input').attr('action','delete');
+            $('#myModal #submit').attr('id','delete-selected').html('<li class="fa fa-trash"></li> Hapus').show();
+            $('#myModal #delete-selected').html('<li class="fa fa-trash"></li> Hapus').show();
+          }
+          else{
+            if (dt.message != null && dt.message != '') {
+              $('.data-message .content-message').addClass('centered-text').html(dt.message);
+            }
+            else{
+              $('.data-message .content-message').addClass('centered-text').html('Maaf, data yang anda cari tidak ditemukan');
+            }
+            $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+            $('#myModal #batal').html('<li class="fa fa-times"></li> Tutup');
+            $('.data-message').show();
+          }
+          $('#myModal form').hide();
+        }).catch(function(error){
+          $('#myModal #batal').html('<li class="fa fa-times"></li> Tutup');
+          $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+          $('.data-message').show();
+          $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+        });
+      }
+      else{
+        $('.modal .load-data').remove();
+      }
     }
 
     else if(hash.search('detail') == 0){
@@ -640,7 +1051,8 @@ $(function(){
   /*END -- Onclick Event*/
 
   /*Submit AJAX*/
-  $('#submit').on('click', function(eve){
+  $(document).on('click', '#submit', function(eve){
+    eve.stopImmediatePropagation();
     eve.preventDefault();
     
     $('#form-input, form').find('.is-invalid').removeClass('is-invalid');
@@ -971,15 +1383,18 @@ $(function(){
             );
             $.each(data.errors, function(key, value){
               $('#alert-place font ul').append('<li>'+value+'</li>');
-              if (mp != 'jadwal') {
-                $("#"+key).addClass('is-invalid');
+              $("[name="+key+"]").addClass('is-invalid');
+              var input_dt = $("[name="+key+"]")[0];
+              var text = document.createElement('div');
+              text.setAttribute('class', 'invalid-feedback');
+              text.innerHTML = value;
+              if (input_dt.localName == 'input') {
+                input_dt.parentNode.insertBefore(text, input_dt.nextSibling);
               }
               else{
-                if (key != 'mata_pelajaran') {
-                  $("#"+key).addClass('is-invalid');
-                }
-                else{
-                  $("#jadwal_mata_pelajaran").addClass('is-invalid');
+                if (input_dt.localName == 'select' && check_array_exist(input_dt.classList, 'select2')) {
+                  $("[name="+key+"]").siblings('.select2').find('.select2-selection ').addClass('is-invalid-select');
+                  input_dt.parentNode.append(text);
                 }
               }
             });
@@ -1441,10 +1856,12 @@ $(function(){
       }       
     });
   });
-  $('#submit-again').on('click', function(eve){
+  $(document).on('click', '#submit-again', function(eve){
+    eve.stopImmediatePropagation();
     eve.preventDefault();
     
     $('#form-input, form').find('.is-invalid').removeClass('is-invalid');
+    $('#form-input, form').find('.is-invalid-select').removeClass('is-invalid-select');
     $('#form-input, form').find('.invalid-feedback').remove();
     var submit_btn = $(this).find('li');
     var action = $('#form-input').attr('action');
@@ -1650,15 +2067,18 @@ $(function(){
             );
             $.each(data.errors, function(key, value){
               $('#alert-place font ul').append('<li>'+value+'</li>');
-              if (mp != 'jadwal') {
-                $("#"+key).addClass('is-invalid');
+              $("[name="+key+"]").addClass('is-invalid');
+              var input_dt = $("[name="+key+"]")[0];
+              var text = document.createElement('div');
+              text.setAttribute('class', 'invalid-feedback');
+              text.innerHTML = value;
+              if (input_dt.localName == 'input') {
+                input_dt.parentNode.insertBefore(text, input_dt.nextSibling);
               }
               else{
-                if (key != 'mata_pelajaran') {
-                  $("#"+key).addClass('is-invalid');
-                }
-                else{
-                  $("#jadwal_mata_pelajaran").addClass('is-invalid');
+                if (input_dt.localName == 'select' && check_array_exist(input_dt.classList, 'select2')) {
+                  $("[name="+key+"]").siblings('.select2').find('.select2-selection ').addClass('is-invalid-select');
+                  input_dt.parentNode.append(text);
                 }
               }
             });
@@ -1689,5 +2109,112 @@ $(function(){
     });
   });
   /*END -- Submit AJAX*/
+
+  /*Ajax process for multiple delete data*/
+  $(document).on('click','#delete-selected', function(eve){
+    eve.stopImmediatePropagation();
+    eve.preventDefault();
+    var id = [],
+    data = $('#data').attr('name'),
+    btn_act = $(this).find('li');
+    btn_act.removeClass('fa-trash').addClass('fa-circle-o-notch fa-spin');
+    if (path == controller_path+'/data_fakultas_pstudi') {
+      if (getUrlVars() == 'fk') {
+        $(".check-fk:checked").each(function() {
+          if ($(this).val() != '') {
+            id.push($(this).val());
+          }
+        });
+        var selected_data = id.length;
+        if (selected_data > 0) {
+          var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_fakultas'},1000);
+          hapus.then(function(hapus){
+            if (hapus.status =='success') {
+              $('.tbl-data-fk').DataTable().ajax.reload();
+              if ($('#box-detail-fk').is(':visible')) {
+                $('#box-detail-fk').slideUp();
+              }
+              $('#myModal').modal('hide');
+            }
+          });
+        }
+      }
+      else if (getUrlVars() == 'pd') {
+        $(".check-prodi:checked").each(function() {
+          if ($(this).val() != '') {
+            id.push($(this).val());
+          }
+        });
+        var selected_data = id.length;
+        if (selected_data > 0) {
+          var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_prodi'},1000);
+          hapus.then(function(hapus){
+            if (hapus.status =='success') {
+              $('#box-detail-fk').find('div.overlay').fadeIn();
+              $(document).bind('ajaxComplete', function(){
+                $('#box-detail-fk').find('div.overlay').fadeOut();
+              });
+              if ($('#box-detail-fk').is(':visible')) {
+                $('.close-dt-pd-bt').fadeOut();
+                $('.detail-prodi').fadeOut().removeClass('active').find('a').attr('aria-expanded','false');
+                $('#detail-prodi').removeClass('active');
+                $('.daftar-prodi').addClass('active').find('a').attr('aria-expanded','true');
+                $('#daftar-prodi').addClass('active');
+                data_detail_fk(hapus.data);
+              }
+              $('#myModal').modal('hide');
+            }
+          });
+        }
+      }
+    }
+
+    if (selected_data != undefined && selected_data < 1) {
+      $('#alert-place').html(
+        '<div class="alert alert-danger alert-dismissible">'
+        +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+        +'  <h4><i class="icon fa fa-ban"></i> Validasi Gagal!</h4>'                
+        +'  <font>Silahkan pilih data yang ingin dihapus</font>'
+        +'</div>'
+      );
+    }
+    if (hapus != undefined) {
+      hapus.then(function(data){
+        btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+        if (data.status == 'success') {
+          swal({
+            title:'Data Berhasil Di Hapus',
+            type:'success',
+            timer: 2000
+          });
+        }
+        else{
+          if (data.message != null) {
+            $('#alert-place').html(
+              '<div class="alert alert-danger alert-dismissible">'
+              +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+              +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+              +'  <font>'+data.message+'</font>'
+              +'</div>'
+            );
+          }
+          else if (data.errors == null || data.message == null) {
+            $('.data-message').show();
+            $('.data-message .content-message').addClass('centered-content').html('Maaf, terjadi kesalahan ketika menghapus data!');
+          }
+        }
+      }).catch(function(error){
+        btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+        $('#alert-place').html(
+            '<div class="alert alert-danger alert-dismissible">'
+            +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+            +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+            +'  <font>Terjadi kesalahan saat menghapus data, <b>Error '+error.status+': '+error.statusText+'</b></font>'
+            +'</div>'
+          );
+      });
+    }
+  });
+  /*END -- Ajax process for multiple delete data*/
 
 });

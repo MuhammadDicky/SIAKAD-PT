@@ -1,6 +1,11 @@
 <script type="text/javascript">
   var requireJS = [
   	{
+  		'name': 'datepicker',
+  		'link': "<?php echo get_plugin('datepicker','js') ?>",
+  		'state': true
+  	},
+  	{
       'name': 'chartJS',
       'link': "<?php echo get_plugin('chartjs','js',' 2.7.1')?>",
       'state': true
@@ -47,6 +52,11 @@
   	}
   ];
   var requireCSS = [
+  	{
+  		'name': 'datepicker',
+  		'link': "<?php echo get_plugin('datepicker','css')?>",
+  		'state': true
+  	},
   	{
   		'name': 'datatables',
   		'link': "<?php echo get_plugin('datatables','css','bs')?>",
@@ -467,126 +477,128 @@
         <form action="" id="form-input-pstudi" style="display: none;">
             <div class="row">
             	<div class="col-md-12">
-		          <!-- Custom Tabs -->
-			        <div class="nav-tabs-custom nav-info">
-			            <ul class="nav nav-tabs">
-			              <li class="active tab_umum_prodi open-tab"><a href="#tab_umum_prodi" data-toggle="tab" aria-expanded="true">Umum</a></li>
-			              <li class="tab_kontak_prodi close-tab"><a href="#tab_kontak_prodi" data-toggle="tab" aria-expanded="false">Kontak</a></li>
-			              <li class="pull-right"><a href="" class="text-muted" id="refresh-form"><i class="glyphicon glyphicon-refresh"></i></a></li>
-			            </ul>
-			            <div class="tab-content">
-							<div class="tab-pane active open-dt-tab" id="tab_umum_prodi">
-								<div class="tab-overflow-container default-overflow-container">
-									<div class="row">
-										<section class="col-md-6 col-xs-6">
-											<div class="form-group" id="id_fk_pd">
-							                  <label for="id_fk_pd">Fakultas</label>
-							                  <select class="form-control select2 select2-remote-dt select2_fk id_fk_pd" style="width: 100%;" name="id_fk_pd">
-							                  </select>
-							                </div>
-											<div class="form-group" id="kode_prodi">
-												<label for="kode_prodi">Kode Program Studi</label>
-												<input type="number" class="form-control kode_prodi" name="kode_prodi" placeholder="Masukkan kode program studi">
-							                </div>
-							                <div class="form-group" id="nama_prodi">
-												<label for="nama_prodi">Nama Program Studi</label>
-												<input type="text" class="form-control nama_prodi" name="nama_prodi" placeholder="Masukkan nama program studi">
-							                </div>
-							                <div class="form-group" id="nama_kprodi">
-												<label for="nama_kprodi">Nama Ketua Prodi</label>
-												<input type="text" class="form-control nama_kprodi" name="nama_kprodi" placeholder="Masukkan nama ketua prodi">
-							                </div>
-							                <div class="form-group" id="jenjang_prodi">
-							                  <label for="jenjang_prodi">Jenjang</label>
-							                  <select class="form-control select2 select2_jenjang jenjang_prodi" style="width: 100%;" name="jenjang_prodi">
-							                  	<option value=""></option>
-							                  	<option value="S1">S1</option>
-							                  	<option value="S2">S2</option>
-							                  	<option value="S3">S3</option>		                  	
-							                  </select>
-							                </div>							                
-										</section>
-						                <section class="col-md-6 col-xs-6">
-						                	<div class="form-group" id="akreditasi_prodi">
-							                  <label for="akreditasi_prodi">Akreditasi</label>
-							                  <select class="form-control select2 select2_akreditasi_prodi akreditasi_prodi" style="width: 100%;" name="akreditasi_prodi">
-							                  	<option value=""></option>
-							                  	<option value="A">A</option>
-							                  	<option value="B">B</option>
-							                  	<option value="C">C</option>		                  	
-							                  </select>
-							                </div>
-							                <div class="form-group" id="status_prodi">
-							                  <label for="status_prodi">Status Prodi</label>
-							                  <select class="form-control select2 select2_status_prodi status_prodi" style="width: 100%;" name="status_prodi">
-							                  	<option value=""></option>
-							                  	<option value="1">Aktif</option>
-							                  	<option value="0">Tidak Aktif</option>							                  	
-							                  </select>
-							                </div>
-							                <div class="form-group" id="sk_peny_prodi">
-												<label for="sk_peny_prodi">SK Penyelenggaraan</label>
-												<input type="text" class="form-control sk_peny_prodi" name="sk_peny_prodi" placeholder="Masukkan nomor SK">
-							                </div>
-							                <div class="form-group" id="tgl_sk_prodi">
-												<label for="tgl_sk_prodi">Tanggal SK</label>
-												<div class="input-group date">
-													<div class="input-group-addon">
-														<i class="fa fa-calendar"></i>
-													</div>
-													<input type="text" class="form-control pull-right datepicker tgl_sk_prodi" name="tgl_sk_prodi" placeholder="Contoh: 1995-08-14">
-												</div>
-							                </div>
-							                <div class="form-group" id="tgl_berdiri_prodi">
-												<label for="tgl_berdiri_prodi">Tanggal Berdiri</label>
-												<div class="input-group date">
-													<div class="input-group-addon">
-														<i class="fa fa-calendar"></i>
-													</div>
-													<input type="text" class="form-control pull-right datepicker tgl_berdiri_prodi" name="tgl_berdiri_prodi" placeholder="Contoh: 1995-08-14">
-												</div>
-							                </div>
-										</section>
-					                </div>
-					            </div>
-			              	</div> 
-			              <!-- /.tab-pane -->
-							<div class="tab-pane close-dt-tab" id="tab_kontak_prodi">				              	
+		          	<!-- Custom Tabs -->
+		            <ul class="nav nav-tabs" role="tablist">
+		            	<li class="nav-item">
+		                  <a class="nav-link active tab_umum_prodi open-tab" data-toggle="tab" href="#tab_umum_prodi" role="tab" aria-controls="form-profil">Umum</a>
+		                </li>
+		                <li class="nav-item">
+		                  <a class="nav-link tab_kontak_prodi close-tab" data-toggle="tab" href="#tab_kontak_prodi" role="tab" aria-controls="form-profil">Kontak</a>
+		                </li>
+		              	<li class="nav-item">
+		                  <a class="nav-link refresh-modal-form" role="tab" title="Reset Form Input"><i class="fa fa-refresh"></i></a>
+		                </li>
+		            </ul>
+		            <div class="tab-content">
+		            	<div class="tab-pane active open-dt-tab" id="tab_umum_prodi" role="tabpanel">
+							<div class="tab-overflow-container default-overflow-container">
 								<div class="row">
 									<section class="col-md-6 col-xs-6">
-										<div class="form-group">
-											<label for="alamat_prodi">Alamat</label>
-											<input type="text" class="form-control alamat_prodi" name="alamat_prodi" placeholder="Masukkan alamat prodi">
-									    </div>
-									    <div class="form-group">
-											<label for="kode_pos_prodi">Kode POS</label>
-											<input type="number" class="form-control kode_pos_prodi" name="kode_pos_prodi" placeholder="Contoh: 91921">
-									    </div>
-									    <div class="form-group">
-											<label for="telpon_prodi">Telepon</label>
-											<input type="number" class="form-control telpon_prodi" name="telpon_prodi" placeholder="Contoh: 91921">
-									    </div>
+										<div class="form-group" id="id_fk_pd">
+						                  <label for="id_fk_pd">Fakultas</label>
+						                  <select class="form-control select2 select2-remote-dt select2_fk id_fk_pd" style="width: 100%;" name="id_fk_pd">
+						                  </select>
+						                </div>
+										<div class="form-group" id="kode_prodi">
+											<label for="kode_prodi">Kode Program Studi</label>
+											<input type="number" class="form-control kode_prodi" name="kode_prodi" placeholder="Masukkan kode program studi">
+						                </div>
+						                <div class="form-group" id="nama_prodi">
+											<label for="nama_prodi">Nama Program Studi</label>
+											<input type="text" class="form-control nama_prodi" name="nama_prodi" placeholder="Masukkan nama program studi">
+						                </div>
+						                <div class="form-group" id="nama_kprodi">
+											<label for="nama_kprodi">Nama Ketua Prodi</label>
+											<input type="text" class="form-control nama_kprodi" name="nama_kprodi" placeholder="Masukkan nama ketua prodi">
+						                </div>
+						                <div class="form-group" id="jenjang_prodi">
+						                  <label for="jenjang_prodi">Jenjang</label>
+						                  <select class="form-control select2 select2_jenjang jenjang_prodi" style="width: 100%;" name="jenjang_prodi">
+						                  	<option value=""></option>
+						                  	<option value="S1">S1</option>
+						                  	<option value="S2">S2</option>
+						                  	<option value="S3">S3</option>		                  	
+						                  </select>
+						                </div>							                
 									</section>
-									<section class="col-md-6 col-xs-6">
-										<div class="form-group">
-											<label for="fax_prodi">FAX</label>
-											<input type="text" class="form-control fax_prodi" name="fax_prodi" placeholder="Masukkan FAX prodi">
-									    </div>
-									    <div class="form-group">
-											<label for="email_prodi">Email</label>
-											<input type="email" class="form-control email_prodi" name="email_prodi" placeholder="Masukkan alamat email prodi">
-									    </div>
-									    <div class="form-group">
-											<label for="website_prodi">Website</label>
-											<input type="text" class="form-control website_prodi" name="website_prodi" placeholder="Masukkan alamat website prodi">
-									    </div>
+					                <section class="col-md-6 col-xs-6">
+					                	<div class="form-group" id="akreditasi_prodi">
+						                  <label for="akreditasi_prodi">Akreditasi</label>
+						                  <select class="form-control select2 select2_akreditasi_prodi akreditasi_prodi" style="width: 100%;" name="akreditasi_prodi">
+						                  	<option value=""></option>
+						                  	<option value="A">A</option>
+						                  	<option value="B">B</option>
+						                  	<option value="C">C</option>		                  	
+						                  </select>
+						                </div>
+						                <div class="form-group" id="status_prodi">
+						                  <label for="status_prodi">Status Prodi</label>
+						                  <select class="form-control select2 select2_status_prodi status_prodi" style="width: 100%;" name="status_prodi">
+						                  	<option value=""></option>
+						                  	<option value="1">Aktif</option>
+						                  	<option value="0">Tidak Aktif</option>							                  	
+						                  </select>
+						                </div>
+						                <div class="form-group" id="sk_peny_prodi">
+											<label for="sk_peny_prodi">SK Penyelenggaraan</label>
+											<input type="text" class="form-control sk_peny_prodi" name="sk_peny_prodi" placeholder="Masukkan nomor SK">
+						                </div>
+						                <div class="form-group" id="tgl_sk_prodi">
+											<label for="tgl_sk_prodi">Tanggal SK</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+								                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+								                </div>
+												<input type="text" class="form-control pull-right datepicker tgl_sk_prodi" name="tgl_sk_prodi" placeholder="Contoh: 1995-08-14">
+											</div>
+						                </div>
+						                <div class="form-group" id="tgl_berdiri_prodi">
+											<label for="tgl_berdiri_prodi">Tanggal Berdiri</label>
+											<div class="input-group">
+												<div class="input-group-prepend">
+								                    <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+								                </div>
+												<input type="text" class="form-control pull-right datepicker tgl_berdiri_prodi" name="tgl_berdiri_prodi" placeholder="Contoh: 1995-08-14">
+											</div>
+						                </div>
 									</section>
-								</div>								
-							</div>				              
-			            </div>
-			            <!-- /.tab-content -->
-			        </div>
-			        <!-- nav-tabs-custom -->
+				                </div>
+				            </div>
+		              	</div> 
+		              	<!-- /.tab-pane -->
+		              	<div class="tab-pane close-dt-tab" id="tab_kontak_prodi" role="tabpanel">
+							<div class="row">
+								<section class="col-md-6 col-xs-6">
+									<div class="form-group">
+										<label for="alamat_prodi">Alamat</label>
+										<input type="text" class="form-control alamat_prodi" name="alamat_prodi" placeholder="Masukkan alamat prodi">
+								    </div>
+								    <div class="form-group">
+										<label for="kode_pos_prodi">Kode POS</label>
+										<input type="number" class="form-control kode_pos_prodi" name="kode_pos_prodi" placeholder="Contoh: 91921">
+								    </div>
+								    <div class="form-group">
+										<label for="telpon_prodi">Telepon</label>
+										<input type="number" class="form-control telpon_prodi" name="telpon_prodi" placeholder="Contoh: 91921">
+								    </div>
+								</section>
+								<section class="col-md-6 col-xs-6">
+									<div class="form-group">
+										<label for="fax_prodi">FAX</label>
+										<input type="text" class="form-control fax_prodi" name="fax_prodi" placeholder="Masukkan FAX prodi">
+								    </div>
+								    <div class="form-group">
+										<label for="email_prodi">Email</label>
+										<input type="email" class="form-control email_prodi" name="email_prodi" placeholder="Masukkan alamat email prodi">
+								    </div>
+								    <div class="form-group">
+										<label for="website_prodi">Website</label>
+										<input type="text" class="form-control website_prodi" name="website_prodi" placeholder="Masukkan alamat website prodi">
+								    </div>
+								</section>
+							</div>								
+						</div>				              
+		            </div>
 		        </div>	            	
 	        </div>		        
 	        <input type="hidden" id="data_prodi" name="data_prodi">

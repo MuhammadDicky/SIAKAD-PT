@@ -30,20 +30,6 @@ $(function(){
   });
   /*END -- First Load Page*/
 
-  /*DatePicker Plugin*/
-  $('.datepicker').datepicker({
-    format: 'yyyy-mm-dd',
-    autoclose: true,
-    language: 'id'
-  });
-
-  $('.datepicker').datepicker().on('changeDate',function(eve){
-  }).on('hide',function(eve){
-    eve.preventDefault();
-    eve.stopPropagation();
-  });
-  /*END -- DatePicker Plugin*/
-
   /*slimScroll Plugin*/
   $('#tab-identitas-pt #container-form-profil, #tab-identitas-pt #container-form-kontak').slimScroll({
     position: 'right',
