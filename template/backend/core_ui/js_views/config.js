@@ -455,7 +455,7 @@ $(function(){
     else if(hash.search('hapus') == 0){
       $('#myModal').modal('show');
       $('#myModal form, #myModal #submit-again, .data-message').hide();
-      $('.modal').addClass('modal-danger');
+      $('.modal').addClass('modal-danger').find('.modal-dialog').removeClass('modal-lg modal-sm');
       modal_animated('zoomIn');
       if (path.search('admin/data_master/data_fakultas_pstudi') > 0) {
         var urlvar = getUrlVars();
