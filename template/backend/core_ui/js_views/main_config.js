@@ -190,3 +190,212 @@
     return val;
   }
   /*END -- Function: Random value*/
+
+  /*Function: hashchange*/
+  function start_hashchange(callback){
+    $(window).off('hashchange');
+    $(window).bind('hashchange', function(eve){
+        var hash = $.param.fragment();
+        init_hashchange('begin');
+        callback(hash);
+        init_hashchange('end');
+    });
+    $(window).trigger('hashchange');
+  }
+  /*END -- Function: hashchange*/
+
+  /*Function: init hashchange*/
+  function init_hashchange(state){
+      if (state == 'begin') {
+        $('#batal').text('Batal');
+        $('.modal .submit-btn, .modal .submit-again-btn').hide();
+        $('.modal .load-data').replaceWith('');
+        $('.modal .modal-body').append('<p class="load-data text-center mb-0">Memproses Data</p>');
+      } else if (state == 'end') {
+        $('.modal #batal').prepend('<li class="fa fa-times"></li> ');
+      }
+  }
+  /*END -- Function: init hashchange*/
+
+  /*Function: hashchange action*/
+  function hashchange_act(hash, callback){
+    if (hash == 'tambah') {
+        $('.modal .load-data').replaceWith('');
+        $('#myModal form, #myModal .list-selected, #myModal .data-message').hide();
+        $('.modal .submit-btn, .modal .submit-again-btn').show();
+        $('#myModal').modal('show');
+        $('.modal').addClass('modal-info').find('.modal-dialog').addClass('modal-lg');
+        modal_animated('zoomIn');
+        callback();
+        $('#myModal #form-input').attr('action','tambah');
+        $('#myModal #submit').text('Simpan');
+        $('#myModal #submit').prepend('<li class="fa fa-save"></li> ');
+        $('#myModal #submit-again').prepend('<li class="fa fa-clone"></li> ');
+    } 
+    else if (hash.search('tambah') == 0) {
+        $('#myModal form, #myModal .list-selected, #myModal .data-message').hide();
+        $('#myModal .submit-btn').attr('id','submit');
+        $('#myModal #form-input').attr('action','tambah');
+        $('.modal').addClass('modal-info').find('.modal-dialog').addClass('modal-lg');;
+        $('#myModal').modal('show');
+        modal_animated('zoomIn');
+        var data = callback();
+        if (data != undefined) {
+            data.then(function(dt){
+              $('#myModal .submit-btn').attr('id','submit').html('<li class="fa fa-save"></li> Simpan</button>');
+              if (load_state == true && load_state != false) {
+                load_state = false;
+                $('.modal .modal-body').append('<p class="load-data text-center">Memproses Data</p>');
+                $('#myModal form, #myModal .submit-btn, #myModal .list-selected').hide();
+                load_inval();
+              }
+              else{
+                if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1 || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['fk'] != undefined || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['prodi_kons'] != undefined) {
+                  if (getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'alumni' || getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'drop_out') {
+                    $('.modal .submit-btn').show();
+                  }
+                  else{
+                    $('.modal .submit-btn, .modal .submit-again-btn').show();
+                  }
+                  $('#myModal .submit-btn').html('<li class="fa fa-save"></li> Simpan');
+                  $('#myModal .submit-again-btn').html('<li class="fa fa-clone"></li> Simpan dan Tambah');
+                }
+                else{
+                  if (dt.message != null && dt.message != '') {
+                    $('.data-message .content-message').addClass('centered-text').html(dt.message);
+                  }
+                  else{
+                    $('.data-message .content-message').addClass('centered-text').html('Maaf, data yang anda cari tidak ditemukan');
+                  }
+                  $('.modal .submit-btn, .modal .submit-again-btn').hide();
+                  $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+                  $('.data-message').show();
+                }
+              }
+            }).catch(function(error){
+              $('#myModal .submit-btn').attr('id','submit').html('<li class="fa fa-save"></li> Simpan</button>').hide();
+              $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+              $('.modal .submit-btn, .modal .submit-again-btn').hide();
+              $('.data-message').show();
+              $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+            });
+        } else{
+            $('.modal .load-data').remove();
+        }
+    }
+    else if(hash.search('edit') == 0){
+        $('#myModal form, #myModal .submit-again-btn, .data-message').hide();
+        $('.modal').addClass('modal-success').find('.modal-dialog').addClass('modal-lg');
+        $('#myModal').modal('show');
+        modal_animated('zoomIn');
+        var data = callback();
+        if (data != undefined) {
+            Pace.restart();
+            data.then(function(dt){
+                if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1) {
+                    $('#myModal #form-input').attr('action','update');
+                    $('#myModal .submit-btn').text('Update').prepend('<li class="fa fa-pencil-square"></li> ').show();
+                }
+                else{
+                    if (dt.message != null && dt.message != '') {
+                    $('.data-message .content-message').addClass('centered-text').html(dt.message);
+                    }
+                    else{
+                    $('.data-message .content-message').addClass('centered-text').html('Maaf, data yang anda cari tidak ditemukan');
+                    }
+                    $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+                    $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+                    $('.data-message').show();
+                }
+            }).catch(function(error){
+                $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+                $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+                $('.data-message').show();
+                $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+            });
+        }
+        else{
+            $('.modal .load-data').remove();
+        }
+    }
+    else if(hash.search('hapus') == 0){
+        $('#myModal').modal('show');
+        $('#myModal form, #myModal #submit-again, .data-message').hide();
+        $('.modal').addClass('modal-danger').find('.modal-dialog').removeClass('modal-lg modal-sm');
+        modal_animated('zoomIn');
+        var data = callback();
+        if (data != undefined) {
+            data.then(function(dt){
+                if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1) {
+                    $('#myModal #form-input').attr('action','delete');
+                    $('#myModal #submit').text('Hapus').show().prepend('<li class="fa fa-trash"></li> ');
+                }
+                else{
+                    if (dt.message != null && dt.message != '') {
+                        $('.data-message .content-message').addClass('centered-text').html(dt.message);
+                    }
+                    else{
+                        $('.data-message .content-message').addClass('centered-content').html('Data yang ingin anda hapus tidak ditemukan');
+                    }
+                    $('#myModal form,#myModal .submit-btn, #myModal .submit-again-btn, #myModal .list-selected').hide();
+                    $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+                    $('.data-message').show();
+                }
+            }).catch(function(error){
+                $('#myModal form, .modal .submit-btn, .modal .submit-again-btn, .list-selected').hide();
+                $('#myModal #batal').text('Tutup').prepend('<li class="fa fa-times"></li> ');
+                $('.data-message').show();
+                $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+            });
+        }
+        else{
+            $('.modal .load-data').remove();
+        }
+    }
+    else if (hash == 'delete_selected' || hash.search('delete_selected')==0) {
+        $('#myModal form, #submit-again').hide();
+        $('.modal').addClass('modal-danger').find('.modal-dialog').removeClass('modal-lg modal-sm');
+        $('#myModal').modal('show');
+        $('.data-message').show().find('.content-message').text('');
+        modal_animated('zoomIn');
+        var data = callback();
+        if (data != undefined) {
+            data.then(function(dt){
+                if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1) {
+                    $('#myModal #form-input').attr('action','delete');
+                    $('#myModal #submit').attr('id','delete-selected').html('<li class="fa fa-trash"></li> Hapus').show();
+                    $('#myModal #delete-selected').html('<li class="fa fa-trash"></li> Hapus').show();
+                }
+                else{
+                    if (dt.message != null && dt.message != '') {
+                    $('.data-message .content-message').addClass('centered-text').html(dt.message);
+                    }
+                    else{
+                    $('.data-message .content-message').addClass('centered-text').html('Maaf, data yang anda cari tidak ditemukan');
+                    }
+                    $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+                    $('#myModal #batal').html('<li class="fa fa-times"></li> Tutup');
+                    $('.data-message').show();
+                }
+                $('#myModal form').hide();
+            }).catch(function(error){
+                $('#myModal #batal').html('<li class="fa fa-times"></li> Tutup');
+                $('.modal .submit-btn, .modal .submit-again-btn, .modal .list-selected').hide();
+                $('.data-message').show();
+                $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+            });
+        }
+        else{
+            $('.modal .load-data').remove();
+        }
+    }
+    else if(hash.search('detail') == 0){
+        $('#submit, #submit-again, .data-message').hide();
+        $('#batal').text('Tutup');
+        callback();
+    }
+    else{
+        callback();
+    }
+  }
+  /*END -- Function: hashchange action*/
