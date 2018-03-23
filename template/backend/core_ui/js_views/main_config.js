@@ -399,3 +399,277 @@
     }
   }
   /*END -- Function: hashchange action*/
+
+  /*Function: Submit Ajax*/
+  function submit_ajax(url, datasend, callback_rn){
+    $(document).on('click', '#submit', function(eve){
+        eve.stopImmediatePropagation();
+        eve.preventDefault();
+        
+        $('#form-input, form').find('.is-invalid').removeClass('is-invalid');
+        $('#form-input, form').find('.is-invalid-select').removeClass('is-invalid-select');
+        $('#form-input, form').find('.invalid-feedback').remove();
+        $('#alert-place').text('');
+        var submit_btn = $(this).find('li');
+        var action = $('#form-input').attr('action');
+        var host = url().host;
+        var controller_path = url().controller_path;
+        var data = datasend();
+        if (data == null || data == undefined) {
+            var data = $('#form-input').serialize();
+        }
+        /*data = datasend+'&csrf_key='+token;*/
+
+        $.ajax('http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
+            dataType: 'json',
+            type: 'POST',
+            data: data,
+            beforeSend: function(){
+                submit_btn.removeClass('fa-save fa-trash fa-pencil-square').addClass('fa-circle-o-notch fa-spin');
+            },
+            complete: function(xhr){
+                if (xhr.responseJSON['login_rld'] != null) {
+                    $('#alert-place').text('');
+                    $('#alert-place').prepend(
+                        '<div class="alert alert-info alert-dismissible">'
+                        +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                        +'  <h4><i class="icon fa fa-info-circle"></i> Info!</h4>'
+                        +'  <font>Session anda telah berakhir, silihkan klik ulang untuk melanjutkan proses!</font>'
+                        +'</div>'
+                    );
+                }
+                if (action == 'tambah') {
+                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-save');
+                }
+                else if (action == 'update') {
+                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-pencil-square');
+                }
+                else if (action == 'delete') {
+                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+                }
+                $('.submit-process').fadeOut();
+            },
+            success: function(data){
+                token = data.n_token;
+                if (action == 'tambah' && data.status == 'success') {
+                    callback_rn(action, data);
+                    $('#myModal').modal('hide');
+                    swal({
+                        title:'Data Berhasil Di Simpan',
+                        type:'success',
+                        timer: 2000
+                    });
+                }
+                else if (action == 'update') {
+                    if (data.status == 'success') {
+                        callback_rn(action, data);
+                        $('#myModal').modal('hide');
+                        swal({
+                            title:'Data Berhasil Di Update',
+                            type:'success',
+                            timer: 2000
+                        });
+                    }
+                    else if (data.status == 'nothing_change') {
+                        $('.modal').modal('hide');
+                    }
+                }
+                else if (action == 'delete') {
+                    if (data.status == 'success') {
+                        callback_rn(action, data);
+                        $('#myModal').modal('hide');
+                        swal({
+                            title:'Data Berhasil Di Hapus',
+                            type:'success',
+                            timer: 2000
+                        });
+                    }
+                    else{
+                        var error_message = '  <font>Gagal menghapus data</font>';
+                        if (data.status == 'no_active_thn_jdl') {
+                            error_message = '  <font>'+data.error_message+'</font>';
+                        }
+                        else if (data.status == 'no_active_thn_kls') {
+                            error_message = '  <font>'+data.error_message+'</font>';
+                        }
+                        $('#alert-place').prepend(
+                            '<div class="alert alert-danger alert-dismissible mt-4">'
+                            +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                            +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+                            +error_message
+                            +'</div>'
+                        );
+                    }
+                }
+
+                if (action == 'tambah' && data.status == 'failed' || action == 'update' && data.status == 'failed') {
+                    $('#alert-place').prepend(
+                        '<div class="alert alert-danger alert-dismissible mt-4">'
+                        +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                        +'  <h4><i class="icon fa fa-ban"></i> Validasi Gagal!</h4>'                
+                        +'  <font><ul style="padding-left:15px"></ul></font>'
+                        +'</div>'
+                    );
+                    $.each(data.errors, function(key, value){
+                        $('#alert-place font ul').append('<li>'+value+'</li>');
+                        $("[name="+key+"]").addClass('is-invalid');
+                        var input_dt = $("[name="+key+"]")[0];
+                        var text = document.createElement('div');
+                        text.setAttribute('class', 'invalid-feedback');
+                        text.innerHTML = value;
+                        if (input_dt.localName == 'input') {
+                            input_dt.parentNode.insertBefore(text, input_dt.nextSibling);
+                        }
+                        else{
+                            if (input_dt.localName == 'select' && check_array_exist(input_dt.classList, 'select2')) {
+                                $("[name="+key+"]").siblings('.select2').find('.select2-selection ').addClass('is-invalid-select');
+                                input_dt.parentNode.append(text);
+                            }
+                        }
+                    });
+                }
+                else if (action == 'tambah' && data.status != 'success' && data.status != 'failed' || action == 'update' && data.status != 'success' && data.status != 'failed') {
+                    $('#alert-place').prepend(
+                        '<div class="alert alert-danger alert-dismissible mt-4">'
+                        +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                        +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+                        +'  <font>Ada masalah ketika menyimpan ke database</font>'
+                        +'</div>'
+                    );
+                }
+            },
+            error: function(){
+                if (action == 'tambah') {
+                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-save');
+                }
+                else if (action == 'update') {
+                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-pencil-square');
+                }
+                else if (action == 'delete') {
+                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+                }
+                swal({
+                    title:'Error',
+                    text: 'Maaf, telah terjadi error pada server!',
+                    type:'error',
+                    timer: 2000
+                });
+            }
+        });
+    });
+
+    $(document).on('click', '#submit-again', function(eve){
+        eve.stopImmediatePropagation();
+        eve.preventDefault();
+        
+        $('#form-input, form').find('.is-invalid').removeClass('is-invalid');
+        $('#form-input, form').find('.is-invalid-select').removeClass('is-invalid-select');
+        $('#form-input, form').find('.invalid-feedback').remove();
+        $('#alert-place').text('');
+        var submit_btn = $(this).find('li');
+        var action = $('#form-input').attr('action');
+        var host = url().host;
+        var controller_path = url().controller_path;
+        var data = datasend();
+        if (data == null || data == undefined) {
+            var data = $('#form-input').serialize();
+        }
+        /*data = datasend+'&csrf_key='+token;*/
+
+        $.ajax('http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
+            dataType: 'json',
+            type: 'POST',
+            data: data,
+            beforeSend: function(){
+                submit_btn.removeClass('fa-clone').addClass('fa-circle-o-notch fa-spin');
+            },
+            complete: function(xhr){
+                if (xhr.responseJSON['login_rld'] != null) {
+                    $('#alert-place').text('');
+                    $('#alert-place').prepend(
+                        '<div class="alert alert-info alert-dismissible mt-4">'
+                        +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                        +'  <h4><i class="icon fa fa-info-circle"></i> Info!</h4>'
+                        +'  <font>Session anda telah berakhir, silihkan klik ulang untuk melanjutkan proses!</font>'
+                        +'</div>'
+                    );
+                }
+                if (action == 'tambah') {
+                    if (xhr.responseJSON['status'] == 'success') {
+                        submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-check');
+                        setTimeout(function(){
+                        submit_btn.removeClass('fa-check fa-circle-o-notch fa-spin').addClass('fa-clone');
+                        },2000);
+                    }
+                    else{
+                        submit_btn.removeClass('fa-refresh fa-spin').addClass('fa-clone');
+                    }
+                }
+                $('.submit-process').fadeOut();
+            },
+            success: function(data){
+                if (action == 'tambah') {
+                    if (data.status == 'success') {
+                        callback_rn(action, data);
+                        $('.modal #form-input,.modal form').find('input[type=text], input[type=number]').val('');
+                        $('.modal input[type="radio"]').iCheck('uncheck');
+                        $('.modal .select2').val(null).trigger('change');
+                        $('.modal').find('.is-invalid').removeClass('is-invalid');
+                        swal({
+                            title:'Data Berhasil Di Simpan',
+                            type:'success',
+                            timer: 2000
+                        });
+                    }
+                    else if (data.status == 'failed') {
+                        $('#alert-place').prepend(
+                            '<div class="alert alert-danger alert-dismissible mt-4">'
+                            +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                            +'  <h4><i class="icon fa fa-ban"></i> Validasi Gagal!</h4>'                
+                            +'  <font><ul style="padding-left:15px"></ul></font>'
+                            +'</div>'
+                        );
+                        $.each(data.errors, function(key, value){
+                            $('#alert-place font ul').append('<li>'+value+'</li>');
+                            $("[name="+key+"]").addClass('is-invalid');
+                            var input_dt = $("[name="+key+"]")[0];
+                            var text = document.createElement('div');
+                            text.setAttribute('class', 'invalid-feedback');
+                            text.innerHTML = value;
+                            if (input_dt.localName == 'input') {
+                                input_dt.parentNode.insertBefore(text, input_dt.nextSibling);
+                            }
+                            else{
+                                if (input_dt.localName == 'select' && check_array_exist(input_dt.classList, 'select2')) {
+                                $("[name="+key+"]").siblings('.select2').find('.select2-selection ').addClass('is-invalid-select');
+                                input_dt.parentNode.append(text);
+                                }
+                            }
+                        });
+                    }
+                    else{
+                        $('#alert-place').prepend(
+                            '<div class="alert alert-danger alert-dismissible mt-4">'
+                            +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                            +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+                            +'  <font>Ada masalah ketika menyimpan ke database</font>'
+                            +'</div>'
+                        );
+                    }
+                }
+            },
+            error: function(){
+                if (action == 'tambah') {
+                    submit_btn.removeClass('fa-refresh fa-spin').addClass('fa-clone');
+                }
+                swal({
+                    title:'Error',
+                    text: 'Maaf, telah terjadi error pada server!',
+                    type:'error',
+                    timer: 2000
+                });
+            }
+        });
+    });
+  }
+  /*END -- Function: Submit Ajax*/
