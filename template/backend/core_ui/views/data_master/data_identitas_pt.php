@@ -278,10 +278,10 @@
 	            	<div id="tab-identitas-pt">
 			        	<ul class="nav nav-tabs" role="tablist">
 			                <li class="nav-item">
-			                  <a class="nav-link active" data-toggle="tab" href="#form-profil" role="tab" aria-controls="form-profil"><i class="fa fa-university"></i> Profil</a>
+			                  <a class="nav-link active open-tab" data-toggle="tab" href="#form-profil" role="tab" aria-controls="form-profil"><i class="fa fa-university"></i> Profil</a>
 			                </li>
 			                <li class="nav-item">
-			                  <a class="nav-link" data-toggle="tab" href="#form-kontak" role="tab" aria-controls="form-kontak"><i class="fa fa-phone"></i> Kontak</a>
+			                  <a class="nav-link close-tab" data-toggle="tab" href="#form-kontak" role="tab" aria-controls="form-kontak"><i class="fa fa-phone"></i> Kontak</a>
 			                </li>
 			                <li class="nav-item">
 			                  <a class="nav-link refresh-modal-form" role="tab" title="Reset Form Input"><i class="fa fa-refresh"></i></a>
