@@ -264,14 +264,14 @@ $(function(){
         },
         function(act, data_respon){
             if (act == 'tambah' && data_respon.status == 'success') {
-                if (data.data == 'data_fakultas') {
+                if (data_respon.data == 'data_fakultas') {
                     $('#box-content').find('div.overlay').fadeIn();
                     $('.tbl-data-fk').DataTable().ajax.reload();
                     $(document).bind('ajaxComplete', function(){
                         $('#box-content').find('div.overlay').fadeOut();
                     });
                 }
-                else if (data.data == 'data_prodi') {
+                else if (data_respon.data == 'data_prodi') {
                     if ($('#box-detail-fk').is(':visible')) {
                         $('#box-detail-fk').find('div.overlay').fadeIn();
                         $(document).bind('ajaxComplete', function(){
