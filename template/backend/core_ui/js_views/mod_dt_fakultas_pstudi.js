@@ -375,6 +375,66 @@ $(function(){
   );
   /*END -- Submit AJAX*/
 
+  /*Delete Multiple Data*/
+  delete_multiple_dt(function(){
+    var id = [];
+    if (getUrlVars() == 'fk') {
+        $(".check-fk:checked").each(function() {
+            if ($(this).val() != '') {
+                id.push($(this).val());
+            }
+        });
+        var selected_data = id.length;
+        if (selected_data > 0) {
+            var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_fakultas'},1000);
+            hapus.then(function(hapus){
+                if (hapus.status =='success') {
+                    $('.tbl-data-fk').DataTable().ajax.reload();
+                    if ($('#box-detail-fk').is(':visible')) {
+                        $('#box-detail-fk').slideUp();
+                    }
+                    $('#myModal').modal('hide');
+                }
+            });
+        }
+    }
+    else if (getUrlVars() == 'pd') {
+        $(".check-prodi:checked").each(function() {
+            if ($(this).val() != '') {
+                id.push($(this).val());
+            }
+        });
+        var selected_data = id.length;
+        if (selected_data > 0) {
+            var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_prodi'},1000);
+            hapus.then(function(hapus){
+                if (hapus.status =='success') {
+                $('#box-detail-fk').find('div.overlay').fadeIn();
+                $(document).bind('ajaxComplete', function(){
+                    $('#box-detail-fk').find('div.overlay').fadeOut();
+                });
+                if ($('#box-detail-fk').is(':visible')) {
+                    $('.close-dt-pd-bt').fadeOut();
+                    $('.detail-prodi').fadeOut().removeClass('active').find('a').attr('aria-expanded','false');
+                    $('#detail-prodi').removeClass('active');
+                    $('.daftar-prodi').addClass('active').find('a').attr('aria-expanded','true');
+                    $('#daftar-prodi').addClass('active');
+                    data_detail_fk(hapus.data);
+                }
+                $('#myModal').modal('hide');
+                }
+            });
+        }
+    }
+
+    delete_data = {
+        'dt': selected_data,
+        'delete_dt': hapus
+    };
+    return delete_data;
+  });
+  /*END -- Delete Multiple Data*/
+
   /*Onclick Event*/
   $('a[href="#statik-fk"]').on('click', function(){
     $(this).css('pointer-events','none');
