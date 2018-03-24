@@ -673,3 +673,62 @@
     });
   }
   /*END -- Function: Submit Ajax*/
+
+  /*Function: Delete Multiple Data*/
+  function delete_multiple_dt(callback) {
+    $(document).on('click','#delete-selected', function(eve){
+        eve.stopImmediatePropagation();
+        eve.preventDefault();
+        
+        var data = $('#data').attr('name'),
+        btn_act = $(this).find('li');
+        btn_act.removeClass('fa-trash').addClass('fa-circle-o-notch fa-spin');
+        var return_data = callback();
+        if (return_data.dt != undefined && return_data.dt < 1) {
+            $('#alert-place').html(
+                '<div class="alert alert-danger alert-dismissible">'
+                +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                +'  <h4><i class="icon fa fa-ban"></i> Validasi Gagal!</h4>'                
+                +'  <font>Silahkan pilih data yang ingin dihapus</font>'
+                +'</div>'
+            );
+        }
+        if (return_data.delete_dt != undefined) {
+            return_data.delete_dt.then(function(data){
+                btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+                if (data.status == 'success') {
+                    swal({
+                        title:'Data Berhasil Di Hapus',
+                        type:'success',
+                        timer: 2000
+                    });
+                }
+                else{
+                    if (data.message != null) {
+                        $('#alert-place').html(
+                            '<div class="alert alert-danger alert-dismissible">'
+                            +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                            +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+                            +'  <font>'+data.message+'</font>'
+                            +'</div>'
+                        );
+                    }
+                    else if (data.errors == null || data.message == null) {
+                        $('.data-message').show();
+                        $('.data-message .content-message').addClass('centered-content').html('Maaf, terjadi kesalahan ketika menghapus data!');
+                    }
+                }
+            }).catch(function(error){
+                btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+                $('#alert-place').html(
+                    '<div class="alert alert-danger alert-dismissible">'
+                    +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                    +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+                    +'  <font>Terjadi kesalahan saat menghapus data, <b>Error '+error.status+': '+error.statusText+'</b></font>'
+                    +'</div>'
+                );
+            });
+        }
+    });
+  }
+  /*END -- Function: Delete Multiple Data*/
