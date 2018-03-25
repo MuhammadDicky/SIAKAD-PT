@@ -3,20 +3,21 @@ $(function(){
   /*HASHCHANGE*/
   start_hashchange(function(hash){
         hashchange_act(hash, function(){
+            var urlvar = getUrlVars();
             if (hash == 'tambah') {
                 $('#myModal #form-input').show();
                 $('#myModal #form-input-pstudi').hide();
                 $('#myModal .modal-title').text('Tambah Data Fakultas');
             }
             else if (hash.search('tambah') == 0) {
-                if (getUrlVars() == 'prodi') {
+                if (urlvar == 'prodi') {
                     $('#myModal #form-input-pstudi, .modal .submit-btn, .modal .submit-again-btn').show();
                     $('#myModal .modal-title').text('Tambah Program Studi');
                     $('#myModal #submit').text('Simpan');
                     $('#myModal #submit').prepend('<li class="fa fa-save"></li> ');
                     $('#myModal #submit-again').prepend('<li class="fa fa-clone"></li> ');
                 }
-                else if (getUrlVars()['fk'] != undefined) {
+                else if (urlvar['fk'] != undefined) {
                     $('#myModal .modal-title').text('Tambah Program Studi');
                     var fk = getUrlVars()['fk'],
                     id = getUrlVars()['i'],
@@ -31,7 +32,7 @@ $(function(){
                         }
                     });
                 }
-                else if (getUrlVars()['prodi_kons'] != undefined) {
+                else if (urlvar['prodi_kons'] != undefined) {
                     if ($('#box-prodi').is(':visible') || $('#box-detail-fk').is(':visible')) {
                         $('#myModal .modal-title').text('Tambah Konsentrasi Program Studi');
                         var pd = getUrlVars()['prodi_kons'],
@@ -55,7 +56,6 @@ $(function(){
                 return data;
             }
             else if(hash.search('edit') == 0){
-                var urlvar = getUrlVars();
                 if (urlvar[0] == 'fk') {
                     var id = getUrlVars()['fk'];
                     var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_fk:id,data:'data_fakultas'},500);
@@ -122,7 +122,6 @@ $(function(){
                 return data;
             }
             else if(hash.search('hapus') == 0){
-                var urlvar = getUrlVars();
                 if (urlvar[0] == 'fk') {
                     var id = urlvar['fk'];
                     var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_fk:id,data:'data_fakultas'},500);
@@ -179,7 +178,7 @@ $(function(){
                 return data;
             }
             else if(hash.search('data')==0){
-                if (getUrlVars()[0] == 'fk') {
+                if (urlvar[0] == 'fk') {
                     var id = getUrlVars()['i'];
                     $('.close-dt-pd-bt').fadeOut();
                     $('.detail-prodi').fadeOut().removeClass('active').find('a').attr('aria-expanded','false');
@@ -190,15 +189,14 @@ $(function(){
                 }
             }
             else if (hash == 'delete_selected' || hash.search('delete_selected')==0) {
-                var selectedItems = [],
-                vars = getUrlVars();
-                if (vars == 'fk') {
+                var selectedItems = [];
+                if (urlvar == 'fk') {
                     var check = 'data_fk';
                     $(".check-fk:checked").each(function() {
                         selectedItems.push($(this).val());
                     });       
                 }
-                else if (vars == 'pd') {
+                else if (urlvar == 'pd') {
                     var check = 'data_pd';
                     $(".check-prodi:checked").each(function() {
                         selectedItems.push($(this).val());
@@ -211,18 +209,18 @@ $(function(){
                     data.then(function(detail_data){
                         $('.data-message .content-message').addClass('centered-text');
                         if (detail_data.total_rows > 0 ) {
-                            if (vars == 'fk') {
+                            if (urlvar == 'fk') {
                                 $('.data-message .content-message').html('Apakah anda yakin ingin menghapus&nbsp<strong>'+detail_data.total_rows+'&nbspdata</strong>&nbspFakultas ?');
                             }
-                            else if (vars == 'pd') {
+                            else if (urlvar == 'pd') {
                                 $('.data-message .content-message').html('Apakah anda yakin ingin menghapus&nbsp<strong>'+detail_data.total_rows+'&nbspdata</strong>&nbspProgram Studi ?');
                             }
                         }
                         else{
-                            if (vars == 'fk') {
+                            if (urlvar == 'fk') {
                                 $('.data-message .content-message').html('Data fakultas yang anda ingin hapus tidak ditemukan dalam database!');
                             }
-                            else if (vars == 'pd') {
+                            else if (urlvar == 'pd') {
                                 $('.data-message .content-message').html('Data program studi yang anda ingin hapus tidak ditemukan dalam database!');
                             }
                         }
@@ -230,20 +228,20 @@ $(function(){
                 }
                 else{
                     $('.data-message .content-message').addClass('centered-content');
-                    if (vars == 'fk') {
+                    if (urlvar == 'fk') {
                         $('.data-message .content-message').html('Silahkan pilih data Fakultas yang ingin dihapus!');
                     }
-                    else if (vars == 'pd') {
+                    else if (urlvar == 'pd') {
                         $('.data-message .content-message').html('Silahkan pilih data Program Studi yang ingin dihapus!');
                     }
                     $('#submit, #delete-selected').hide();
                     $('#batal').text('Tutup');
                 }
 
-                if (vars == 'fk') {
+                if (urlvar == 'fk') {
                     $('#myModal .modal-title').text('Hapus Data Fakultas');
                 }
-                else if (vars == 'pd') {
+                else if (urlvar == 'pd') {
                     $('#myModal .modal-title').text('Hapus Data Program Studi');
                 }
 
