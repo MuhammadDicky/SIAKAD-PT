@@ -893,6 +893,87 @@ $(function(){
     });
   }
   /*END -- Function: Chart data master*/
+
+  /*Function: Detail Fakultas*/
+  function data_detail_fk(i){
+    $('.check-all-prodi').iCheck('uncheck');
+    $('.detail-data-fk[data-search='+i+']').find('i').removeClass('fa-list').addClass('fa-circle-o-notch fa-spin');
+    var detail_fak = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:i,data:'detail_fk'},500);
+    detail_fak.then(function(detail_fak){
+        $('.detail-data-fk').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-list');
+        if (detail_fak.data != '') {
+            $('#box-detail-fk .tbl-data-prodi').find('tbody').text('');
+            $('#box-detail-fk').slideDown();
+            $('#box-detail-fk').find('div.overlay').fadeIn();
+            $('html, body').animate({scrollTop:$('#box-detail-fk').offset().top},800);
+            delay(function(){
+                $('#box-detail-fk').find('div.overlay').fadeOut();
+            },500);
+            $.each(detail_fak.count_fk_mhs, function(index, data_record){
+                if (data_record =='' || data_record =='0') {
+                    data_record='-';
+                }
+                $('#box-detail-fk .detail-fak-'+index).text(data_record);
+            });
+            var no = 1;
+            $.each(detail_fak.data, function(index, data_record){
+                $.each(data_record, function(index, data_record){              
+                    if (data_record =='' || data_record =='0' || data_record =='0000-00-00') {
+                        data_record='-';
+                    }
+                    if (index=='nama_fakultas' || index=='dekan' || index=='tgl_berdiri' || index=='akreditasi_fk') {
+                        $('#box-detail-fk .detail-fak-'+index).text(data_record);
+                    }                
+                });
+                if (data_record.status_prodi == 1) {
+                    data_record.status_prodi = 'Aktif';
+                }
+                else{
+                    data_record.status_prodi = 'Tidak Aktif';
+                }
+                $('#box-detail-fk .tbl-data-prodi').find('tbody').append(
+                    '<tr>'
+                    +'  <td class="text-center">'+no+'</td>'
+                    +'  <td class="text-center">'+data_record.kode_prodi+'</td>'
+                    +'  <td class="daftar-nm-pd">'+data_record.nama_prodi+'</td>'
+                    +'  <td class="text-center">'+data_record.jenjang_prodi+'</td>'
+                    +'  <td class="text-center">'
+                    +'    <a href="#tambah?data=konsentrasi_prodi&prodi_kons='+data_record.nama_prodi.replace(' ','_').toLowerCase()+'&i='+data_record.id_prodi+'&token='+token+'" class="btn btn-info btn-sm text-white" title="Tambah Konsentrasi pada Program Studi '+data_record.nama_prodi+'"><i class="fa fa-plus"></i></a> | '
+                    +'    <div class="btn-group">'
+                    +'      <a href="#data?pd='+data_record.id_prodi+'&token='+token+'" class="btn btn-warning btn-sm text-white data-detail-prodi" data-search="'+data_record.id_prodi+'" title="Lihat Detail Program Studi '+data_record.nama_prodi+'"><i class="fa fa-list"></i></a> '
+                    +'      <a href="#edit?pd='+data_record.id_prodi+'&token='+token+'" class="btn btn-success btn-sm" title="Edit Data Program Studi '+data_record.nama_prodi+'"><i class="fa fa-pencil-square"></i></a> '
+                    +'      <a href="#hapus?pd='+data_record.id_prodi+'&token='+token+'" class="btn btn-danger btn-sm" title="Hapus Data Program Studi '+data_record.nama_prodi+'"><i class="fa fa-trash"></i></a>'
+                    +'    </div>'
+                    +'  </td>'
+                    +'</tr>'
+                    );
+                no++;
+            });
+            $('input[type="checkbox"]').iCheck({      
+                checkboxClass: 'icheckbox_flat-blue'
+            });
+        }
+        else{
+            swal({
+                title:'Info',
+                text: 'Fakultas yang anda pilih belum memiliki program studi!',
+                type:'info',
+                timer: 2000
+            });
+            $('#box-detail-fk').slideUp();
+        }
+    }).catch(function(jqXHR){
+        window.history.pushState(null,null,path);
+        $('.detail-data-fk').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-list');
+        swal({
+            title:'Error',
+            html: 'Maaf, terjadi kesalahan!'
+                +'<p style="text-align:right;"><a href="" class="show-error">Show Error</a></p><div style="font-family:Segoe UI;text-align: center;display:none" class="error-detail">Error '+jqXHR.status+': '+jqXHR.statusText+'</div>',
+            type:'error',
+        });
+    });
+  }
+  /*END -- Function: Detail Fakultas*/
   /*END -- Function*/
 
 });
