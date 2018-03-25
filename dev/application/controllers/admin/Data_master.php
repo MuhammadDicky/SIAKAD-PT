@@ -833,16 +833,13 @@ class Data_master extends Backend_Controller {
 						}
 						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
 										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
-										WHERE id_fk_pd = '.$post['id'].') AS jml_mhs';
-						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
-										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
 										WHERE id_fk_pd = '.$post['id'].' AND jk = "L") AS jml_lk';
 						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
 										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
 										WHERE id_fk_pd = '.$post['id'].' AND jk = "P") AS jml_pr';
 						$count_mhs = $this->mahasiswa_model->get_detail_data('get',NULL,NULL,NULL,TRUE,$sub_query);
 						$count_fk_mhs = array(
-							'jml_mhs' => number_format($count_mhs->jml_mhs,0,',','.'),
+							'jml_mhs' => number_format($count_mhs->jml_lk + $count_mhs->jml_pr,0,',','.'),
 							'jml_lk' => number_format($count_mhs->jml_lk,0,',','.'),
 							'jml_pr' => number_format($count_mhs->jml_pr,0,',','.')
 							);
