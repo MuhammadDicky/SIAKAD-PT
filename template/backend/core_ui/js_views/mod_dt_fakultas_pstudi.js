@@ -309,9 +309,9 @@ $(function(){
                     }
                 }
                 else if (data_respon.data == 'data_konsentrasi_pd') {
-                    if ($('#tab-detail-fk .nav-tabs li.detail-prodi').is(':visible')) {
+                    if ($('#tab-detail-fk a.detail-prodi').is(':visible')) {
                         delay(function(){
-                            window.location.href= path+'#data?pd='+data.pd+'&token='+token+'';
+                            window.location.href= path+'#data?pd='+data_respon.pd+'&token='+token+'';
                         },500);
                     }
                 }
@@ -984,5 +984,58 @@ $(function(){
   }
   /*END -- Function: Detail Fakultas*/
   /*END -- Function*/
+
+  /*Function: Daftar Konsentrasi*/
+  function daftar_konsentrasi(data, index){
+    if (data != null) {
+        var data_konsentrasi_pd = data;
+    }
+    else{
+        var data_konsentrasi_pd = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_konst:index,data:'daftar_konsentrasi_pd'},500);
+    }
+    $('.tbl-data-konst-pd').find('tbody').append('<tr class=".table-load"><td class="text-center load-data" colspan="3">Memproses Data</td></tr>');
+    data_konsentrasi_pd.then(function(data_konsentrasi_pd){
+        var no = 1;
+        if (data_konsentrasi_pd.data != '') {
+            $('.box-konsentrasi-pd').show();
+            $('.box-konsentrasi-pd').attr('data-search',data_konsentrasi_pd.data[0]['id_pd_konst']);
+            $('.tbl-data-konst-pd').find('tbody').text('');
+            $.each(data_konsentrasi_pd.data, function(index, data_record){
+                if (data_record.id_konst !=null) {
+                    $('.tbl-data-konst-pd').find('tbody').append(
+                        '<tr>'
+                        +'  <td class="text-center">'+no+'</td>'
+                        +'  <td>'+data_record.nm_konsentrasi+'</td>'
+                        +'  <td class="text-center">'
+                        +'    <div class="btn-group">'
+                        +'      <a href="#edit?data=konsentrasi_prodi&konsentrasi='+data_record.id_konst+'&token='+token+'" class="btn btn-success btn-sm" title="Edit Konsentrasi Program Studi '+data_record.nama_prodi+'"><i class="fa fa-pencil-square"></i></a> '
+                        +'      <a href="#hapus?data=konsentrasi_prodi&konsentrasi='+data_record.id_konst+'&token='+token+'" class="btn btn-danger btn-sm" title="Hapus Konsentrasi Program Studi '+data_record.nama_prodi+'"><i class="fa fa-trash"></i></a>'
+                        +'    </div>'
+                        +'  </td>'
+                        +'</tr>'
+                    );
+                    no++;
+                }
+                else{
+                    $('.box-konsentrasi-pd').hide();
+                    $('.tbl-data-konst-pd').find('tbody').html('<tr class="text-center"><td colspan="3">Program studi ini tidak memiliki konsentrasi</td></tr>');
+                    return false;
+                }
+            });
+        }
+        else{
+            $('.box-konsentrasi-pd').hide();
+            $('.tbl-data-konst-pd').find('tbody').html('<tr class="text-center"><td colspan="3">Program studi ini tidak memiliki konsentrasi</td></tr>');
+        }
+    }).catch(function(error){
+        if ($('.tbl-data-konst-pd tr.table-load').length == 1) {
+            $('.tbl-data-konst-pd tr.table-load td').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+        }
+        setTimeout(function(){
+            $('.tbl-data-konst-pd tr.table-load').replaceWith('');
+        },2000);
+    });
+  }
+  /*END -- Function: Daftar Konsentrasi*/
 
 });
