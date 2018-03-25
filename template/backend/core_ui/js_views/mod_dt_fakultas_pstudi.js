@@ -416,6 +416,31 @@ $(function(){
   /*END -- Delete Multiple Data*/
 
   /*Onclick Event*/
+  $(document).on('click','.remove', function(eve){
+    eve.stopImmediatePropagation();
+    eve.preventDefault();
+
+    if ($(this).attr('data-remove') == 'detail-fk') {
+        delay(function(){
+            $('.tbl-data-prodi').find('tbody').html(
+                '<tr>'
+                +'    <td colspan="5" align="center">Memproses Data</td>'
+                +'</tr>'
+            );
+            $('#box-detail-fk .detail-fak').text('-');
+        },1000);
+    }
+    if ($(this).attr('data-remove') == 'detail-prodi' || $(this).attr('data-remove') == 'detail-fk') {
+        $('.close-dt-pd-bt').fadeOut();
+        $('.detail-prodi').fadeOut().removeClass('active').find('a').attr('aria-expanded','false');
+        $('#detail-prodi').removeClass('active').find('.detail-dt-prodi').text('-');
+        $('#detail-prodi .tbl-data-konst-pd').find('tbody').html('<tr><td colspan="3" align="center">Pilih program studi terlebih dahulu</td></tr>')
+        $('.daftar-prodi').addClass('active').find('a').attr('aria-expanded','true');
+        $('#daftar-prodi').addClass('active');
+        window.history.pushState(null,null,path);
+    }
+  });
+
   $('a[href="#statik-fk"]').on('click', function(){
     $(this).css('pointer-events','none');
     data_master_chart('static_mhs_fk');
