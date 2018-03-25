@@ -178,6 +178,17 @@ $(function(){
 
                 return data;
             }
+            else if(hash.search('data')==0){
+                if (getUrlVars()[0] == 'fk') {
+                    var id = getUrlVars()['i'];
+                    $('.close-dt-pd-bt').fadeOut();
+                    $('.detail-prodi').fadeOut().removeClass('active').find('a').attr('aria-expanded','false');
+                    $('#detail-prodi').removeClass('active');
+                    $('.daftar-prodi').addClass('active').find('a').attr('aria-expanded','true');
+                    $('#daftar-prodi').addClass('active');
+                    data_detail_fk(id);
+                }
+            }
             else if (hash == 'delete_selected' || hash.search('delete_selected')==0) {
                 var selectedItems = [],
                 vars = getUrlVars();
