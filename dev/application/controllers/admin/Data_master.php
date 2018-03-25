@@ -872,7 +872,7 @@ class Data_master extends Backend_Controller {
 						$count_pr = $this->mahasiswa_model->count(array('id_pd_mhs' => $key->id_prodi, 'jk' => 'P'));*/
 						$arr = array(
 							'status' => $status_pd,
-							'jml_mhs' => number_format($key->jml_lk + $key->jml_pr,0,',','.'),
+							'jml_mhs' => number_format(@$key->jml_lk + @$key->jml_pr,0,',','.'),
 							'tgl_berdiri_prodi' => date_convert($key->tgl_berdiri_prodi),
 							'tgl_sk_prodi' => date_convert($key->tgl_sk_prodi)
 							);
