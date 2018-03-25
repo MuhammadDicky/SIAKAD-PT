@@ -102,7 +102,7 @@
 		        		</div>
 		        	</div>
 			        <hr>
-			      	<div class="row mb-4">
+			      	<div class="row">
 			    		<div class="col-md-12">
 			    			<ul class="nav nav-tabs" role="tablist">
 						        <li class="nav-item">
@@ -160,19 +160,19 @@
 						    </div>
 			    		</div>
 			    	</div>
-			    	<div class="row ">
+			    	<div class="row">
 		        		<div class="col-md-12">
-		        			<div class="card card-accent-danger" id="box-detail-fk" style="display: none;">
+		        			<div class="card card-accent-danger mb-0 mt-4" id="box-detail-fk" style="display: none;">
 						        <div class="card-header">Detail Data Fakultas
 						          <div class="card-actions">
-						            <a href="#" class="btn remove" data-widget="remove"><i class="fa fa-times"></i></a>
+						            <a href="#" class="btn remove" data-remove="detail-fk" data-card="#box-detail-fk" data-widget="remove"><i class="fa fa-times"></i></a>
 						          </div>
 						        </div>
 						        <div class="card-body">
 						        	<div class="row">
 						        		<div class="col-md-4">
 									        <ul class="list-group">
-									            <li class="list-group-item">Fakultas 
+									            <li class="list-group-item bg-danger">Fakultas 
 									            	<span class="pull-right detail-fak-nama_fakultas detail-fak">-</span>
 									            </li>
 									            <li class="list-group-item">Dekan 
@@ -210,24 +210,23 @@
 										          <a class="nav-link active open-tab daftar-prodi" data-toggle="tab" href="#daftar-prodi" role="tab" aria-controls="daftar-fk">Program Studi</a>
 										        </li>
 										        <li class="nav-item">
-										          <a class="nav-link close-tab" data-toggle="tab" href="#detail-prodi" role="tab" aria-controls="detail-prodi" style="display:;">Detail Prodi</a>
+										          <a class="nav-link close-tab detail-prodi" data-toggle="tab" href="#detail-prodi" role="tab" aria-controls="detail-prodi" style="display: none;">Detail Prodi</a>
 										        </li>
 										        <li class="nav-item">
-										          <a class="nav-link close-dt-pd-bt" style="display: none;"><i class="fa fa-times"></i></a>
+										          <a class="nav-link close-dt-pd-bt remove" data-remove="detail-prodi" style="display: none;"><i class="fa fa-times"></i></a>
 										        </li>
 									      	</ul>
 
 										    <div class="tab-content">
 										        <div class="tab-pane open-dt-tab active" id="daftar-prodi" role="tabpanel">
-										        	<table class="table table-bordered tbl-data-prodi">
+										        	<table class="table table-bordered tbl-data-prodi mb-0">
 										                <thead>
 											                <tr>
-											                  <!-- <th><center><input type="checkbox" class="check-all-prodi"></center></th> -->
 											                  <th class="text-center">No.</th>
-											                  <th class="text-center" style="width: 120px">Kode Prodi</th>
+											                  <th class="text-center" style="width: 105px">Kode Prodi</th>
 											                  <th style="width: 200px">Nama Program Studi</th>
 											                  <th class="text-center">Jenjang</th>
-											                  <th class="text-center" style="width: 110px">Aksi</th>
+											                  <th class="text-center" style="width: 160px">Aksi</th>
 											                </tr>
 										                </thead>
 										                <tbody>
@@ -237,7 +236,6 @@
 										                </tbody>
 										                <tfoot>
 											                <tr>
-											                  <!-- <th><center><input type="checkbox" class="check-all-prodi"></center></th> -->
 											                  <th class="text-center">No.</th>
 											                  <th class="text-center">Kode Prodi</th>
 											                  <th>Nama Program Studi</th>
@@ -257,34 +255,34 @@
 														        <div class="card-body pb-0">
 														        	<dl class="row">
 														                <dt class="col-sm-5 text-truncate">Fakultas</dt>
-														                <dd class="col-sm-7 nama_fakultas"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi nama_fakultas"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Kode Program Studi</dt>
-														                <dd class="col-sm-7 kode_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi kode_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Nama Program Studi</dt>
-														                <dd class="col-sm-7 nama_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi nama_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Nama Ketua Prodi</dt>
-														                <dd class="col-sm-7 nama_kprodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi nama_kprodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Jenjang</dt>
-														                <dd class="col-sm-7 jenjang_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi jenjang_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Akreditas</dt>
-														                <dd class="col-sm-7 akreditasi_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi akreditasi_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Status</dt>
-														                <dd class="col-sm-7 status"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi status"></dd>
 
 														                <dt class="col-sm-5 text-truncate">SK Penyelenggaraan</dt>
-														                <dd class="col-sm-7 sk_peny_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi sk_peny_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Tanggal SK</dt>
-														                <dd class="col-sm-7 tgl_sk_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi tgl_sk_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Tanggal Berdiri</dt>
-														                <dd class="col-sm-7 tgl_berdiri_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi tgl_berdiri_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Jumlah Mahasiswa</dt>
 														                <dd class="col-sm-7">
@@ -292,17 +290,17 @@
 																                <dt class="col-sm-5 text-truncate">
 																                	<span class="fa fa-male"></span> Laki-Laki
 																	            </dt>
-																                <dd class="col-sm-7 jml_lk"></dd>
+																                <dd class="col-sm-7 detail-dt-prodi jml_lk"></dd>
 
 																                <dt class="col-sm-5 text-truncate">
 																                	<span class="fa fa-female"></span> Perempuan
 																	            </dt>
-																                <dd class="col-sm-7 jml_pr"></dd>
+																                <dd class="col-sm-7 detail-dt-prodi jml_pr"></dd>
 
 																                <dt class="col-sm-5 text-truncate">
 																                	<span class="fa fa-users"></span> Jumlah
 																	            </dt>
-																                <dd class="col-sm-7 jml_mhs"></dd>
+																                <dd class="col-sm-7 detail-dt-prodi jml_mhs"></dd>
 																            </dl>
 														                </dd>
 														            </dl>
@@ -310,40 +308,40 @@
 														    </div>	
 										        		</div>
 										        		<div class="col-md-12">
-												        	<div class="card border-danger">
+												        	<div class="card border-danger mb-0">
 														        <div class="card-header bg-red text-white">
 														          Kontak
 														        </div>
 														        <div class="card-body pb-0">
 														        	<dl class="row">
 													            		<dt class="col-sm-5 text-truncate">Alamat</dt>
-														                <dd class="col-sm-7 alamat_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi alamat_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Kode POS</dt>
-														                <dd class="col-sm-7 kode_pos_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi kode_pos_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Telepon</dt>
-														                <dd class="col-sm-7 telpon_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi telpon_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Fax</dt>
-														                <dd class="col-sm-7 fax_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi fax_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Email</dt>
-														                <dd class="col-sm-7 email_prodi"></dd>
+														                <dd class="col-sm-7 detail-dt-prodi email_prodi"></dd>
 
 														                <dt class="col-sm-5 text-truncate">Website</dt>
-														                <a href="" target="blank"><dd class="col-sm-7 website_prodi"></dd></a>
+														                <a href="" target="blank"><dd class="col-sm-7 detail-dt-prodi website_prodi"></dd></a>
 														            </dl>
 														        </div>
 														    </div>	
 										        		</div>
 										        		<div class="col-md-12">
-												        	<div class="card border-danger box-konsentrasi-pd" style="display: none;">
+												        	<div class="card border-danger box-konsentrasi-pd mt-4 mb-0" style="display: none;">
 														        <div class="card-header bg-red text-white">
 														          Konsentrasi Program Studi
 														        </div>
 														        <div class="card-body">
-														        	<table class="table table-bordered table-striped table-hover tbl-data-konst-pd">
+														        	<table class="table table-bordered table-striped table-hover tbl-data-konst-pd mb-0">
 														                <thead>
 															                <tr>
 															                  <th class="text-center" style="width: 5px">No</th>
