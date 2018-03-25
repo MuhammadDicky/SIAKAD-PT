@@ -17,23 +17,32 @@
   });
   /*END -- Swal Config*/
 
-  /*Onclick Event*/
-  $(document).on('click', '.modal .refresh-modal-form', function(eve){
-    eve.preventDefault();
-    $('.modal').find('input[type=text], input[type=number], input[type=email]').val('');
-    $('.modal form .select2').val(null).trigger('change');
-    $(".modal").find('.is-invalid').removeClass('is-invalid');
-    $(".modal").find('.is-invalid-select').removeClass('is-invalid-select');
-    $(".modal").find('.invalid-feedback').remove();
-    $('.modal #alert-place').text('');
-    try {
-      $('.modal input[type="radio"]').iCheck('uncheck');
-    }
-    catch (error) {
+  $(function(){
+    /*Onclick Event*/
+    $(document).on('click', '[data-widget=remove]', function(eve){
+        eve.preventDefault();
 
-    }
-  });
-  /*END -- Onclick Event*/
+        var card = $(this).parent().parent().parent();
+        if (check_array_exist(card[0].classList, 'card')) card.slideUp();
+    });
+    
+    $(document).on('click', '.modal .refresh-modal-form', function(eve){
+        eve.preventDefault();
+        $('.modal').find('input[type=text], input[type=number], input[type=email]').val('');
+        $('.modal form .select2').val(null).trigger('change');
+        $(".modal").find('.is-invalid').removeClass('is-invalid');
+        $(".modal").find('.is-invalid-select').removeClass('is-invalid-select');
+        $(".modal").find('.invalid-feedback').remove();
+        $('.modal #alert-place').text('');
+        try {
+        $('.modal input[type="radio"]').iCheck('uncheck');
+        }
+        catch (error) {
+
+        }
+    });
+    /*END -- Onclick Event*/
+  })
 
   /*Function*/
   /*Function: Get JSON Respon*/
