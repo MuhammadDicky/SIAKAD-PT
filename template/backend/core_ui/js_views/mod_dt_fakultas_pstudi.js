@@ -187,6 +187,48 @@ $(function(){
                     $('#daftar-prodi').addClass('active');
                     data_detail_fk(id);
                 }
+                else if (urlvar[0] == 'pd' && $('#box-detail-fk').is(':visible')) {
+                    var id = urlvar['pd'],
+                    id_fk,
+                    data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_pd:id,data:'data_prodi'},null,true);
+                    $('.data-detail-prodi[data-search='+id+']').find('i').removeClass('fa-list').addClass('fa-circle-o-notch fa-spin');
+                    data.then(function(detail_prodi){
+                        $('.data-detail-prodi').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-list');
+                        if (detail_prodi.data != '') {
+                            $.each(detail_prodi.data, function(index, data_record){
+                                id_fk = data_record.id_fk;
+                                $('.detail-prodi').html('<span class="fa fa-list"></span> Detail Prodi '+data_record.nama_prodi);
+                                $.each(data_record, function(index, data_record){
+                                    if (data_record == '' || data_record == '0000-00-00' || data_record == '0') {
+                                        data_record = '-';
+                                        $('#detail-prodi span.'+index).text(data_record);
+                                    }
+                                    else{
+                                        $('#detail-prodi span.'+index).text(data_record+' Orang');
+                                    }
+                                    $('#detail-prodi dd.'+index).text(data_record);
+                                });
+                            });
+                            if ($('#box-detail-fk').is(':hidden')) {
+                                data_detail_fk(id_fk);
+                            }
+                            $('.detail-prodi, .close-dt-pd-bt').fadeIn();
+                            daftar_konsentrasi(null,id);
+                        }
+                        else{
+                            window.history.pushState(null,null,path);
+                            swal({
+                                title:'Info',
+                                text: 'Program Studi yang anda pilih tidak ada didalam database!',
+                                type:'info',
+                                timer: 2000
+                            });
+                        }
+                    }).catch(function(){
+                        $('.data-detail-prodi').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-list');
+                        window.history.pushState(null,null,path);
+                    });
+                }
             }
             else if (hash == 'delete_selected' || hash.search('delete_selected')==0) {
                 var selectedItems = [];
