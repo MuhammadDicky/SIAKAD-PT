@@ -741,3 +741,39 @@
     });
   }
   /*END -- Function: Delete Multiple Data*/
+
+  /*Function: Show Datatables Row Detail*/
+  function show_row_detail(callback, detail_dt) {
+    $(document).on('click', '.detail-row', function (eve) {
+        eve.stopImmediatePropagation();
+        eve.preventDefault();
+
+        var tr = $(this).closest('tr');
+        var data_row = $(this).attr('data-search');
+        var row = callback(data_row, tr);
+  
+        if (row != undefined) {
+            if (row.child.isShown()) {
+                $('div.slider-detail', row.child()).slideUp(function(){
+                    row.child.hide();
+                });
+                $(this).removeClass('fa-minus-circle').addClass('fa-plus-circle');
+            }
+            else {
+                row.child(row_detail(row.data(), data_row, detail_dt(row.data(), data_row)), 'no-padding').show();
+                $('div.slider-detail', row.child()).slideDown();
+                $(this).removeClass('fa-plus-circle').addClass('fa-minus-circle');
+            }
+        }
+    });
+  }
+  /*END -- Function: Show Datatables Row Detail*/
+
+  /*Function: Datatables Row Detail*/
+  function row_detail(str, data, detail_dt) {
+    var row_respon = detail_dt;
+    if (row_respon.detail_row_respon != undefined) {
+      return '<div class="slider-detail text-center" data-search="'+row_respon.id_row+'" style="display:none;margin: 10px 0 10px 0"><font class="load-data">Memproses Data</font></div>';
+    }
+  }
+  /*END -- Function: Datatables Row Detail*/
