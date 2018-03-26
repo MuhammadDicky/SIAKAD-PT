@@ -762,6 +762,106 @@ $(function(){
   });
   /*END -- Datatables Plugin*/
 
+  /*Show Datatables Row Detail*/
+  show_row_detail(
+    function (data_row, tr) {
+        if (data_row == 'data-prodi') {
+            var row = table_data_pd.row(tr);
+        }
+        return row;
+    },
+    function (str, data) {
+        if (data == 'data-prodi') {
+            var id_row = str.id_prodi;
+            var detail_row_respon = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_pd:str.id_prodi,data:'data_prodi'},500);
+            detail_row_respon.then(function(detail_prodi){
+                if (detail_prodi.data !='') {
+                    var detail_pd = detail_prodi.data[0];
+                    $.each(detail_prodi.data[0], function(index, data_record){
+                        if (detail_pd[index] == '' || detail_pd[index] == '0000-00-00') {
+                            detail_pd[index] = '-';
+                        }
+            
+                        if (index == 'status_prodi' && detail_pd[index] == 1) {
+                            detail_pd[index] = 'Aktif';
+                        }
+                        else if (index == 'status_prodi' && detail_pd[index] != 1) {
+                            detail_pd[index] = 'Tidak Aktif';
+                        }
+                    });
+                    $('.slider-detail[data-search='+id_row+']').html(
+                        '   <div class="row">'
+                        +'       <div class="col-md-6">'
+                        +'          <dl class="row mb-0">'
+                        +'              <dt class="col-sm-5 text-truncate">Fakultas</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['nama_fakultas']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">Kode Program Studi</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['kode_prodi']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">Nama Program Studi</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['nama_prodi']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">Nama Ketua Prodi</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['nama_kprodi']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">Jenjang</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['jenjang_prodi']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">Akreditas</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['akreditasi_prodi']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">Status</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['status_prodi']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">SK Penyelenggaraan</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['sk_peny_prodi']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">Tanggal SK</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['tgl_sk_prodi']+'</dd>'
+                        +'              <dt class="col-sm-5 text-truncate">Tanggal Berdiri</dt>'
+                        +'              <dd class="col-sm-7">'+detail_pd['tgl_berdiri_prodi']+'</dd>'
+                        +'          </dl>'
+                        +'      </div>'
+                        +'      <div class="col-md-6">'
+                        +'        <dl class="row mb-0">'
+                        +'          <dt class="col-sm-5 text-truncate">Alamat</dt>'
+                        +'          <dd class="col-sm-7">'+detail_pd['alamat_prodi']+'</dd>'
+                        +'          <dt class="col-sm-5 text-truncate">Kode POS</dt>'
+                        +'          <dd class="col-sm-7">'+detail_pd['kode_pos_prodi']+'</dd>'
+                        +'          <dt class="col-sm-5 text-truncate">Telepon</dt>'
+                        +'          <dd class="col-sm-7">'+detail_pd['telpon_prodi']+'</dd>'
+                        +'          <dt class="col-sm-5 text-truncate">FAX</dt>'
+                        +'          <dd class="col-sm-7">'+detail_pd['fax_prodi']+'</dd>'
+                        +'          <dt class="col-sm-5 text-truncate">Email</dt>'
+                        +'          <dd class="col-sm-7">'+detail_pd['email_prodi']+'</dd>'
+                        +'          <dt class="col-sm-5 text-truncate">Website</dt>'
+                        +'          <dd class="col-sm-7">'+detail_pd['website_prodi']+'</dd>'
+                        +'          <dt class="col-sm-5 text-truncate">Jumlah Mahasiswa</dt>'
+                        +'          <dd class="col-sm-7"><span class="fa fa-users"></span> '+detail_pd['jml_mhs']+'</dd>'
+                        +'          <dt class="col-sm-5 text-truncate">Mahasiswa Laki-Laki</dt>'
+                        +'          <dd class="col-sm-7"><span class="fa fa-male"></span> '+detail_pd['jml_lk']+'</dd>'
+                        +'          <dt class="col-sm-5 text-truncate">Mahasiswa Perempuan</dt>'
+                        +'          <dd class="col-sm-7"><span class="fa fa-female"></span> '+detail_pd['jml_pr']+'</dd>'
+                        +'        </dl>'
+                        +'      </div>'
+                        +'    </div>'
+                    ).removeClass('text-center').addClass('mb-0');
+                }
+                else{
+                    $('.tbl-data-pd').DataTable().ajax.reload();
+                    swal({
+                        title:'Info',
+                        text: 'Program Studi yang anda pilih tidak ada didalam database!',
+                        type:'info',
+                        timer: 2000
+                    });
+                }
+            }).catch(function(error){
+                $('.slider-detail[data-search='+id_row+']').html('<font>Terjadi Kesalahan, <b>Error '+error.status+': '+error.statusText+'</b></font>');
+            });
+        }
+        var return_dt = {
+            'id_row': id_row,
+            'detail_row_respon': detail_row_respon
+        };
+        return return_dt;
+    }
+  );
+  /*END -- Datatables Show Row Detail*/
+
   /*Function*/
   /*Function: Chart data master*/
   function data_master_chart(data){
