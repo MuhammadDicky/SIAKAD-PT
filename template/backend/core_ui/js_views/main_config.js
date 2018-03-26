@@ -411,6 +411,8 @@
 
   /*Function: Submit Ajax*/
   function submit_ajax(url, datasend, callback_rn){
+    var url = url();
+    
     $(document).on('click', '#submit', function(eve){
         eve.stopImmediatePropagation();
         eve.preventDefault();
@@ -421,15 +423,22 @@
         $('#alert-place').text('');
         var submit_btn = $(this).find('li');
         var action = $('#form-input').attr('action');
-        var host = url().host;
-        var controller_path = url().controller_path;
+        if (url.url == 'custom') {
+            var url_target = 'http://'+url.custom+'/action/'+action+'?token='+token+'&key='+rand_val(30);
+        }
+        else {
+            var host = url.host;
+            var controller_path = url.controller_path;
+            var url_target = 'http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30);
+        }
+
         var data = datasend();
         if (data == null || data == undefined) {
             var data = $('#form-input').serialize();
         }
         /*data = datasend+'&csrf_key='+token;*/
 
-        $.ajax('http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
+        $.ajax(url_target, {
             dataType: 'json',
             type: 'POST',
             data: data,
@@ -577,15 +586,22 @@
         $('#alert-place').text('');
         var submit_btn = $(this).find('li');
         var action = $('#form-input').attr('action');
-        var host = url().host;
-        var controller_path = url().controller_path;
+        if (url.url == 'custom') {
+            var url_target = 'http://'+url.custom+'/action/'+action+'?token='+token+'&key='+rand_val(30);
+        }
+        else {
+            var host = url.host;
+            var controller_path = url.controller_path;
+            var url_target = 'http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30);
+        }
+
         var data = datasend();
         if (data == null || data == undefined) {
             var data = $('#form-input').serialize();
         }
         /*data = datasend+'&csrf_key='+token;*/
 
-        $.ajax('http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
+        $.ajax(url_target, {
             dataType: 'json',
             type: 'POST',
             data: data,
