@@ -833,16 +833,13 @@ class Data_master extends Backend_Controller {
 						}
 						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
 										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
-										WHERE id_fk_pd = '.$post['id'].') AS jml_mhs';
-						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
-										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
 										WHERE id_fk_pd = '.$post['id'].' AND jk = "L") AS jml_lk';
 						$sub_query[] = '(SELECT COUNT(*) FROM {PRE}mahasiswa
 										LEFT JOIN {PRE}prodi ON {PRE}prodi.id_prodi = {PRE}mahasiswa.id_pd_mhs
 										WHERE id_fk_pd = '.$post['id'].' AND jk = "P") AS jml_pr';
 						$count_mhs = $this->mahasiswa_model->get_detail_data('get',NULL,NULL,NULL,TRUE,$sub_query);
 						$count_fk_mhs = array(
-							'jml_mhs' => number_format($count_mhs->jml_mhs,0,',','.'),
+							'jml_mhs' => number_format($count_mhs->jml_lk + $count_mhs->jml_pr,0,',','.'),
 							'jml_lk' => number_format($count_mhs->jml_lk,0,',','.'),
 							'jml_pr' => number_format($count_mhs->jml_pr,0,',','.')
 							);
@@ -857,7 +854,6 @@ class Data_master extends Backend_Controller {
 						/*$data = $this->prodi_model->get_detail_data('get',array('fakultas'),NULL,array('id_prodi' => $post['id_pd']),FALSE,list_fields(array('prodi'),array('nama_fakultas')));*/
 					}
 					else{
-						$sub_query_count = '(SELECT COUNT(*) FROM {PRE}mahasiswa WHERE id_pd_mhs = id_prodi) AS jml_mhs';
 						$sub_query_count_lk = '(SELECT COUNT(*) FROM {PRE}mahasiswa WHERE id_pd_mhs = id_prodi AND jk = "L") AS jml_lk';
 						$sub_query_count_pr = '(SELECT COUNT(*) FROM {PRE}mahasiswa WHERE id_pd_mhs = id_prodi AND jk = "P") AS jml_pr';
 						/*$data = $this->prodi_model->get_detail_data('get',array('fakultas','konsentrasi_pd'),NULL,array('id_prodi' => $post['id_pd']),FALSE,list_fields(array('prodi'),array('nama_fakultas','id_konst','id_pd_konst','nm_konsentrasi')),NULL,'nm_konsentrasi ASC');*/
@@ -876,9 +872,7 @@ class Data_master extends Backend_Controller {
 						$count_pr = $this->mahasiswa_model->count(array('id_pd_mhs' => $key->id_prodi, 'jk' => 'P'));*/
 						$arr = array(
 							'status' => $status_pd,
-							/*'jml_mhs' => number_format($count_jml,0,',','.'),
-							'jml_lk' => number_format($count_lk,0,',','.'),
-							'jml_pr' => number_format($count_pr,0,',','.'),*/
+							'jml_mhs' => number_format(@$key->jml_lk + @$key->jml_pr,0,',','.'),
 							'tgl_berdiri_prodi' => date_convert($key->tgl_berdiri_prodi),
 							'tgl_sk_prodi' => date_convert($key->tgl_sk_prodi)
 							);

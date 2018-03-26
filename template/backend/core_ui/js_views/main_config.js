@@ -17,23 +17,32 @@
   });
   /*END -- Swal Config*/
 
-  /*Onclick Event*/
-  $(document).on('click', '.modal .refresh-modal-form', function(eve){
-    eve.preventDefault();
-    $('.modal').find('input[type=text], input[type=number], input[type=email]').val('');
-    $('.modal form .select2').val(null).trigger('change');
-    $(".modal").find('.is-invalid').removeClass('is-invalid');
-    $(".modal").find('.is-invalid-select').removeClass('is-invalid-select');
-    $(".modal").find('.invalid-feedback').remove();
-    $('.modal #alert-place').text('');
-    try {
-      $('.modal input[type="radio"]').iCheck('uncheck');
-    }
-    catch (error) {
+  $(function(){
+    /*Onclick Event*/
+    $(document).on('click', '[data-widget=remove]', function(eve){
+        eve.preventDefault();
 
-    }
-  });
-  /*END -- Onclick Event*/
+        var card = $(this).parent().parent().parent();
+        if (check_array_exist(card[0].classList, 'card')) card.slideUp();
+    });
+    
+    $(document).on('click', '.modal .refresh-modal-form', function(eve){
+        eve.preventDefault();
+        $('.modal').find('input[type=text], input[type=number], input[type=email]').val('');
+        $('.modal form .select2').val(null).trigger('change');
+        $(".modal").find('.is-invalid').removeClass('is-invalid');
+        $(".modal").find('.is-invalid-select').removeClass('is-invalid-select');
+        $(".modal").find('.invalid-feedback').remove();
+        $('.modal #alert-place').text('');
+        try {
+        $('.modal input[type="radio"]').iCheck('uncheck');
+        }
+        catch (error) {
+
+        }
+    });
+    /*END -- Onclick Event*/
+  })
 
   /*Function*/
   /*Function: Get JSON Respon*/
@@ -673,3 +682,98 @@
     });
   }
   /*END -- Function: Submit Ajax*/
+
+  /*Function: Delete Multiple Data*/
+  function delete_multiple_dt(callback) {
+    $(document).on('click','#delete-selected', function(eve){
+        eve.stopImmediatePropagation();
+        eve.preventDefault();
+        
+        var data = $('#data').attr('name'),
+        btn_act = $(this).find('li');
+        btn_act.removeClass('fa-trash').addClass('fa-circle-o-notch fa-spin');
+        var return_data = callback();
+        if (return_data.dt != undefined && return_data.dt < 1) {
+            $('#alert-place').html(
+                '<div class="alert alert-danger alert-dismissible">'
+                +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                +'  <h4><i class="icon fa fa-ban"></i> Validasi Gagal!</h4>'                
+                +'  <font>Silahkan pilih data yang ingin dihapus</font>'
+                +'</div>'
+            );
+        }
+        if (return_data.delete_dt != undefined) {
+            return_data.delete_dt.then(function(data){
+                btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+                if (data.status == 'success') {
+                    swal({
+                        title:'Data Berhasil Di Hapus',
+                        type:'success',
+                        timer: 2000
+                    });
+                }
+                else{
+                    if (data.message != null) {
+                        $('#alert-place').html(
+                            '<div class="alert alert-danger alert-dismissible">'
+                            +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                            +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+                            +'  <font>'+data.message+'</font>'
+                            +'</div>'
+                        );
+                    }
+                    else if (data.errors == null || data.message == null) {
+                        $('.data-message').show();
+                        $('.data-message .content-message').addClass('centered-content').html('Maaf, terjadi kesalahan ketika menghapus data!');
+                    }
+                }
+            }).catch(function(error){
+                btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+                $('#alert-place').html(
+                    '<div class="alert alert-danger alert-dismissible">'
+                    +'  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'
+                    +'  <h4><i class="icon fa fa-ban"></i> Kesalahan!</h4>'                
+                    +'  <font>Terjadi kesalahan saat menghapus data, <b>Error '+error.status+': '+error.statusText+'</b></font>'
+                    +'</div>'
+                );
+            });
+        }
+    });
+  }
+  /*END -- Function: Delete Multiple Data*/
+
+  /*Function: Show Datatables Row Detail*/
+  function show_row_detail(callback, detail_dt) {
+    $(document).on('click', '.detail-row', function (eve) {
+        eve.stopImmediatePropagation();
+        eve.preventDefault();
+
+        var tr = $(this).closest('tr');
+        var data_row = $(this).attr('data-search');
+        var row = callback(data_row, tr);
+  
+        if (row != undefined) {
+            if (row.child.isShown()) {
+                $('div.slider-detail', row.child()).slideUp(function(){
+                    row.child.hide();
+                });
+                $(this).removeClass('fa-minus-circle').addClass('fa-plus-circle');
+            }
+            else {
+                row.child(row_detail(row.data(), data_row, detail_dt(row.data(), data_row)), 'no-padding').show();
+                $('div.slider-detail', row.child()).slideDown();
+                $(this).removeClass('fa-plus-circle').addClass('fa-minus-circle');
+            }
+        }
+    });
+  }
+  /*END -- Function: Show Datatables Row Detail*/
+
+  /*Function: Datatables Row Detail*/
+  function row_detail(str, data, detail_dt) {
+    var row_respon = detail_dt;
+    if (row_respon.detail_row_respon != undefined) {
+      return '<div class="slider-detail text-center" data-search="'+row_respon.id_row+'" style="display:none;margin: 10px 0 10px 0"><font class="load-data">Memproses Data</font></div>';
+    }
+  }
+  /*END -- Function: Datatables Row Detail*/
