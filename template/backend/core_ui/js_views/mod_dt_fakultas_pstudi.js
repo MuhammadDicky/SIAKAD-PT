@@ -294,15 +294,15 @@ $(function(){
   /*END -- HASHCHANGE*/
 
   /*Submit AJAX*/
-  submit_ajax(
-        function(){
+  submit_ajax({
+        'url': function(){
             var url = {
                 'host': host,
                 'controller_path': controller_path
             };
             return url;
         },
-        function(){
+        'datasend': function(){
             var data = getUrlVars();
             var datasend;
             if (data == 'prodi' || data == 'fk,i,token' || data == 'pd,token') {
@@ -313,7 +313,7 @@ $(function(){
             }
             return datasend;
         },
-        function(act, data_respon){
+        'callback_rn': function(act, data_respon){
             if (act == 'tambah' && data_respon.status == 'success') {
                 if (data_respon.data == 'data_fakultas') {
                     $('.tbl-data-fk').DataTable().ajax.reload();
@@ -394,7 +394,7 @@ $(function(){
                 }
             }
         }
-  );
+  });
   /*END -- Submit AJAX*/
 
   /*Delete Multiple Data*/
