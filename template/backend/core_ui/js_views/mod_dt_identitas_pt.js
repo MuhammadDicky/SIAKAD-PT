@@ -37,6 +37,48 @@ $(function(){
   });
   /*END -- slimScroll Plugin*/
 
+  /*Submit AJAX*/
+  submit_ajax({
+    'url': function(){
+        var url = {
+            'host': host,
+            'controller_path': controller_path
+        };
+        return url;
+    },
+    'datasend': function(){
+        return undefined;
+    },
+    'callback_rn': function(act, data_respon){
+        if (act == 'tambah' && data_respon.status == 'success' || act == 'update' && data_respon.status == 'success') {
+            if (data_respon.data == 'data_identitas_pt') {
+                if (data_respon.record_pt == '') {
+                    $('#tab-identitas-pt .dl-horizontal .detail-data-pt').text('-');
+                    $('.box').hide();
+                    $('#tab-identitas-pt #profil, #tab-identitas-pt #kontak').append(
+                        '<p class="text-center empty-pt-dt">Belum ada data untuk identitas perguruan tinggi. Klik <a class="btn btn-info btn-sm form-identitas-pt"><span class="fa fa-pencil-square"></span></a> untuk input data identitas perguruan tinggi pertama kalinya.</p>'
+                    );
+                }
+                else{
+                    $('.box').show();
+                    $('.empty-pt-dt').remove();
+                    $.each(data_respon.record_pt[0], function(index, data_record){
+                        if (data_record =='') {
+                            data_record ='-';
+                        }
+                        if (index == 'rt' || index == 'rw') {
+                            $('#tab-identitas-pt .'+index).text(data_record);
+                        }
+                        $('#tab-identitas-pt .detail-data-pt.'+index).text(data_record);
+                    });
+                }
+                $('#myModal-pt').modal('hide');
+            }
+        }
+    }
+  });
+  /*END -- Submit AJAX*/
+
   /*Bootstrap Input File*/
   $('#file-select-logo-pt').fileinput({
     'browseClass':'btn btn-info btn-lg btn-secondary text-white',
