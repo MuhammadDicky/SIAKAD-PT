@@ -410,9 +410,10 @@
   /*END -- Function: hashchange action*/
 
   /*Function: Submit Ajax*/
-  function submit_ajax(url, datasend, callback_rn){
-    var url = url();
+  function submit_ajax(set){
+    var url = set.url();
     
+    $(document).off('click', '#submit');
     $(document).on('click', '#submit', function(eve){
         eve.stopImmediatePropagation();
         eve.preventDefault();
@@ -432,7 +433,7 @@
             var url_target = 'http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30);
         }
 
-        var data = datasend();
+        var data = set.datasend();
         if (data == null || data == undefined) {
             var data = $('#form-input').serialize();
         }
@@ -470,7 +471,7 @@
             success: function(data){
                 token = data.n_token;
                 if (action == 'tambah' && data.status == 'success') {
-                    callback_rn(action, data);
+                    set.callback_rn(action, data);
                     $('#myModal').modal('hide');
                     swal({
                         title:'Data Berhasil Di Simpan',
@@ -480,7 +481,7 @@
                 }
                 else if (action == 'update') {
                     if (data.status == 'success') {
-                        callback_rn(action, data);
+                        set.callback_rn(action, data);
                         $('#myModal').modal('hide');
                         swal({
                             title:'Data Berhasil Di Update',
@@ -494,7 +495,7 @@
                 }
                 else if (action == 'delete') {
                     if (data.status == 'success') {
-                        callback_rn(action, data);
+                        set.callback_rn(action, data);
                         $('#myModal').modal('hide');
                         swal({
                             title:'Data Berhasil Di Hapus',
@@ -576,6 +577,7 @@
         });
     });
 
+    $(document).off('click', '#submit-again');
     $(document).on('click', '#submit-again', function(eve){
         eve.stopImmediatePropagation();
         eve.preventDefault();
@@ -595,7 +597,7 @@
             var url_target = 'http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30);
         }
 
-        var data = datasend();
+        var data = set.datasend();
         if (data == null || data == undefined) {
             var data = $('#form-input').serialize();
         }
@@ -635,7 +637,7 @@
             success: function(data){
                 if (action == 'tambah') {
                     if (data.status == 'success') {
-                        callback_rn(action, data);
+                        set.callback_rn(action, data);
                         $('.modal #form-input,.modal form').find('input[type=text], input[type=number]').val('');
                         $('.modal input[type="radio"]').iCheck('uncheck');
                         $('.modal .select2').val(null).trigger('change');
