@@ -1,36 +1,62 @@
-var path = window.location.pathname,
-host     = window.location.hostname,
-id_data_akademik_u,
-load_interval,
-intval_vars,
-load_state = false,
-element_vars = [],
-controller_path,
-dashboard_path_dt = [
-  data_dashboard_path,
-  data_dashboard_path+"/",
-  data_dashboard_path+"/pengolahan_database",
-  data_dashboard_path+"/pengaturan"
-],
-master_path_dt = [
-  data_master_path+"/data_identitas_pt",
-  data_master_path+"/data_fakultas_pstudi",
-  data_master_path+"/data_angkatan",
-  data_master_path+"/data_thn_akademik"
-],
-user_path_dt = [
-  data_pengguna_path+"/data_pengguna_mahasiswa",
-  data_pengguna_path+"/data_pengguna_ptk",
-  data_pengguna_path+"/data_pengunjung"
-],
-akademik_path_dt = [
-  data_akademik_path+"/data_mahasiswa",
-  data_akademik_path+"/data_ptk",
-  data_akademik_path+"/data_mata_kuliah",
-  data_akademik_path+"/data_jadwal_kuliah",
-  data_akademik_path+"/data_nilai_mhs",
-  data_akademik_path+"/data_alumni_do"
-];
+var global_vars = {
+    'path' : window.location.pathname,
+    'host' : window.location.hostname,
+    'id_data_akademik_u' : '',
+    'load_interval' : '',
+    'intval_vars' : '',
+    'load_state' : false,
+    'element_vars' : [],
+    'dashboard_path_dt' : (function(){
+        return [
+            data_dashboard_path,
+            data_dashboard_path+"/",
+            data_dashboard_path+"/pengolahan_database",
+            data_dashboard_path+"/pengaturan"
+        ];
+    })(),
+    'master_path_dt' : (function(){
+        return [
+            data_master_path+"/data_identitas_pt",
+            data_master_path+"/data_fakultas_pstudi",
+            data_master_path+"/data_angkatan",
+            data_master_path+"/data_thn_akademik"
+        ];
+    })(),
+    'user_path_dt' : (function(){
+        return [
+            data_pengguna_path+"/data_pengguna_mahasiswa",
+            data_pengguna_path+"/data_pengguna_ptk",
+            data_pengguna_path+"/data_pengunjung"
+        ];
+    })(),
+    'akademik_path_dt' : (function(){
+        return [
+            data_akademik_path+"/data_mahasiswa",
+            data_akademik_path+"/data_ptk",
+            data_akademik_path+"/data_mata_kuliah",
+            data_akademik_path+"/data_jadwal_kuliah",
+            data_akademik_path+"/data_nilai_mhs",
+            data_akademik_path+"/data_alumni_do"
+        ];
+    })()
+};
+
+var create_ctrl_pt = (function(){
+    if (check_array_exist(global_vars.dashboard_path_dt, global_vars.path) == true) {
+        return data_dashboard_path;
+    }
+    else if (check_array_exist(global_vars.master_path_dt, global_vars.path) == true) {
+        return data_master_path;
+    }
+    else if (check_array_exist(global_vars.user_path_dt, global_vars.path) == true) {
+        return data_pengguna_path;
+    }
+    else if (check_array_exist(global_vars.akademik_path_dt, global_vars.path) == true) {
+        return data_akademik_path;
+    }
+})();
+
+global_vars.controller_path = create_ctrl_pt;
 
 var delay = (function(){
   var timer = 0;
@@ -39,20 +65,6 @@ var delay = (function(){
     timer = setTimeout(callback, ms);
   };
 })();
-
-if (check_array_exist(dashboard_path_dt,path) == true) {
-  controller_path = data_dashboard_path;
-}
-else if (check_array_exist(master_path_dt,path) == true) {
-  
-  controller_path = data_master_path;
-}
-else if (check_array_exist(user_path_dt,path) == true) {
-  controller_path = data_pengguna_path;
-}
-else if (check_array_exist(akademik_path_dt,path) == true) {
-  controller_path = data_akademik_path;
-}
 
 $(function(){
 
@@ -107,8 +119,8 @@ $(function(){
     $('.datatable-dt').on('preXhr.dt', function(e,settings,data){
       var i = 0;
       $('.load-datatable').html('Memuat Data');
-      clearInterval(intval_vars);
-      intval_vars = setInterval(function(){
+      clearInterval(global_vars.intval_vars);
+      global_vars.intval_vars = setInterval(function(){
         $('.load-datatable').append('. ');
         i++;
         if (i == 4) {
@@ -233,7 +245,7 @@ $(function(){
 
   $('#myModal').on('hidden.bs.modal', function(e){
     modal_animated(modal_hide_animated, modal_show_animated);
-    window.history.pushState(null,null,path);
+    window.history.pushState(null, null , global_vars.path);
     $('#myModal form,#rincian-siswa,.list-selected,.hide-modal-content').hide();
     $('#myModal .submit-btn, #myModal #tamp-data, #myModal #delete-selected, #myModal #pindah-kelas,#myModal #update-mk').attr('id','submit');
     $('#submit').show();
@@ -294,14 +306,14 @@ $(function(){
   $('.info').on('click', function(){
     var html;
     var data_info = $(this).attr('data-info');
-    if (path == controller_path+'/data_fakultas_pstudi') {
+    if (global_vars.path== global_vars.controller_path+'/data_fakultas_pstudi') {
       html = '<ol style="text-align:left">'
       +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Fakultas</a> untuk menambah data fakultas</li>'
       +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Program Studi</a> untuk menambah program studi</li>'
       +'<li>klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i></a> pada daftar fakultas untuk menambah program studi</li>'
       +'</ol>';
     }
-    else if (path == controller_path+'/data_thn_akademik') {
+    else if (global_vars.path== global_vars.controller_path+'/data_thn_akademik') {
       html = '<ol style="text-align:left">'
         +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Tahun Akademik</a> Untuk menambah tahun akademik</li>'
         +'<li>Klik tombol <a class="btn btn-danger text-white"><i class="fa fa-ban"></i> Tutup Tahun Akademik</a> Untuk menutup/nonaktifkan tahun akademik yang sedang berjalan</li>'
@@ -311,21 +323,21 @@ $(function(){
         +' pada daftar tahun akademik agar proses input nilai bisa dilakukan maupun sebaliknya</li>'
         +'</ol>';
     }
-    else if (path == controller_path+'/data_angkatan') {
+    else if (global_vars.path== global_vars.controller_path+'/data_angkatan') {
       html = '<ol style="text-align:left">'
         +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Tahun Angkatan</a> Untuk menambah tahun angkatan mahasiswa</li>'
         +'<li>Klik tombol <a class="btn btn-danger text-white"><i class="fa fa-trash"></i> Hapus</a> Untuk menghapus tahun angkatan mahasiswa</li>'
         +'<li>klik tombol <a class="btn btn-warning text-white"><i class="fa fa-list"></i></a> Untuk melihat daftar angkatan mahasiswa dan klik tombol <a class="btn btn-success"><i class="fa fa-pencil-square"></i></a> Untuk mengedit data tahun angkatan</li>'
         +'</ol>';
     }
-    else if (path == controller_path+'/data_mata_kuliah') {
+    else if (global_vars.path== global_vars.controller_path+'/data_mata_kuliah') {
       html = '<ol style="text-align:left">'
         +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Mata Kuliah</a> untuk menambah mata kuliah</li>'
         +'<li>Klik tombol <a class="btn btn-danger text-white"><i class="fa fa-trash"></i> Hapus</a> pada control panel untuk menghapus multiple data</li>'
         +'<li>Klik tombol <a class="btn btn-success text-white"><i class="fa fa-list"></i> Tampilkan Mata Kuliah</a> untuk Menampilkan mata kuliah berdasarkan prodi yang dipilih</li>'
         +'</ol>';
     }
-    else if (path == controller_path+'/data_jadwal_kuliah') {
+    else if (global_vars.path== global_vars.controller_path+'/data_jadwal_kuliah') {
       html = '<ol style="text-align:left">'
         +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Buat Jadwal Kuliah</a> untuk menambah jadwal kuliah kuliah</li>'
         +'<li>Klik tombol <a class="btn btn-danger text-white"><i class="fa fa-trash"></i> Hapus</a> pada control panel untuk menghapus multiple data</li>'
@@ -333,7 +345,7 @@ $(function(){
         +'<li>Klik tombol <a class="btn btn-info text-white"><i class="fa fa-plus"></i> Tambah Mahasiswa</a> untuk menambah mahasiswa kedalam kelas yang bersangkutan</li>'
         +'</ol>';
     }
-    else if (path == controller_path+'/pengaturan') {
+    else if (global_vars.path== global_vars.controller_path+'/pengaturan') {
       if (data_info == 'layout-setting') {
         html = '<ol style="text-align:left;">'
           +'<li>Pilihan layout untuk merubah tampilan sistem dimana terdiri dari:'
