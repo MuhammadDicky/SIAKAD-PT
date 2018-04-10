@@ -245,7 +245,7 @@
         $('#myModal form, #myModal .list-selected, #myModal .data-message').hide();
         $('#myModal .submit-btn').attr('id','submit');
         $('#myModal #form-input').attr('action','tambah');
-        $('.modal').addClass('modal-info').find('.modal-dialog').addClass('modal-lg');;
+        $('.modal').addClass('modal-info').find('.modal-dialog').addClass('modal-lg');
         $('#myModal').modal('show');
         modal_animated('zoomIn');
         var data = callback();
