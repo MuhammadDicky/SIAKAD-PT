@@ -78,19 +78,20 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
           <img src="<?php echo get_template_assets('img/user-image.png') ?>" class="img-avatar" alt="User Images">
+          <strong><?php echo $_SESSION['username']; ?></strong>
         </a>
         <div class="dropdown-menu dropdown-menu-right" id="user-widget-detail">
           <div class="dropdown-header text-center">
-            <strong>Account</strong>
+            <strong>Akun</strong>
           </div>
           <p class="text-center" style="padding-top: 20px">
-            <img src="<?php echo get_template_assets('img/user-image.png') ?>" class="img-avatar" alt="User Images" style="width: 20%"><br>
+            <img src="<?php echo get_template_assets('img/user-image.png') ?>" class="img-avatar" alt="User Images" style="width: 45%"><br>
             <?php echo $_SESSION['username']; ?><br>
             Administrator<br>
             <small class="user-last-time-login" data-time="<?php echo $_SESSION['last_online']; ?>"></small>
           </p>
           <div class="dropdown-header text-center">
-            <strong>Settings</strong>
+            <strong>Lainnya</strong>
           </div>
           <a class="dropdown-item" href="#"><i class="fa fa-user-circle"></i> Profile</a>
           <a class="dropdown-item" href="<?php echo set_url('pengaturan') ?>"><i class="fa fa-gears"></i> Pengaturan</a>

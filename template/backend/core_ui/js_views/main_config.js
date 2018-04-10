@@ -74,7 +74,7 @@
             }
             setTimeout(function(){
               $('.modal .load-data').remove();
-              clearInterval(load_interval);
+              clearInterval(global_vars.load_interval);
               if (data_respon.login_rld == null) {
                 solve(data_respon);
               }
@@ -103,7 +103,7 @@
           }
           reject(jqXHR);
           $('.modal .load-data').replaceWith('');
-          clearInterval(load_interval);
+          clearInterval(global_vars.load_interval);
           if (error_message == true) {
             swal({
               title:'Error',
@@ -123,7 +123,7 @@
     data['csrf_key'] = token;
     return $.ajax({
       type: 'POST',
-      url: 'http://'+host+'/siakad-uncp/admin/html_request',
+      url: 'http://'+global_vars.host+'/siakad-uncp/admin/html_request',
       data: data,
       global:false,
       async:false,
@@ -150,9 +150,9 @@
   /*END -- Function: Get HASH value*/
 
   function load_inval(){
-    clearInterval(load_interval);
+    clearInterval(global_vars.load_interval);
     var i = 0;
-    load_interval = setInterval(function(){
+    global_vars.load_interval = setInterval(function(){
       $('.load-data').append('. ');
       i++;
       if (i == 4) {
@@ -252,14 +252,14 @@
         if (data != undefined) {
             data.then(function(dt){
               $('#myModal .submit-btn').attr('id','submit').html('<li class="fa fa-save"></li> Simpan</button>');
-              if (load_state == true && load_state != false) {
-                load_state = false;
+              if (global_vars.load_state == true && global_vars.load_state != false) {
+                global_vars.load_state = false;
                 $('.modal .modal-body').append('<p class="load-data text-center">Memproses Data</p>');
                 $('#myModal form, #myModal .submit-btn, #myModal .list-selected').hide();
                 load_inval();
               }
               else{
-                if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1 || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['fk'] != undefined || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['prodi_kons'] != undefined) {
+                if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1 || global_vars.path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['fk'] != undefined || global_vars.path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['prodi_kons'] != undefined) {
                   if (getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'alumni' || getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'drop_out') {
                     $('.modal .submit-btn').show();
                   }
@@ -410,7 +410,10 @@
   /*END -- Function: hashchange action*/
 
   /*Function: Submit Ajax*/
-  function submit_ajax(url, datasend, callback_rn){
+  function submit_ajax(set){
+    var url = set.url();
+
+    $(document).off('click', '#submit');
     $(document).on('click', '#submit', function(eve){
         eve.stopImmediatePropagation();
         eve.preventDefault();
@@ -419,22 +422,32 @@
         $('#form-input, form').find('.is-invalid-select').removeClass('is-invalid-select');
         $('#form-input, form').find('.invalid-feedback').remove();
         $('#alert-place').text('');
-        var submit_btn = $(this).find('li');
+        var submit_btn = $(this);
+        var submit_btn_ic = submit_btn.find('li');
         var action = $('#form-input').attr('action');
-        var host = url().host;
-        var controller_path = url().controller_path;
-        var data = datasend();
+        if (url.url == 'custom') {
+            var url_target = 'http://'+url.custom+'/action/'+action+'?token='+token+'&key='+rand_val(30);
+        }
+        else {
+            var host = url.host;
+            var controller_path = url.controller_path;
+            var url_target = 'http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30);
+        }
+
+        var data = set.datasend();
         if (data == null || data == undefined) {
             var data = $('#form-input').serialize();
         }
         /*data = datasend+'&csrf_key='+token;*/
 
-        $.ajax('http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
+        $.ajax(url_target, {
             dataType: 'json',
             type: 'POST',
             data: data,
             beforeSend: function(){
-                submit_btn.removeClass('fa-save fa-trash fa-pencil-square').addClass('fa-circle-o-notch fa-spin');
+                submit_btn_ic.removeClass('fa-save fa-trash fa-pencil-square').addClass('fa-circle-o-notch fa-spin');
+                submit_btn.addClass('disabled');
+                $('#alert-place').text('');
             },
             complete: function(xhr){
                 if (xhr.responseJSON['login_rld'] != null) {
@@ -448,20 +461,22 @@
                     );
                 }
                 if (action == 'tambah') {
-                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-save');
+                    submit_btn_ic.removeClass('fa-circle-o-notch fa-spin').addClass('fa-save');
                 }
                 else if (action == 'update') {
-                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-pencil-square');
+                    submit_btn_ic.removeClass('fa-circle-o-notch fa-spin').addClass('fa-pencil-square');
                 }
                 else if (action == 'delete') {
-                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+                    submit_btn_ic.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
                 }
+                submit_btn.removeClass('disabled');
                 $('.submit-process').fadeOut();
+
             },
             success: function(data){
                 token = data.n_token;
                 if (action == 'tambah' && data.status == 'success') {
-                    callback_rn(action, data);
+                    set.callback_rn(action, data);
                     $('#myModal').modal('hide');
                     swal({
                         title:'Data Berhasil Di Simpan',
@@ -471,7 +486,7 @@
                 }
                 else if (action == 'update') {
                     if (data.status == 'success') {
-                        callback_rn(action, data);
+                        set.callback_rn(action, data);
                         $('#myModal').modal('hide');
                         swal({
                             title:'Data Berhasil Di Update',
@@ -485,7 +500,7 @@
                 }
                 else if (action == 'delete') {
                     if (data.status == 'success') {
-                        callback_rn(action, data);
+                        set.callback_rn(action, data);
                         $('#myModal').modal('hide');
                         swal({
                             title:'Data Berhasil Di Hapus',
@@ -567,6 +582,7 @@
         });
     });
 
+    $(document).off('click', '#submit-again');
     $(document).on('click', '#submit-again', function(eve){
         eve.stopImmediatePropagation();
         eve.preventDefault();
@@ -575,22 +591,32 @@
         $('#form-input, form').find('.is-invalid-select').removeClass('is-invalid-select');
         $('#form-input, form').find('.invalid-feedback').remove();
         $('#alert-place').text('');
-        var submit_btn = $(this).find('li');
+        var submit_btn = $(this);
+        var submit_btn_ic = submit_btn.find('li');
         var action = $('#form-input').attr('action');
-        var host = url().host;
-        var controller_path = url().controller_path;
-        var data = datasend();
+        if (url.url == 'custom') {
+            var url_target = 'http://'+url.custom+'/action/'+action+'?token='+token+'&key='+rand_val(30);
+        }
+        else {
+            var host = url.host;
+            var controller_path = url.controller_path;
+            var url_target = 'http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30);
+        }
+
+        var data = set.datasend();
         if (data == null || data == undefined) {
             var data = $('#form-input').serialize();
         }
         /*data = datasend+'&csrf_key='+token;*/
 
-        $.ajax('http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
+        $.ajax(url_target, {
             dataType: 'json',
             type: 'POST',
             data: data,
             beforeSend: function(){
-                submit_btn.removeClass('fa-clone').addClass('fa-circle-o-notch fa-spin');
+                submit_btn_ic.removeClass('fa-clone').addClass('fa-circle-o-notch fa-spin');
+                submit_btn.addClass('disabled');
+                $('#alert-place').text('');
             },
             complete: function(xhr){
                 if (xhr.responseJSON['login_rld'] != null) {
@@ -605,21 +631,22 @@
                 }
                 if (action == 'tambah') {
                     if (xhr.responseJSON['status'] == 'success') {
-                        submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-check');
+                        submit_btn_ic.removeClass('fa-circle-o-notch fa-spin').addClass('fa-check');
                         setTimeout(function(){
-                        submit_btn.removeClass('fa-check fa-circle-o-notch fa-spin').addClass('fa-clone');
+                            submit_btn_ic.removeClass('fa-check fa-circle-o-notch fa-spin').addClass('fa-clone');
                         },2000);
                     }
                     else{
-                        submit_btn.removeClass('fa-refresh fa-spin').addClass('fa-clone');
+                        submit_btn_ic.removeClass('fa-refresh fa-spin').addClass('fa-clone');
                     }
                 }
+                submit_btn.removeClass('disabled');
                 $('.submit-process').fadeOut();
             },
             success: function(data){
                 if (action == 'tambah') {
                     if (data.status == 'success') {
-                        callback_rn(action, data);
+                        set.callback_rn(action, data);
                         $('.modal #form-input,.modal form').find('input[type=text], input[type=number]').val('');
                         $('.modal input[type="radio"]').iCheck('uncheck');
                         $('.modal .select2').val(null).trigger('change');
@@ -685,6 +712,7 @@
 
   /*Function: Delete Multiple Data*/
   function delete_multiple_dt(callback) {
+    $(document).off('click','#delete-selected');
     $(document).on('click','#delete-selected', function(eve){
         eve.stopImmediatePropagation();
         eve.preventDefault();

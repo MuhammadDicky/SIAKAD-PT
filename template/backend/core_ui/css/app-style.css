@@ -262,6 +262,11 @@ dl.dl-horizontal dd{
   border: 1px solid #f86c6b !important;
 }
 
+.disabled {
+  opacity: 0.65;
+  pointer-events: none;
+}
+
 /*
  * Plugin: Select2
  * ---------------
