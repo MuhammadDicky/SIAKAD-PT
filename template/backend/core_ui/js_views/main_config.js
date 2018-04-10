@@ -74,7 +74,7 @@
             }
             setTimeout(function(){
               $('.modal .load-data').remove();
-              clearInterval(load_interval);
+              clearInterval(global_vars.load_interval);
               if (data_respon.login_rld == null) {
                 solve(data_respon);
               }
@@ -103,7 +103,7 @@
           }
           reject(jqXHR);
           $('.modal .load-data').replaceWith('');
-          clearInterval(load_interval);
+          clearInterval(global_vars.load_interval);
           if (error_message == true) {
             swal({
               title:'Error',
@@ -123,7 +123,7 @@
     data['csrf_key'] = token;
     return $.ajax({
       type: 'POST',
-      url: 'http://'+host+'/siakad-uncp/admin/html_request',
+      url: 'http://'+global_vars.host+'/siakad-uncp/admin/html_request',
       data: data,
       global:false,
       async:false,
@@ -150,9 +150,9 @@
   /*END -- Function: Get HASH value*/
 
   function load_inval(){
-    clearInterval(load_interval);
+    clearInterval(global_vars.load_interval);
     var i = 0;
-    load_interval = setInterval(function(){
+    global_vars.load_interval = setInterval(function(){
       $('.load-data').append('. ');
       i++;
       if (i == 4) {
@@ -252,14 +252,14 @@
         if (data != undefined) {
             data.then(function(dt){
               $('#myModal .submit-btn').attr('id','submit').html('<li class="fa fa-save"></li> Simpan</button>');
-              if (load_state == true && load_state != false) {
-                load_state = false;
+              if (global_vars.load_state == true && global_vars.load_state != false) {
+                global_vars.load_state = false;
                 $('.modal .modal-body').append('<p class="load-data text-center">Memproses Data</p>');
                 $('#myModal form, #myModal .submit-btn, #myModal .list-selected').hide();
                 load_inval();
               }
               else{
-                if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1 || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['fk'] != undefined || path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['prodi_kons'] != undefined) {
+                if (dt.total_rows != null && dt.total_rows > 0 || dt.status_jdl != null && dt.status_jdl == 1 || global_vars.path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['fk'] != undefined || global_vars.path.search('admin/data_master/data_fakultas_pstudi') > 0 && getUrlVars()['prodi_kons'] != undefined) {
                   if (getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'alumni' || getUrlVars()['data'] != undefined && getUrlVars()['data'] == 'drop_out') {
                     $('.modal .submit-btn').show();
                   }

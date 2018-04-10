@@ -2,7 +2,7 @@ $(function(){
 
   /*First Load Page*/
   $('#tab-identitas-pt .detail-data-pt').text('-');
-  var data_id_pt = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'data_identitas_pt'});
+  var data_id_pt = getJSON_async('http://'+global_vars.host+global_vars.controller_path+'/action/ambil',{data:'data_identitas_pt'});
   data_id_pt.then(function(results){
     if (results.status == 'empty') {
       $('#tab-identitas-pt .detail-data-pt').text('-');
@@ -41,8 +41,8 @@ $(function(){
   submit_ajax({
     'url': function(){
         var url = {
-            'host': host,
-            'controller_path': controller_path
+            'host': global_vars.host,
+            'controller_path': global_vars.controller_path
         };
         return url;
     },
@@ -96,7 +96,7 @@ $(function(){
     'maxFileCount':1,
     'maxFileSize':1024,
     'language':'id',
-    'uploadUrl': "http://"+host+data_dashboard_path+"/upload_file",
+    'uploadUrl': "http://"+global_vars.host+data_dashboard_path+"/upload_file",
     'uploadAsync':true,
     'showPreview':false
   });
@@ -194,7 +194,7 @@ $(function(){
     btn_this.css('pointer-events','none');
     var btn_act = btn_this.find('i');
     btn_act.removeClass('fa-pencil-square').addClass('fa-circle-o-notch fa-spin');
-    var results = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'data_identitas_pt'},1000,true);
+    var results = getJSON_async('http://'+global_vars.host+global_vars.controller_path+'/action/ambil',{data:'data_identitas_pt'},1000,true);
     results.then(function(results){
       $('#myModal #batal').html('<li class="fa fa-times"></li> Batal');
       $('#myModal #form-input').show();
