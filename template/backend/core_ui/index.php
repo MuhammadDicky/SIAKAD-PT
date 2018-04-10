@@ -78,6 +78,7 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
           <img src="<?php echo get_template_assets('img/user-image.png') ?>" class="img-avatar" alt="User Images">
+          <strong><?php echo $_SESSION['username']; ?></strong>
         </a>
         <div class="dropdown-menu dropdown-menu-right" id="user-widget-detail">
           <div class="dropdown-header text-center">
