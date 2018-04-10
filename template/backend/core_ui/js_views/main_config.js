@@ -772,6 +772,7 @@
 
   /*Function: Show Datatables Row Detail*/
   function show_row_detail(callback, detail_dt) {
+    $(document).off('click', '.detail-row');
     $(document).on('click', '.detail-row', function (eve) {
         eve.stopImmediatePropagation();
         eve.preventDefault();
