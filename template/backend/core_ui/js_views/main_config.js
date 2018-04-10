@@ -412,7 +412,7 @@
   /*Function: Submit Ajax*/
   function submit_ajax(set){
     var url = set.url();
-    
+
     $(document).off('click', '#submit');
     $(document).on('click', '#submit', function(eve){
         eve.stopImmediatePropagation();
@@ -422,7 +422,8 @@
         $('#form-input, form').find('.is-invalid-select').removeClass('is-invalid-select');
         $('#form-input, form').find('.invalid-feedback').remove();
         $('#alert-place').text('');
-        var submit_btn = $(this).find('li');
+        var submit_btn = $(this);
+        var submit_btn_ic = submit_btn.find('li');
         var action = $('#form-input').attr('action');
         if (url.url == 'custom') {
             var url_target = 'http://'+url.custom+'/action/'+action+'?token='+token+'&key='+rand_val(30);
@@ -444,7 +445,9 @@
             type: 'POST',
             data: data,
             beforeSend: function(){
-                submit_btn.removeClass('fa-save fa-trash fa-pencil-square').addClass('fa-circle-o-notch fa-spin');
+                submit_btn_ic.removeClass('fa-save fa-trash fa-pencil-square').addClass('fa-circle-o-notch fa-spin');
+                submit_btn.addClass('disabled');
+                $('#alert-place').text('');
             },
             complete: function(xhr){
                 if (xhr.responseJSON['login_rld'] != null) {
@@ -458,15 +461,17 @@
                     );
                 }
                 if (action == 'tambah') {
-                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-save');
+                    submit_btn_ic.removeClass('fa-circle-o-notch fa-spin').addClass('fa-save');
                 }
                 else if (action == 'update') {
-                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-pencil-square');
+                    submit_btn_ic.removeClass('fa-circle-o-notch fa-spin').addClass('fa-pencil-square');
                 }
                 else if (action == 'delete') {
-                    submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
+                    submit_btn_ic.removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
                 }
+                submit_btn.removeClass('disabled');
                 $('.submit-process').fadeOut();
+
             },
             success: function(data){
                 token = data.n_token;
@@ -586,7 +591,8 @@
         $('#form-input, form').find('.is-invalid-select').removeClass('is-invalid-select');
         $('#form-input, form').find('.invalid-feedback').remove();
         $('#alert-place').text('');
-        var submit_btn = $(this).find('li');
+        var submit_btn = $(this);
+        var submit_btn_ic = submit_btn.find('li');
         var action = $('#form-input').attr('action');
         if (url.url == 'custom') {
             var url_target = 'http://'+url.custom+'/action/'+action+'?token='+token+'&key='+rand_val(30);
@@ -608,7 +614,9 @@
             type: 'POST',
             data: data,
             beforeSend: function(){
-                submit_btn.removeClass('fa-clone').addClass('fa-circle-o-notch fa-spin');
+                submit_btn_ic.removeClass('fa-clone').addClass('fa-circle-o-notch fa-spin');
+                submit_btn.addClass('disabled');
+                $('#alert-place').text('');
             },
             complete: function(xhr){
                 if (xhr.responseJSON['login_rld'] != null) {
@@ -623,15 +631,16 @@
                 }
                 if (action == 'tambah') {
                     if (xhr.responseJSON['status'] == 'success') {
-                        submit_btn.removeClass('fa-circle-o-notch fa-spin').addClass('fa-check');
+                        submit_btn_ic.removeClass('fa-circle-o-notch fa-spin').addClass('fa-check');
                         setTimeout(function(){
-                        submit_btn.removeClass('fa-check fa-circle-o-notch fa-spin').addClass('fa-clone');
+                            submit_btn_ic.removeClass('fa-check fa-circle-o-notch fa-spin').addClass('fa-clone');
                         },2000);
                     }
                     else{
-                        submit_btn.removeClass('fa-refresh fa-spin').addClass('fa-clone');
+                        submit_btn_ic.removeClass('fa-refresh fa-spin').addClass('fa-clone');
                     }
                 }
+                submit_btn.removeClass('disabled');
                 $('.submit-process').fadeOut();
             },
             success: function(data){
