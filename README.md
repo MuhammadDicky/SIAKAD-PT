@@ -2,10 +2,12 @@
 
 **Sistem Informasi Akademik Perguruan Tinggi** / **SIAKAD - PT** adalah aplikasi pengolahan data akademik perguruan tinggi berbasis web dimana data yang dikelolah mulai dari data kemahasiswaan, data tenaga pedidik dan data akademik lainnya. Aplikasi ini menggunakan framework [codeigniter](https://codeigniter.com) dan beberapa template untuk bagian frontend nya.
 
-# DEMO
-Demo aplikasi SIAKAD - PT dapat dilihat di [Demo](http://web-project-beta.000webhostapp.com/siakad-uncp/). Untuk saat ini demo yang ada menggunakan versi pertama, demo akan di usahakan menggunakan versi yang sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi sistem informasi akademik salah satu perguruan tinggi di indonesia.
+![SIAKAD - PT](template/template_assets/adminlte/dist/img/default_set.png)
 
-SIAKAD - PT dapat diakses dengan akses level sebagai admin dengan memasukkan Username = admin dan Password = admin. Untuk akses sebagai mahasiswa dan tenaga pendidik/dosen bisa melihat username dan password di data pengguna saat sudah login sebagai admin
+# DEMO
+Demo aplikasi **SIAKAD - PT** dapat dilihat di [Demo](http://web-project-beta.000webhostapp.com/siakad-uncp/). Untuk saat ini demo yang ada menggunakan versi pertama, demo akan di usahakan menggunakan versi yang sesuai dengan status release terakhir repository ini. Demo itu menampilkan aplikasi sistem informasi akademik salah satu perguruan tinggi di indonesia.
+
+**SIAKAD - PT** dapat diakses dengan akses level sebagai admin dengan memasukkan **Username** = **admin** dan **Password** = **admin**. Untuk akses sebagai mahasiswa dan tenaga pendidik/dosen bisa melihat username dan password di data pengguna saat sudah login sebagai admin
 
 # Server Requirements
 
@@ -28,11 +30,11 @@ No. | Template | Version | Status
 # Instalasi
 
 Untuk menggunakan aplikasi dapat dimulai dengan menyesuaikan konfigurasi di file **configuration.php**. Untuk lebih lengkapnya contact **muh.dickyhidayat@gmail.com**.
-1. Pertama - tama siapkan database SIAKAD
+1. Pertama - tama siapkan database **SIAKAD**
 2. Buka file **configuration.php** lalu lakukan beberapa pengaturan seperti ini:
     * Masukkan base url ```var $_site_url = 'http://contoh-url/'```
 	* Jika aplikasi dalam sub folder seperti **localhost/siakad-pt/** maka property ini diisi sesuai dengan nama sub folder, jika tidak dalam sub folder makan kosong kan saja ```var $_sub_domain = 'siakad-pt'```
-    * Masukkan host databse ```var $_hostname = ''```
+    * Masukkan host database ```var $_hostname = ''```
     * Masukkan username database ```var $_database_user = ''```
 	* Masukkan password database ```var $_database_password = ''```
 	* Masukkan nama database ```var $_database_name = ''```
