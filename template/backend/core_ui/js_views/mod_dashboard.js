@@ -44,6 +44,77 @@ $(document).ready(function(){
   });
   /*END -- Data PTK*/
 
+  /*HASHCHANGE*/
+  start_hashchange(function(hash){
+    hashchange_act(hash, function(){
+        var urlvars = getUrlVars();
+        if (hash.search('detail') == 0) {
+            if (urlvars[0] == 'id_user') {
+                $('#myModal #rincian-ptk, #myModal #rincian-mhs').hide();
+                $('#myModal').modal('show').addClass('modal-warning').find('.modal-dialog').addClass('modal-lg');
+                var id = urlvars['id_user'];
+                var level = urlvars['level'];
+                var data = getJSON_async('http://'+global_vars.host+global_vars.controller_path+'/dashboard/data_statistik/pengguna',{id:id,level:level},500);
+                data.then(function(detail_user){
+                    if (detail_user.total_rows > 0) {
+                        if (detail_user.data == 'mhs') {
+                            $('#myModal #rincian-mhs').show();
+                            $('#myModal #rincian-ptk').hide();
+                            $('#myModal #rincian-ptk').find('dd').text('');
+                            $.each(detail_user.record, function(index, data_record){
+                                $.each(data_record, function(index, data_record){                
+                                    if (data_record =='' || data_record =='0') {
+                                        data_record='-';
+                                    }
+                                    if (index=='jk' && data_record=='L') {
+                                        data_record='Laki - Laki';
+                                    }
+                                    else if(index=='jk' && data_record=='P'){
+                                        data_record='Perempuan';
+                                    }
+                                    $('#rincian-mhs #detail-'+index).text(data_record);
+                                });
+                                $('#rincian-mhs #detail-nama_prodi').text(data_record.nama_prodi+' ('+data_record.jenjang_prodi+')');
+                            });
+                        }
+                        else{
+                            $('#myModal #rincian-ptk').show();
+                            $('#myModal #rincian-mhs').hide();
+                            $('#myModal #rincian-mhs').find('dd').text('');
+                            $.each(detail_user.record, function(index, data_record){
+                                $.each(data_record, function(index, data_record){                
+                                    if (data_record =='' || data_record =='0') {
+                                        data_record='-';
+                                    }
+                                    if (index=='jk_ptk' && data_record=='L') {
+                                        data_record='Laki - Laki';
+                                    }
+                                    else if(index=='jk_ptk' && data_record=='P'){
+                                        data_record='Perempuan';
+                                    }
+                                    $('#rincian-ptk #detail-'+index).text(data_record);
+                                });
+                                $('#rincian-ptk #detail-nama_prodi').text(data_record.nama_prodi+' ('+data_record.jenjang_prodi+')');
+                            });
+                        }
+                    }
+                    else{
+                        $('#myModal #rincian-mhs, #myModal #rincian-ptk').hide();
+                        $('#myModal .data-message .content-message').html('Maaf, data yang anda cari tidak ditemukan');
+                        $('.data-message').show();
+                    }
+                }).catch(function(error){
+                    $('#myModal #rincian-mhs, #myModal #rincian-ptk').hide();
+                    $('.data-message').show();
+                    $('.data-message .content-message').addClass('centered-text').html('Terjadi kesalahan, <b>Error '+error.status+': '+error.statusText+'</b>');
+                });
+                $('#myModal .modal-title').text('Detail Data Pengguna');
+              }
+        }
+    })
+  });
+  /*END -- HASHCHANGE*/
+
   $('#refresh-statik-pengguna').on('click', function(eve){
     eve.preventDefault();
     var btn = $(this),
