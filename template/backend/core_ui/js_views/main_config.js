@@ -703,6 +703,7 @@
 
   /*Function: Delete Multiple Data*/
   function delete_multiple_dt(callback) {
+    $(document).off('click','#delete-selected');
     $(document).on('click','#delete-selected', function(eve){
         eve.stopImmediatePropagation();
         eve.preventDefault();
