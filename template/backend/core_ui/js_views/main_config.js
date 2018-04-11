@@ -771,7 +771,7 @@
   /*END -- Function: Delete Multiple Data*/
 
   /*Function: Show Datatables Row Detail*/
-  function show_row_detail(callback, detail_dt) {
+  function show_row_detail(set) {
     $(document).off('click', '.detail-row');
     $(document).on('click', '.detail-row', function (eve) {
         eve.stopImmediatePropagation();
@@ -779,7 +779,7 @@
 
         var tr = $(this).closest('tr');
         var data_row = $(this).attr('data-search');
-        var row = callback(data_row, tr);
+        var row = set.callback(data_row, tr);
   
         if (row != undefined) {
             if (row.child.isShown()) {
@@ -789,7 +789,7 @@
                 $(this).removeClass('fa-minus-circle').addClass('fa-plus-circle');
             }
             else {
-                row.child(row_detail(row.data(), data_row, detail_dt(row.data(), data_row)), 'no-padding').show();
+                row.child(row_detail(row.data(), data_row, set.detail_dt(row.data(), data_row)), 'no-padding').show();
                 $('div.slider-detail', row.child()).slideDown();
                 $(this).removeClass('fa-plus-circle').addClass('fa-minus-circle');
             }
