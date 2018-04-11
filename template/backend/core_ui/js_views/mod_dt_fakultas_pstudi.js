@@ -763,14 +763,14 @@ $(function(){
   /*END -- Datatables Plugin*/
 
   /*Show Datatables Row Detail*/
-  show_row_detail(
-    function (data_row, tr) {
+  show_row_detail({
+    'callback': function (data_row, tr) {
         if (data_row == 'data-prodi') {
             var row = table_data_pd.row(tr);
         }
         return row;
     },
-    function (str, data) {
+    'detail_dt': function (str, data) {
         if (data == 'data-prodi') {
             var id_row = str.id_prodi;
             var detail_row_respon = getJSON_async('http://'+global_vars.host+global_vars.controller_path+'/action/ambil',{id_pd:str.id_prodi,data:'data_prodi'},500);
@@ -859,7 +859,7 @@ $(function(){
         };
         return return_dt;
     }
-  );
+  });
   /*END -- Datatables Show Row Detail*/
 
   /*Function*/
