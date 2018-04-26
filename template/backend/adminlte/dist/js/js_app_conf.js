@@ -3078,6 +3078,7 @@ $(function(){
         },1000);
       }
       else if (path == controller_path+'/data_mahasiswa' || path == controller_path+'/data_alumni_do') {
+        id_data_akademik_u = null;
         delay(function(){
           $('#detail-mhs .close-tab, #detail-mhs .close-dt-tab').removeClass('active');
           $('#detail-mhs .close-tab').find('a').attr('aria-expanded','false');
@@ -3686,9 +3687,11 @@ $(function(){
     });
 
     $('a[href="#detail_riwayat_kuliah"], a[href="#detail_riwayat_studi"]').on('click', function(){
-      delay(function(){
-        detail_akademik_mhs();
-      },100);
+      if (id_data_akademik_u != null && id_data_akademik_u != '') {
+        delay(function(){
+            detail_akademik_mhs();
+        },100);
+      }
     });
 
     $('.data-statistik-mhs a[href="#statistik-alumni"]').on('click', function(){
