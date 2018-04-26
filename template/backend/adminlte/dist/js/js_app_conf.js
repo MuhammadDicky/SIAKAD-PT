@@ -3776,37 +3776,39 @@ $(function(){
       var username = $(this).val().split('-'),
       btn_act = $(this).find('li'),
       user_in = $(this).val();
-      swal({
-        type:'info',
-        title:'Peringatan',
-        html:'Anda melakukan reset password pada pengguna dengan username <b>'+username[2]+'</b>, klik tombol Reset untuk melanjutkan!',
-        showCancelButton: true,
-        confirmButtonText:'<i class="fa fa-check"></i> Reset',
-        cancelButtonText:'<i class="fa fa-times"></i> Batal',
-      }).then(function(){
-        btn_act.removeClass('fa-key').addClass('fa-circle-o-notch fa-spin');
-        var status_thn = getJSON_async('http://'+host+data_pengguna_path+'/action/update_password',{user_in:user_in},500,true);
-        status_thn.then(function(status_thn){
-          btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-key');
-          if (status_thn.status == 'success') {
-            swal({
-              title:'Berhasil',
-              html:'Password pengguna dengan username <b>'+username[2]+'</b> berhasil direset!, password user <b>'+status_thn.u_pass+'</b>',
-              type:'success',
+      if (id_data_akademik_u != null && id_data_akademik_u != '' && $(this).val() != '') {
+        swal({
+            type:'info',
+            title:'Peringatan',
+            html:'Anda melakukan reset password pada pengguna dengan username <b>'+username[2]+'</b>, klik tombol Reset untuk melanjutkan!',
+            showCancelButton: true,
+            confirmButtonText:'<i class="fa fa-check"></i> Reset',
+            cancelButtonText:'<i class="fa fa-times"></i> Batal',
+        }).then(function(){
+            btn_act.removeClass('fa-key').addClass('fa-circle-o-notch fa-spin');
+            var status_thn = getJSON_async('http://'+host+data_pengguna_path+'/action/update_password',{user_in:user_in},500,true);
+            status_thn.then(function(status_thn){
+            btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-key');
+            if (status_thn.status == 'success') {
+                swal({
+                title:'Berhasil',
+                html:'Password pengguna dengan username <b>'+username[2]+'</b> berhasil direset!, password user <b>'+status_thn.u_pass+'</b>',
+                type:'success',
+                });
+            }
+            else{
+                swal({
+                title:'Gagal',
+                text:'Gagal melakukan reset password!',
+                type:'error',
+                timer: 2000
+                });
+            }
+            }).catch(function(error){
+            btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-key');
             });
-          }
-          else{
-            swal({
-              title:'Gagal',
-              text:'Gagal melakukan reset password!',
-              type:'error',
-              timer: 2000
-            });
-          }
-        }).catch(function(error){
-          btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-key');
         });
-      });
+      }
     });
 
     $(document).on('click', '#created-pass', function(eve){
