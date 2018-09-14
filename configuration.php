@@ -4,14 +4,14 @@
 
 		/*Server Config*/
 		var $_site_url            = 'http://localhost/';
-		var $_sub_domain          = 'siakad-uncp';
+		var $_sub_domain          = 'siakad-uncp/public';
 		var $_document_root       = __DIR__;
 		var $_app_environment     = 'Development';
 		var $_site_name           = 'siakad-uncp.com';
 
 		/*Web Assets Path*/
 		var $_plugin_path         = 'assets/plugins/';
-		var $_template_assets     = 'template/template_assets/';
+		var $_template_assets     = 'assets/templates/';
 
 		/*Url Admin*/
 		var $_data_dashboard_path = 'admin';
