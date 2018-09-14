@@ -41,36 +41,24 @@
 					              	</dl>
 						        </div>
 
-						        <strong><span class="fa fa-external-link-square"></span> URL / Link</strong>
+						        <strong><span class="fa fa-file"></span> Assets Path</strong>
 		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
 		              			<div>
 		              				<dl class="dl-horizontal">
-						                <dt>Site Url</dt>
-						                <dd class="detail-config-siakad detail_site_url"></dd>
+						                <dt>Template</dt>
+						                <dd class="detail-config-siakad detail_template_assets"></dd>
 
-						                <dt>Dashboard Link</dt>
-						                <dd class="detail-config-siakad detail_data_dashboard_path"></dd>
+						                <dt>Plugin</dt>
+						                <dd class="detail-config-siakad detail_plugin_path"></dd>
+					              	</dl>
+						        </div>
 
-						                <dt>Data Master Link</dt>
-						                <dd class="detail-config-siakad detail_data_master_path"></dd>
-
-						                <dt>Data Pengguna Link</dt>
-						                <dd class="detail-config-siakad detail_data_pengguna_path"></dd>
-
-						                <dt>Data Akademik Link</dt>
-						                <dd class="detail-config-siakad detail_data_akademik_path"></dd>
-
-						                <dt>Home Link</dt>
-						                <dd class="detail-config-siakad detail_path_home"></dd>
-
-						                <dt>Profil PT Link</dt>
-						                <dd class="detail-config-siakad detail_path_profil_pt"></dd>
-
-						                <dt>Beranda Mahasiswa Link</dt>
-						                <dd class="detail-config-siakad detail_beranda_mhs_path"></dd>
-
-						                <dt>Beranda Tenaga Pendidik Link</dt>
-						                <dd class="detail-config-siakad detail_beranda_ptk_path"></dd>
+						        <strong><span class="fa fa-image"></span> Gambar</strong>
+		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
+		              			<div>
+		              				<dl class="dl-horizontal">
+						                <dt>Nama File Logo Perguruan Tinggi</dt>
+						                <dd class="detail-config-siakad detail_web_icon"></dd>
 					              	</dl>
 						        </div>
 		              		</section>
@@ -112,27 +100,6 @@
 
 						                <dt>Table Swap Prefix</dt>
 						                <dd class="detail-config-siakad detail_table_swap_prefix"></dd>
-					              	</dl>
-						        </div>
-
-						        <strong><span class="fa fa-file"></span> Assets Path</strong>
-		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
-		              			<div>
-		              				<dl class="dl-horizontal">
-						                <dt>Template</dt>
-						                <dd class="detail-config-siakad detail_template_assets"></dd>
-
-						                <dt>Plugin</dt>
-						                <dd class="detail-config-siakad detail_plugin_path"></dd>
-					              	</dl>
-						        </div>
-
-						        <strong><span class="fa fa-image"></span> Gambar</strong>
-		              			<div style="margin-top:3px;margin-bottom: 10px;border-bottom: 2px solid grey"></div>
-		              			<div>
-		              				<dl class="dl-horizontal">
-						                <dt>Nama File Logo Perguruan Tinggi</dt>
-						                <dd class="detail-config-siakad detail_web_icon"></dd>
 					              	</dl>
 						        </div>
 		              		</section>
