@@ -1019,11 +1019,11 @@ class Dashboard extends Backend_Controller {
 				elseif ($post['data'] == 'backup_file') {
 					$this->load->helper('file');
 					global $Config;
-					$download_path = base_url().$this->download_url;
+					$download_path = base_url('/'.$this->download_url);
 
 					/*Backup DB*/
 					date_default_timezone_set("Asia/Makassar");
-					$data_backup = get_file_info(get_real_path('/'.$this->download_url.$this->filename_backup_db),array('name','size','date'));
+					$data_backup = get_file_info($this->download_url.$this->filename_backup_db,array('name','size','date'));
 					if ($data_backup != FALSE) {
 						$arr = array(
 							'date' => date("Y-m-d H:i:s", $data_backup['date']),
@@ -1039,7 +1039,7 @@ class Dashboard extends Backend_Controller {
 					/*END -- Backup DB*/
 
 					/*Backup table DB*/
-					$data_backup_tbl = get_file_info(get_real_path('/'.$this->download_url.$this->filename_backup_tbl_db),array('name','size','date'));
+					$data_backup_tbl = get_file_info($this->download_url.$this->filename_backup_tbl_db,array('name','size','date'));
 					if ($data_backup_tbl != FALSE) {
 						$arr = array(
 							'date' => date("Y-m-d H:i:s", $data_backup_tbl['date']),
@@ -1057,7 +1057,7 @@ class Dashboard extends Backend_Controller {
 					$result = array(
 						'backup_db' => $backup_db,
 						/*'backup_db' => $data_backup,*/
-						'backup_db_tbl' => $backup_tbl_db,
+                        'backup_db_tbl' => $backup_tbl_db,
 						/*'backup_tbl_db' => $data_backup_tbl,*/
 						);
 				}
