@@ -1,6 +1,6 @@
 vendor/
 
-downloads/temp-download-path/*
-!downloads/temp-download-path/index.html
+public/downloads/temp-download-path/*
+!public/downloads/temp-download-path/index.html
 
 .vscode/
