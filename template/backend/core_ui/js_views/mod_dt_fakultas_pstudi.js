@@ -431,19 +431,15 @@ $(function(){
             var hapus = getJSON_async('http://'+global_vars.host+global_vars.controller_path+'/action/delete',{id:id,data:'data_prodi'},1000);
             hapus.then(function(hapus){
                 if (hapus.status =='success') {
-                $('#box-detail-fk').find('div.overlay').fadeIn();
-                $(document).bind('ajaxComplete', function(){
-                    $('#box-detail-fk').find('div.overlay').fadeOut();
-                });
-                if ($('#box-detail-fk').is(':visible')) {
-                    $('.close-dt-pd-bt').fadeOut();
-                    $('.detail-prodi').fadeOut().removeClass('active').find('a').attr('aria-expanded','false');
-                    $('#detail-prodi').removeClass('active');
-                    $('.daftar-prodi').addClass('active').find('a').attr('aria-expanded','true');
-                    $('#daftar-prodi').addClass('active');
-                    data_detail_fk(hapus.data);
-                }
-                $('#myModal').modal('hide');
+                    if ($('#box-detail-fk').is(':visible')) {
+                        $('.close-dt-pd-bt').fadeOut();
+                        $('.detail-prodi').fadeOut().removeClass('active').find('a').attr('aria-expanded','false');
+                        $('#detail-prodi').removeClass('active');
+                        $('.daftar-prodi').addClass('active').find('a').attr('aria-expanded','true');
+                        $('#daftar-prodi').addClass('active');
+                        data_detail_fk(hapus.data);
+                    }
+                    $('#myModal').modal('hide');
                 }
             });
         }
