@@ -52,7 +52,7 @@
   */
  	// $assign_to_config['name_of_config_item'] = 'value of config item';
 
- if (require_once('configuration.php')) {
+ if (require_once('../configuration.php')) {
  	$Config = new Config;
 	$app_environment = $Config->_app_environment;
  }
@@ -118,7 +118,7 @@ switch (ENVIRONMENT)
  * This variable must contain the name of your "system" directory.
  * Set the path if it is not in the same directory as this file.
  */
-	$system_path = 'vendor/codeigniter/framework/system';
+	$system_path = '../vendor/codeigniter/framework/system';
 
 /*
  *---------------------------------------------------------------
@@ -135,7 +135,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = 'dev/application';
+	$application_folder = '../dev/application';
 
 /*
  *---------------------------------------------------------------
@@ -150,7 +150,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$view_folder = 'template';
+	$view_folder = '../template';
 
 
 /*
