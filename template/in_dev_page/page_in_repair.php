@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Oops | Halaman Dalam Perbaikan</title>
-    <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')) ?>"/>
+    <link rel="shortcut icon" href="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>"/>
     <!-- Bootstrap -->
     <link href="<?php echo get_template_assets('bootstrap/css/bootstrap.min.css') ?>" rel="stylesheet">
     <!-- Font Awesome -->

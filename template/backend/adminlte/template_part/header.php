@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <title><?php echo title(); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element"/>
+  <link rel="shortcut icon" href="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element"/>
   <!-- Font -->
   <!-- <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Source Sans Pro/stylesheet.css') ?>">
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Montserrat/stylesheet.css') ?>"> -->
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/skins/_all-skins.min.css') ?>">
   <link rel="stylesheet" href="<?php echo get_plugin_url('animated-css/animated.min.css') ?>">
-  <link rel="stylesheet" href="<?php echo get_templete_dir(dirname(__FILE__),'../dist/css/style.css','nC') ?>">
+  <link rel="stylesheet" href="<?php echo get_custom_assets('dist/css/style.css','nC') ?>">
   <style>
     .content-wrapper{
       background: #fff;
@@ -73,11 +73,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">
         <b><?php echo web_detail('_logo_mini'); ?></b>
-        <!-- <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element" alt="PT Icon Profile" style="width: 80%;margin-top: -5px"> -->
+        <!-- <img src="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element" alt="PT Icon Profile" style="width: 80%;margin-top: -5px"> -->
       </span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">
-        <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="hidden-xs logo-pt-element" alt="PT Icon Profile" style="width: 15%;margin-top: -6px">
+        <img src="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="hidden-xs logo-pt-element" alt="PT Icon Profile" style="width: 15%;margin-top: -6px">
         <b>SIAKAD</b> <?php echo web_detail('_logo_lg'); ?>
       </span>
     </a>

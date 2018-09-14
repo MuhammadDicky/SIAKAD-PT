@@ -14,7 +14,7 @@
   <meta name="description" content="CoreUI - Open Source Bootstrap Admin Template">
   <meta name="author" content="Łukasz Holeczek">
   <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,AngularJS,Angular,Angular2,Angular 2,Angular4,Angular 4,jQuery,CSS,HTML,RWD,Dashboard,React,React.js,Vue,Vue.js">
-  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element"/>
+  <link rel="shortcut icon" href="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element"/>
   <title><?php echo title(); ?></title>
 
   <!-- Font -->
@@ -34,11 +34,11 @@
 
   <!-- Main styles for this application -->
   <link rel="stylesheet" href="<?php echo get_template_assets('css/style.css') ?>" id="main-style">
-  <link rel="stylesheet" href="<?php echo get_templete_dir(dirname(__FILE__),'css/app-style.css','nC') ?>">
+  <link rel="stylesheet" href="<?php echo get_custom_assets('css/app-style.css','nC') ?>">
   <style type="text/css">
     @media (min-width: 992px){
       .brand-minimized .app-header.navbar .navbar-brand {
-        background-image: url(<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>);
+        background-image: url(<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>);
       }
     }
     .pace .pace-activity {
@@ -53,7 +53,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="<?php echo base_url('admin') ?>">
-      <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="hidden-xs logo-pt-element" alt="PT Icon Profile" style="width: 20%;margin-top: -6px">
+      <img src="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="hidden-xs logo-pt-element" alt="PT Icon Profile" style="width: 20%;margin-top: -6px">
       <font><b>SIAKAD</b> <?php echo web_detail('_logo_lg'); ?></font>
     </a>
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
@@ -677,7 +677,7 @@
     })
   </script>
   <script type="application/javascript" src="<?php echo get_template_assets('js/app.js') ?>"></script>
-  <script type="application/javascript" src="<?php echo get_templete_dir(dirname(__FILE__),'js_views/main_config.js','nC') ?>"></script>
+  <script type="application/javascript" src="<?php echo get_custom_assets('js_views/main_config.js','nC') ?>"></script>
   <!-- Live Reload : Only for development -->
   <script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
 

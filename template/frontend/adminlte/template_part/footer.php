@@ -287,7 +287,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <!-- AdminLTE App -->
 <script type="application/javascript" src="<?php echo get_template_assets('dist/js/adminlte.min.js') ?>"></script>
 <script type="text/javascript">
-<?php global $Config ?>
+<?php global $Config; ?>
     var path_home    = '<?php echo web_detail('_path_home') ?>',
     index_path       = '<?php echo web_detail('_index_path') ?>',
     path_profil_pt   = '<?php echo web_detail('_path_profil_pt') ?>',
@@ -324,11 +324,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     });
 </script>
 <?php if ($_SESSION['level_akses'] == 'ptk'): ?>
-<script type="application/javascript" src="<?php echo get_templete_dir(dirname(__FILE__),'../dist/js/js_app_conf.js','nC') ?>"></script>
+<script type="application/javascript" src="<?php echo get_custom_assets('dist/js/js_app_conf.js','nC') ?>"></script>
 <?php endif ?>
 <?php if ($_SESSION['level_akses'] == 'mhs'): ?>
-<script type="application/javascript" src="<?php echo get_templete_dir(dirname(__FILE__),'../dist/js/js_app_config.js','nC') ?>"></script>
+<script type="application/javascript" src="<?php echo get_custom_assets('dist/js/js_app_config.js','nC') ?>"></script>
 <?php endif ?>
-<script type="application/javascript" src="<?php echo get_templete_dir(dirname(__FILE__),'../dist/js/js_main_conf.js','nC') ?>"></script>
+<script type="application/javascript" src="<?php echo get_custom_assets('dist/js/js_main_conf.js','nC') ?>"></script>
 </body>
 </html>
