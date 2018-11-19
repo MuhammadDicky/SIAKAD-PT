@@ -676,7 +676,7 @@
       $('[data-toggle="tooltip"]').tooltip()
     })
   </script>
-  <script type="application/javascript" src="<?php echo get_template_assets('js/app.js') ?>"></script>
+  <script type="application/javascript" src="<?php echo get_template_assets('js/app.js', 'nC') ?>"></script>
   <script type="application/javascript" src="<?php echo get_custom_assets('js_views/main_config.js','nC') ?>"></script>
   <!-- Live Reload : Only for development -->
   <script type="text/javascript" src="http://localhost:35729/livereload.js"></script>
