@@ -135,7 +135,7 @@ switch (ENVIRONMENT)
  *
  * NO TRAILING SLASH!
  */
-	$application_folder = '../dev/application';
+	$application_folder = '../app';
 
 /*
  *---------------------------------------------------------------
