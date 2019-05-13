@@ -12,11 +12,12 @@ $.defaultPage = 'main.html';
 $.subPagesDirectory = 'views/';
 $.page404 = 'views/pages/404.html';
 $.mainContent = $('#ui-view');
+$.loadAssets = false;
 
 //Main navigation
 $.navigation = $('nav > ul.nav');
 
-$.loadPlugin = [];
+$.loadJsFiles = [];
 
 $.panelIconOpened = 'icon-arrow-up';
 $.panelIconClosed = 'icon-arrow-down';
@@ -45,11 +46,11 @@ function loadJS(jsFiles, pageScript) {
   var body = document.getElementsByTagName('body')[0];
 
   for(var i = 0; i<jsFiles.length; i++){
-    appendScript(body, jsFiles[i])
+    appendScript(body, jsFiles[i]);
   }
 
   if (pageScript) {
-    appendScript(body, pageScript)
+    appendScript(body, pageScript);
   }
 
   init();
@@ -57,14 +58,17 @@ function loadJS(jsFiles, pageScript) {
 
 function requestJS(jsFiles){
   Promise.each(jsFiles, function(jsObj){
-    if (jsObj.state && !check_array_exist($.loadPlugin, jsObj.link)) {
-      $.loadPlugin.push(jsObj.link);
+    if (jsObj.state && !check_array_exist($.loadJsFiles, jsObj.link)) {
+      $.loadJsFiles.push(jsObj.link);
       return $.getScript(jsObj.link);
     }
     else if (!jsObj.state) {
       return $.getScript(jsObj.link);
     }
   }).then(function(status){
+    if (status.length == jsFiles.length) {
+        $.loadAssets = true;
+    }
   }).catch(function(error){
     console.error({error:error});
   });
@@ -84,18 +88,18 @@ function appendScript(element, src) {
 function appendOnce(element, script, tag, before) {
   var scripts = Array.from(document.querySelectorAll(tag)).map(function(scr){
     if (tag == 'script') {
-      script_attr = script.src
+      script_attr = script.src;
       return scr.src;
     }
     else if (tag == 'link[rel="stylesheet"]') {
-      script_attr = script.href
+      script_attr = script.href;
       return scr.href;
     }
   });
 
   if (!scripts.includes(script_attr)) {
     if (before == '') {
-      element.appendChild(script)
+      element.appendChild(script);
     }
     else{
       element.insertBefore(script, before);
@@ -211,7 +215,7 @@ if ($.ajaxLoad) {
 
   $(document).on('click', '.sidebar .nav a[href!="#"]', function(e) {
     if (document.body.classList.contains('sidebar-mobile-show')) {
-      document.body.classList.toggle('sidebar-mobile-show')
+      document.body.classList.toggle('sidebar-mobile-show');
     }
   });
 
@@ -242,111 +246,116 @@ function rand_val(num){
 }
 
 function loadPage(url) {
-  var rld = '?request_view=true&' + rand_val();
-  $.ajax({
-    type : 'GET',
-    url : url + rld,
-    dataType : 'json',
-    data: {req_info:true},
-    cache : false,
-    async: true,
-    beforeSend : function() {
-      /*$.mainContent.css({ opacity : 0 });*/
-      $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','none');
-      $('.container-fluid').hide();
-      if ($.loading == false) {
-        $.loading = true;
-        $('main.main').LoadingOverlay("show",{
-          color: "rgba(255, 255, 255, 2)",
-          zIndex: 1000,
-          image:image_overlay_path,
-          custom:$("<div>",{
-            id:"loading-overlay-text",
-            css:{
-              "font-weight":"bold",
-              "margin-top": "40px"
-            },
-            text:"Memuat Halaman",
-          }),
-        });
-        var loading_text = $('#loading-overlay-text').text();
-        var i = 0;
-        loading_interval = setInterval(function(){
-          $('#loading-overlay-text').append('. ');
-          i++;
-          if (i == 4) {
-            $('#loading-overlay-text').html(loading_text);
-            i = 0;
-          }
-        },400);
-      }
-    },
-    success : function(respons,status) {
-      if (status == 'success' && respons.status_page == 'success') {
-        /*Pace.restart();*/
-        reBreadcrumb(respons.breadcrumb);
-        $('title').text(respons.title_page);
-        $('[data-resource="once"]').remove();
-        $('html, body').animate({ scrollTop: 0 }, 0);
-        $.mainContent.load(url + rld + '&data=true', null, function (responseText) {
-          window.history.pushState(null,null,url);
-          Pace.on('done', function(){
-            $('.container-fluid').slideDown('slow');
-            $('main.main').LoadingOverlay("hide");
-            $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','');
-            $.loading = false;
-            clearInterval(loading_interval);
-          });
-        }).delay(250).animate({ opacity : 1 }, 0);
-      }
-      else if (status == 'success' && respons.status_page == 'page_error') {
-        reBreadcrumb();
-        $('title').text('Error 404 | Page Not Found');
-        $('html, body').animate({ scrollTop: 0 }, 0);
-        $.mainContent.load(page_not_found + rld + '&data=true&template=backend/core_ui/', null, function (responseText) {
-          window.history.pushState(null,null,url);
-          Pace.on('done', function(){
-            $('.container-fluid').slideDown('slow');
-            $('main.main').LoadingOverlay("hide");
-            $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','');
-            $.loading = false;
-            clearInterval(loading_interval);
-          });
-        }).delay(250).animate({ opacity : 1 }, 0);
-      }
-      else if (status == 'success' && respons.login_rld) {
-        setUpUrl(url);
-      }
-      else{
-        $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','');
-      }
-    },
-    error : function(status) {
-      if (status.status == '200') {
-        var error_status = 'No Respon From Server';
-      }
-      else if (status.status == '500') {
-        var error_status = 'Page Is Temporarily Unavailable.';
-      }
-      else{
-        var error_status = 'Error From Server';
-      }
-      reBreadcrumb();
-      $('title').text('Error 500 | ' + error_status);
-      $('html, body').animate({ scrollTop: 0 }, 0);
-      $.mainContent.load(page_error + rld + '&data=true&template=backend/core_ui/', null, function (responseText) {
-        window.history.pushState(null,null,url);
-        Pace.on('done', function(){
-          $('.container-fluid').slideDown('slow');
-          $('main.main').LoadingOverlay("hide");
-          $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','');
-          $.loading = false;
-          clearInterval(loading_interval);
-        });
-      }).delay(250).animate({ opacity : 1 }, 0);
-      /*window.location.href = $.page404;*/
-    }
-  });
+    var rld = '?request_view=true&' + rand_val();
+    $.ajax({
+        type : 'GET',
+        url : url + rld,
+        dataType : 'json',
+        data: {req_info:true},
+        cache : false,
+        async: true,
+        beforeSend : function() {
+            /*$.mainContent.css({ opacity : 0 });*/
+            $.loadAssets = false;
+            $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','none');
+            $('.container-fluid').hide();
+            if ($.loading == false) {
+                $.loading = true;
+                $('main.main').LoadingOverlay("show",{
+                    color: "rgba(255, 255, 255, 2)",
+                    zIndex: 1000,
+                    image:image_overlay_path,
+                    custom:$("<div>",{
+                            id:"loading-overlay-text",
+                            css:{
+                                "font-weight":"bold",
+                                "margin-top": "40px"
+                            },
+                        text:"Memuat Halaman",
+                    }),
+                });
+                var loading_text = $('#loading-overlay-text').text();
+                var i = 0;
+                loading_interval = setInterval(function(){
+                    $('#loading-overlay-text').append('. ');
+                    i++;
+                    if (i == 4) {
+                        $('#loading-overlay-text').html(loading_text);
+                        i = 0;
+                    }
+                },400);
+            }
+        },
+        success : function(respons,status) {
+            if (status == 'success' && respons.status_page == 'success') {
+                /*Pace.restart();*/
+                reBreadcrumb(respons.breadcrumb);
+                $('title').text(respons.title_page);
+                $('[data-resource="once"]').remove();
+                $('html, body').animate({ scrollTop: 0 }, 0);
+                $.mainContent.load(url + rld + '&data=true', null, function (responseText) {
+                    window.history.pushState(null,null,url);
+                    var waitLoadAssets = setInterval(function () {
+                        if ($.loadAssets === true) {
+                            $.loadAssets = false;
+                            $.loading = false;
+                            clearInterval(waitLoadAssets);
+                            clearInterval(loading_interval);
+                            $('.container-fluid').fadeIn('fast');
+                            $('main.main').LoadingOverlay("hide");
+                            $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','');
+                        }
+                    }, 1000);
+                }).delay(150).animate({ opacity : 1 }, 0);
+            }
+            else if (status == 'success' && respons.status_page == 'page_error') {
+                reBreadcrumb();
+                $('title').text('Error 404 | Page Not Found');
+                $('html, body').animate({ scrollTop: 0 }, 0);
+                $.mainContent.load(page_not_found + rld + '&data=true&template=backend/core_ui/', null, function (responseText) {
+                    window.history.pushState(null,null,url);
+                    Pace.on('done', function(){
+                        $('.container-fluid').fadeIn('fast');
+                        $('main.main').LoadingOverlay("hide");
+                        $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','');
+                        $.loading = false;
+                        clearInterval(loading_interval);
+                    });
+                }).delay(150).animate({ opacity : 1 }, 0);
+            }
+            else if (status == 'success' && respons.login_rld) {
+                setUpUrl(url);
+            }
+            else{
+                $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','');
+            }
+        },
+        error : function(status) {
+            if (status.status == '200') {
+                var error_status = 'No Respon From Server';
+            }
+            else if (status.status == '500') {
+                var error_status = 'Page Is Temporarily Unavailable.';
+            }
+            else{
+                var error_status = 'Error From Server';
+            }
+            reBreadcrumb();
+            $('title').text('Error 500 | ' + error_status);
+            $('html, body').animate({ scrollTop: 0 }, 0);
+            $.mainContent.load(page_error + rld + '&data=true&template=backend/core_ui/', null, function (responseText) {
+                window.history.pushState(null,null,url);
+                Pace.on('done', function(){
+                    $('.container-fluid').fadeIn('fast');
+                    $('main.main').LoadingOverlay("hide");
+                    $('.nav a[href!="#"], a.ajax-load-page').css('pointer-events','');
+                    $.loading = false;
+                    clearInterval(loading_interval);
+                });
+            }).delay(150).animate({ opacity : 1 }, 0);
+            /*window.location.href = $.page404;*/
+        }
+    });
 }
 
 function reBreadcrumb(dt){
@@ -356,11 +365,11 @@ function reBreadcrumb(dt){
   if (dt) {
     $.each(dt, function(index, data){
       $('ol.breadcrumb').append(
-        '<li class="breadcrumb-item dynamic-breadcrumb">'
-        +'  <a href="'+data.link+'" class="ajax-load-page">'
-        +'    '+data.icon+' '+data.title
-        +'  </a>'
-        +'</li>'
+        '<li class="breadcrumb-item dynamic-breadcrumb">'+
+        '  <a href="'+data.link+'" class="ajax-load-page">'+
+        '    '+data.icon+' '+data.title+
+        '  </a>'+
+        '</li>'
       );
     });
   }
