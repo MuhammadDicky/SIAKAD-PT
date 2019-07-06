@@ -294,7 +294,7 @@ class User_model extends My_Models_Configuration{
 	    $pdf->AddPage();
 
 	    // Logo
-        $image_file = get_real_path('/assets/web-images/pt-icon-profile.png');
+        $image_file = get_real_path('/public/assets/web-images/pt-icon-profile.png');
         $pdf->Image($image_file, 15, 15, 20, 20, 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
         // Set font
         $pdf->SetFont('helvetica', 'B', 18);
