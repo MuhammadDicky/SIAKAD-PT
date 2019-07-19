@@ -3,4 +3,7 @@ vendor/
 public/downloads/temp-download-path/*
 !public/downloads/temp-download-path/index.html
 
+public/uploads/**/*
+!public/uploads/**/index.html
+
 .vscode/
