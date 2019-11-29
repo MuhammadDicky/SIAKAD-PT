@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <title><?php echo title(); ?></title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element"/>
+  <link rel="shortcut icon" href="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element"/>
   <!-- Font -->
   <!-- <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Source Sans Pro/stylesheet.css') ?>">
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/font/Montserrat/stylesheet.css') ?>"> -->
@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/skins/_all-skins.min.css') ?>">
   <link rel="stylesheet" href="<?php echo get_plugin_url('animated-css/animated.min.css') ?>">
-  <link rel="stylesheet" href="<?php echo get_templete_dir(dirname(__FILE__),'../dist/css/style.css','nC') ?>">
+  <link rel="stylesheet" href="<?php echo get_custom_assets('dist/css/style.css','nC') ?>">
   <style>
     .content-wrapper{
       background: #fff;
@@ -73,11 +73,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini">
         <b><?php echo web_detail('_logo_mini'); ?></b>
-        <!-- <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element" alt="PT Icon Profile" style="width: 80%;margin-top: -5px"> -->
+        <!-- <img src="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="logo-pt-element" alt="PT Icon Profile" style="width: 80%;margin-top: -5px"> -->
       </span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg">
-        <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="hidden-xs logo-pt-element" alt="PT Icon Profile" style="width: 15%;margin-top: -6px">
+        <img src="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.$_SESSION['n_val'] ?>" class="hidden-xs logo-pt-element" alt="PT Icon Profile" style="width: 15%;margin-top: -6px">
         <b>SIAKAD</b> <?php echo web_detail('_logo_lg'); ?>
       </span>
     </a>
@@ -174,7 +174,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <?php foreach ($_SESSION['menu'] as $key): ?>
             <?php if ($key['level_access_menu'] == 'admin'): ?>
               <?php if (count($key['sub_menu']) > 0): ?>
-              <li class="<?php echo active_page_print($key['sort_link'],'active'); ?> treeview">
+              <li class="<?php echo active_page_print($key['sort_link'] === 'dashboard' ? 'admin' : $key['sort_link'],'active'); ?> treeview">
                 <a href="#">
                   <i class="<?php echo $key['icon_menu']; ?>" style="color: <?php echo $key['color_menu']; ?>"></i> <span style="color: <?php echo $key['color_menu']; ?>"><?php echo $key['nm_menu']; ?></span>
                   <span class="pull-right-container">
@@ -287,108 +287,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </a>
           </li>
           <?php endif ?>
-          <!-- <li class="<?php echo active_page_print('admin','active'); ?> treeview">
-            <a href="<?php echo base_url('admin'); ?>" class="text-aqua">
-              <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-            </a>
-          </li>
-          <li class="<?php echo active_page_print('data_master','active'); ?> treeview">
-            <a href="#">
-              <i class="fa fa-archive text-red"></i> <span class="text-red">Data Master</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-              <ul class="treeview-menu">
-                <li class="<?php echo active_page_print('data_identitas_pt','active'); ?>"><a href="<?php echo set_url('data_master/data_identitas_pt'); ?>"><i class="fa fa-circle-o"></i> Data Identitas Perguruan Tinggi</a></li>
-                <li class="<?php echo active_page_print('data_fakultas_pstudi','active'); ?>"><a href="<?php echo set_url('data_master/data_fakultas_pstudi'); ?>"><i class="fa fa-circle-o"></i> Data Fakultas & Program Studi</a></li>
-                <li class="<?php echo active_page_print('data_thn_akademik','active'); ?>"><a href="<?php echo set_url('data_master/data_thn_akademik'); ?>"><i class="fa fa-circle-o"></i> Data Tahun Akademik</a></li>
-                <li class="<?php echo active_page_print('data_angkatan','active'); ?>"><a href="<?php echo set_url('data_master/data_angkatan'); ?>"><i class="fa fa-circle-o"></i> Data Tahun Angkatan</a></li>
-              </ul>
-            </a>
-          </li>
-          <li class="<?php echo active_page_print('data_pengguna','active'); ?> treeview">
-            <a href="#">
-              <i class="fa fa-users text-green"></i> <span class="text-green">Data Pengguna</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li class="<?php echo active_page_print('data_pengguna_mahasiswa','active'); ?>"><a href="<?php echo set_url('data_pengguna/data_pengguna_mahasiswa'); ?>"><i class="fa fa-circle-o"></i> Mahasiswa</a></li>
-              <li class="<?php echo active_page_print('data_pengguna_ptk','active'); ?>"><a href="<?php echo set_url('data_pengguna/data_pengguna_ptk'); ?>"><i class="fa fa-circle-o"></i> Tenaga Pendidik</a></li>
-              <li><a href="#"><i class="fa fa-circle-o"></i> Data Administrator</a></li>
-              <li class="<?php echo active_page_print('data_pengunjung','active'); ?>">
-                <a href="<?php echo set_url('data_pengguna/data_pengunjung'); ?>"><i class="fa fa-circle-o"></i> Data Pengunjung
-                <span class="pull-right-container">
-                  <small class="label pull-right bg-blue">BETA</small>
-                </span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="<?php echo active_page_print('data_akademik','active'); ?> treeview">
-            <a href="#" >
-              <i class="fa fa-list-alt text-yellow"></i> <span class="text-yellow">Data Akademik</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-              <li class="<?php echo active_page_print('data_mahasiswa','active'); ?>">
-                <a href="<?php echo set_url('data_akademik/data_mahasiswa'); ?>"><i class="fa fa-circle-o"></i> Data Mahasiswa</a>
-              </li>
-              <li class="<?php echo active_page_print('data_ptk','active'); ?>">
-                <a href="<?php echo set_url('data_akademik/data_ptk'); ?>"><i class="fa fa-circle-o"></i> Data Tenaga Pendidik</a>
-              </li>
-              <li class="<?php echo active_page_print('data_kurikulum','active'); ?>">
-                <a href="<?php echo set_url('data_akademik/data_kurikulum'); ?>"><i class="fa fa-circle-o"></i> Data Kurikulum
-                <span class="pull-right-container">
-                  <small class="label pull-right bg-green">Soon</small>
-                </span>
-                </a>
-              </li>
-              <li class="<?php echo active_page_print('data_mata_kuliah','active'); ?>">
-                <a href="<?php echo set_url('data_akademik/data_mata_kuliah'); ?>"><i class="fa fa-circle-o"></i> Data Mata Kuliah</a>
-              </li>
-              <li class="<?php echo active_page_print('data_jadwal_kuliah','active'); ?>">
-                <a href="<?php echo set_url('data_akademik/data_jadwal_kuliah'); ?>"><i class="fa fa-circle-o"></i> Data Jadwal Kuliah & Kelas</a>
-              </li>
-              <li class="<?php echo active_page_print('data_nilai_mhs','active'); ?>">
-                <a href="<?php echo set_url('data_akademik/data_nilai_mhs'); ?>"><i class="fa fa-circle-o"></i> Data Nilai Mahasiswa</a>
-              </li>
-              <li class="<?php echo active_page_print('data_alumni_do','active'); ?>">
-                <a href="<?php echo set_url('data_akademik/data_alumni_do'); ?>"><i class="fa fa-circle-o"></i> Data Alumni & Drop Out</a>
-              </li>
-            </ul>
-          </li>
-          <li class="<?php echo active_page_print('data_content','active'); ?> treeview">
-            <a href="<?php echo set_url('data_content'); ?>">
-              <i class="fa fa-file-text text-teal"></i>
-              <span class="text-teal">Data Content</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-green">Soon</small>
-              </span>
-            </a>
-          </li>
-          <li class="<?php echo active_page_print('pusat_unggahan','active'); ?> treeview">
-            <a href="<?php echo set_url('pusat_unggahan'); ?>">
-              <i class="fa fa-cloud-upload text-light-blue"></i>
-              <span class="text-light-blue">Pusat Unggahan</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-green">Soon</small>
-              </span>
-            </a>
-          </li> -->
-          <!-- <li class="<?php echo active_page_print('pengolahan_database','active'); ?> treeview">
-            <a href="<?php echo set_url('pengolahan_database'); ?>">
-              <i class="fa fa-database text-muted"></i>
-              <span class="text-muted">Pengolahan Database</span>
-              <span class="pull-right-container">
-                <small class="label pull-right bg-blue">BETA</small>
-              </span>
-            </a>
-          </li> -->
         </div>
         <li class="header">LAINNYA</li>
         <li class="<?php echo active_page_print('pengaturan','active'); ?> <?php if (isset($settings)): ?>treeview<?php endif ?>">

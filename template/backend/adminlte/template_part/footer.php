@@ -671,9 +671,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     
 </script>
 <?php if (isset($dashboard)): ?>
-<script type="application/javascript" src="<?php echo get_templete_dir(dirname(__FILE__),'../dist/js/app_chart.js','nC') ?>"></script> 
+<script type="application/javascript" src="<?php echo get_custom_assets('dist/js/app_chart.js','nC') ?>"></script> 
 <?php endif ?>
-<script type="application/javascript" src="<?php echo get_templete_dir(dirname(__FILE__),'../dist/js/js_app_conf.js','nC') ?>"></script>
+<script type="application/javascript" src="<?php echo get_custom_assets('dist/js/js_app_conf.js','nC') ?>"></script>
 
 </body>
 </html>

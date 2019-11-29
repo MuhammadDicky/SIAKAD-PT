@@ -9,7 +9,7 @@
   <meta name="author" content="Lukasz Holeczek">
   <meta name="keyword" content="CoreUI Bootstrap 4 Admin Template">
   <title><?php echo title(); ?></title>
-  <link rel="shortcut icon" href="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')) ?>" class="logo-pt-element"/>
+  <link rel="shortcut icon" href="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.@$_SESSION['n_val'] ?>" class="logo-pt-element"/>
 
   <!-- Font -->
   <!-- <link rel="stylesheet" href="<?php echo get_template_assets('css/font/Source Sans Pro/stylesheet.css') ?>"> -->
@@ -27,7 +27,7 @@
 
   <!-- Main styles for this application -->
   <link rel="stylesheet" href="<?php echo get_template_assets('css/style.css') ?>">
-  <link rel="stylesheet" href="<?php echo get_templete_dir(dirname(__FILE__),'../../css/app-style.css','nC') ?>">
+  <link rel="stylesheet" href="<?php echo get_custom_assets('css/app-style.css','nC') ?>">
   <style type="text/css">
     @media (max-width: 991.98px){
       .login-box-left{
@@ -89,7 +89,7 @@
           <div class="card text-white bg-warning py-5 d-md-down-none login-box login-box-right" style="width:44%">
             <div class="card-body text-center">
               <div>
-                <img src="<?php echo get_templete_dir('','assets/web-images/'.web_detail('_web_icon')); ?>" class="logo-pt-element" alt="PT Icon Profile" style="width: 30%;display: block;margin-bottom: 10px;margin-right: auto;margin-left: auto;">
+                <img src="<?php echo base_url('assets/web-images/'.web_detail('_web_icon')).'?'.@$_SESSION['n_val']; ?>" class="logo-pt-element" alt="PT Icon Profile" style="width: 30%;display: block;margin-bottom: 10px;margin-right: auto;margin-left: auto;">
                 <h4><?php echo web_detail('_app_name'); ?></h4>
                 <h5><?php echo web_detail('_pt_name'); ?></h5>
               </div>
@@ -129,7 +129,7 @@
   <!-- iCheck -->
   <script src="<?php echo get_plugin('icheck','js')?>"></script>
 
-  <script src="<?php echo get_templete_dir(dirname(__FILE__),'../../js_views/login-config.js',TRUE) ?>"></script>
+  <script src="<?php echo get_custom_assets('js_views/login-config.js',TRUE) ?>"></script>
   <script type="text/javascript">
     var url_login = "<?php echo web_detail('_site_url'); ?>";
     $(function(){

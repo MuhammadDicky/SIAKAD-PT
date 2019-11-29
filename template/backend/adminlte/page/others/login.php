@@ -23,7 +23,7 @@
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"> -->
   <!-- Theme style -->  
   <link rel="stylesheet" href="<?php echo get_template_assets('dist/css/AdminLTE.css') ?>">
-  <link rel="stylesheet" href="<?php echo get_templete_dir(dirname(__FILE__),'../../dist/css/style.css',TRUE) ?>">  
+  <link rel="stylesheet" href="<?php echo get_custom_assets('dist/css/style.css',TRUE) ?>">  
   <style type="text/css">
     body{
       height: 0;
@@ -170,7 +170,7 @@
 <!-- iCheck -->
 <script src="<?php echo get_plugin('icheck','js')?>"></script>
 <script type="application/javascript" src="<?php echo get_template_assets('dist/js/adminlte.min.js') ?>"></script>
-<script src="<?php echo get_templete_dir(dirname(__FILE__),'../../dist/js/js_conf.min.js',TRUE) ?>"></script>
+<script src="<?php echo get_custom_assets('dist/js/js_conf.min.js',TRUE) ?>"></script>
   <script type="text/javascript">
     var url_login = "<?php echo web_detail('_site_url'); ?>";
     $(function(){
