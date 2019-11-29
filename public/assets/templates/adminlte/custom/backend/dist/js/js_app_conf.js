@@ -1,5 +1,6 @@
 var path = window.location.pathname,
 host     = window.location.hostname + (window.location.port !== '' ? ':' + window.location.port : ''),
+hostProtocol = window.location.protocol,
 id_data_akademik_u,
 load_interval,
 intval_vars,
@@ -97,7 +98,7 @@ $(function(){
     /*First Load Page*/
     if (path == controller_path+'/data_identitas_pt') {
       $('#tab-identitas-pt .detail-data-pt').text('-');
-      var data_id_pt = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'data_identitas_pt'},1000);
+      var data_id_pt = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{data:'data_identitas_pt'},1000);
       data_id_pt.then(function(results){
         if (results.status == 'empty') {
           $('#tab-identitas-pt .detail-data-pt').text('-');
@@ -114,7 +115,7 @@ $(function(){
                 data_record ='-';
               }
               if (name == 'website') {
-                $('#tab-identitas-pt .'+name).parents().attr('href','http://'+data_record);
+                $('#tab-identitas-pt .'+name).parents().attr('href',hostProtocol + '//'+data_record);
               }
               if (name == 'rt' || name == 'rw') {
                 $('#tab-identitas-pt .'+name).text(data_record);
@@ -330,7 +331,7 @@ $(function(){
             });       
             var count = selectedItems.length;
             if (count > 0 ) {
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'alumni'},1000);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'alumni'},1000);
               data.then(function(daftar_mhs){
                 if (getUrlVars()['data'] == 'alumni') {
                   if (daftar_mhs.total_rows > 0 ) {
@@ -381,7 +382,7 @@ $(function(){
             });       
             var count = selectedItems.length;
             if (count > 0 ) {
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'alumni'},1000);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'alumni'},1000);
               data.then(function(daftar_mhs){
                 if (getUrlVars()['data'] == 'drop_out') {
                   if (daftar_mhs.total_rows > 0 ) {
@@ -434,7 +435,7 @@ $(function(){
             if (in_ptk != null && in_ptk != '') {
               var id_ptk = [];
               id_ptk.push(in_ptk);
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id_ptk,data:'check_ptk',check:'data_exists'},1000);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:id_ptk,data:'check_ptk',check:'data_exists'},1000);
               data.then(function(detail_ptk){
                 if (detail_ptk.total_rows > 0) {
                   $('#form-input-studi-ptk').show();
@@ -454,7 +455,7 @@ $(function(){
             if (in_ptk != null && in_ptk != '') {
               var id_ptk = [];
               id_ptk.push(in_ptk);
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id_ptk,data:'check_ptk',check:'data_exists'},1000);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:id_ptk,data:'check_ptk',check:'data_exists'},1000);
               data.then(function(detail_ptk){
                 if (detail_ptk.total_rows > 0) {
                   $('#form-input-penelitian-ptk').show();
@@ -481,7 +482,7 @@ $(function(){
             $('#myModal .modal-title').text('Tambah Program Studi');
             var fk = getUrlVars()['fk'],
             id = getUrlVars()['i'],
-            data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_fk:id,data:'data_fakultas'},1000);
+            data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_fk:id,data:'data_fakultas'},1000);
             data.then(function(nama_fk){
               $('#form-input-pstudi').show();
               if (nama_fk.record != '') {
@@ -497,7 +498,7 @@ $(function(){
               $('#myModal .modal-title').text('Tambah Konsentrasi Program Studi');
               var pd = getUrlVars()['prodi_kons'],
               id = getUrlVars()['i'],
-              data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_pd:id,data:'data_prodi'},1000);
+              data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil_id',{id_pd:id,data:'data_prodi'},1000);
               data.then(function(nama_pd){
                 $('#form-input-konsentrasi-pd').show();
                 if (nama_pd.record_pd != '') {
@@ -521,7 +522,7 @@ $(function(){
           if (vars['kelas_mhs'] != undefined) {
             $('#myModal .modal-title').text('Tambah Mahasiswa');
             if ($('#box-kelas-mhs').is(':visible')) {
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{status_kelas:vars['kelas_mhs'],data:'status_jdl'},1000);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{status_kelas:vars['kelas_mhs'],data:'status_jdl'},1000);
               data.then(function(status_kelas){
                 if (status_kelas.status_jdl == 1) {
                   $('#myModal #form-input-kls-mhs').show();
@@ -581,7 +582,7 @@ $(function(){
           else if (url_vars['data'] != undefined && url_vars['data'] == 'sub-menu') {
             $('#myModal .modal-title').text('Tambah Data Sub Menu');
             if (url_vars['in_menu'] != '') {
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_menu'},500);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_menu'},500);
               data.then(function(detail_menu){
                 if (detail_menu.total_rows > 0) {
                   $('#form-input-sub-menu .select2_parent_menu').html('');
@@ -652,7 +653,7 @@ $(function(){
         modal_animated('zoomIn');
         if (path.search('admin/data_master/data_angkatan') > 0) {
           var id = getUrlVars()['thn'];
-          var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{thn:id,data:'data_thn_angkatan'},500);
+          var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{thn:id,data:'data_thn_angkatan'},500);
           data.then(function(edit_thn){
             if (edit_thn.total_rows > 0) {
               $('#myModal #form-input').show();
@@ -670,7 +671,7 @@ $(function(){
         }
         else if (path.search('admin/data_master/data_thn_akademik') > 0) {
           var id = getUrlVars()['i'];
-          var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{thn:id,data:'data_thn_akademik'},500);
+          var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{thn:id,data:'data_thn_akademik'},500);
           data.then(function(edit_thn){
             if (edit_thn.total_rows > 0) {
               $('#myModal #form-input').show();
@@ -689,7 +690,7 @@ $(function(){
           var urlvar = getUrlVars();          
           if (urlvar[0] == 'fk') {
             var id = getUrlVars()['fk'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_fk:id,data:'data_fakultas'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_fk:id,data:'data_fakultas'},500);
             data.then(function(edit_fk){
               if (edit_fk.total_rows > 0) {
                 $('#myModal #form-input').show();
@@ -709,7 +710,7 @@ $(function(){
           }
           else if (urlvar[0] == 'pd'){
             var id = getUrlVars()['pd'];            
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_pd:id,data:'data_prodi',act:'edit'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_pd:id,data:'data_prodi',act:'edit'},500);
             data.then(function(edit_pd){
               if (edit_pd.total_rows > 0) {
                 $('#myModal #form-input-pstudi').show();
@@ -731,7 +732,7 @@ $(function(){
           else if (urlvar['data'] == 'konsentrasi_prodi'){
             if ($('#box-detail-fk').is(':visible')) {
               var id = getUrlVars()['konsentrasi'];
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id,data:'data_konsentrasi_pd'},500);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:id,data:'data_konsentrasi_pd'},500);
               data.then(function(edit_konsentrasi_pd){
                 if (edit_konsentrasi_pd.total_rows > 0) {
                   $('#form-input-konsentrasi-pd').show();
@@ -754,7 +755,7 @@ $(function(){
           $('#myModal .nav-tabs-custom').addClass('nav-success').removeClass('nav-info');
           $('#rincian-siswa').hide();
           var id = getUrlVars()['mhs'];
-          var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id,data:'data_mhs',ac:''},500);
+          var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:id,data:'data_mhs',ac:''},500);
           data.then(function(detail_mhs){
             if (detail_mhs.total_rows > 0) {
               $('#myModal #form-input, #myModal #submit').show();
@@ -815,7 +816,7 @@ $(function(){
           if (vars_url['data'] == null) {
             $('#myModal .nav-tabs-custom').addClass('nav-success').removeClass('nav-info');
             var id = getUrlVars()['ptk'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_ptk:id,data:'data_ptk',ac:''},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_ptk:id,data:'data_ptk',ac:''},500);
             data.then(function(detail_ptk){
               if (detail_ptk.total_rows > 0) {
                 $('#myModal #form-input').show();
@@ -856,7 +857,7 @@ $(function(){
           }
           else if (vars_url['data'] == 'pend_ptk') {
             var id = getUrlVars()['studi_ptk'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_studi:id,data:'data_studi_ptk'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_studi:id,data:'data_studi_ptk'},500);
             data.then(function(detail_ptk){
               if (detail_ptk.total_rows > 0) {
                 $('#myModal #form-input-studi-ptk').show();
@@ -880,7 +881,7 @@ $(function(){
           }
           else if (vars_url['data'] == 'research_ptk') {
             var id = getUrlVars()['research_ptk'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_penelitian_ptk:id,data:'data_penelitian_ptk'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_penelitian_ptk:id,data:'data_penelitian_ptk'},500);
             data.then(function(detail_ptk){
               if (detail_ptk.total_rows > 0) {
                 Pace.restart();
@@ -902,7 +903,7 @@ $(function(){
         else if (path.search('admin/data_akademik/data_mata_kuliah') > 0) {
           var id = getUrlVars()['mk'];
           if (id != null) {
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_mk:id,data:'data_mk'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_mk:id,data:'data_mk'},500);
             data.then(function(detail_mk){
               if (detail_mk.total_rows > 0) {
                 $('#myModal #form-input').show();
@@ -930,7 +931,7 @@ $(function(){
             });       
             var count = selectedItems.length;          
             if (count > 0 ) {
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mk',check:'data_exists'},1000);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mk',check:'data_exists'},1000);
               data.then(function(daftar_mk){
                 if (daftar_mk.total_rows > 0 ) {
                   $('.list-selected').show().find('h5').text('Daftar Data Mata Kuliah yang akan diperbahrui:');
@@ -971,7 +972,7 @@ $(function(){
             var vars = getUrlVars();
             if (vars == 'jadwal') {
               var id = getUrlVars()['jadwal'];
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_jdl:id,data:'data_jadwal_kuliah',act:'get'},500);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_jdl:id,data:'data_jadwal_kuliah',act:'get'},500);
               data.then(function(detail_jdl){
                 if (detail_jdl.total_rows > 0) {
                   $.each(detail_jdl.record_jdl, function(index, data_record){
@@ -1001,7 +1002,7 @@ $(function(){
               $('#myModal .modal-title').text('Edit Data Jadwal Kuliah');
             }
             else if (vars == 'kelas') {
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{status:vars['kelas'],data:'status_jdl'},500);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{status:vars['kelas'],data:'status_jdl'},500);
               data.then(function(status_kelas){
                 if (status_kelas.status_jdl == 1) {
                   $('#myModal #form-pindah-kelas').show();
@@ -1024,7 +1025,7 @@ $(function(){
             else if (vars == 'kls_mhs') {
                 $('#myModal .modal-title').text('Edit Data Kelas');
                 $('#myModal #form-input-kls-mhs, #form-input').hide();
-                var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{status_kelas:getUrlVars()['kls_mhs'],data:'status_jdl'},1000);
+                var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{status_kelas:getUrlVars()['kls_mhs'],data:'status_jdl'},1000);
                 data.then(function(status_kelas){
                   if (status_kelas.status_jdl == 1) {
                     $('.modal .modal-body').append('<p class="load-data text-center">Memproses Data</p>');
@@ -1034,7 +1035,7 @@ $(function(){
                     });
                     var count = selectedItems.length;
                     if (count > 0 ) {
-                      return getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists',kls_mhs:getUrlVars()['kls_mhs']});
+                      return getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists',kls_mhs:getUrlVars()['kls_mhs']});
                     }
                     else{
                       $('.data-message').show();
@@ -1094,7 +1095,7 @@ $(function(){
           if (getUrlVars()['alumni'] != null && getUrlVars()['alumni'] != undefined) {
             $('#myModal .modal-title').text('Edit Data Alumni');
             var id_alumni = getUrlVars()['alumni'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_alumni:id_alumni,data:'check_mhs',check:'data_exists'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_alumni:id_alumni,data:'check_mhs',check:'data_exists'},500);
             data.then(function(daftar_mhs){
               if (daftar_mhs.total_rows > 0) {
                 $('#myModal #form-input,.list-selected').show();
@@ -1123,7 +1124,7 @@ $(function(){
           else if (getUrlVars()['mhs_do'] != null && getUrlVars()['mhs_do'] != undefined) {
             $('#myModal .modal-title').text('Edit Data Mahasiswa Drop Out');
             var id_mhs_do = getUrlVars()['mhs_do'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_mhs_do:id_mhs_do,data:'check_mhs',check:'data_exists'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_mhs_do:id_mhs_do,data:'check_mhs',check:'data_exists'},500);
             data.then(function(daftar_mhs){
               if (daftar_mhs.total_rows > 0) {
                 $('#myModal #form-input-mhs-do,.list-selected').show();
@@ -1169,7 +1170,7 @@ $(function(){
             });
             var count = selectedItems.length;          
             if (count > 0 ) {
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists',data_check:data_check},1000);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists',data_check:data_check},1000);
               data.then(function(daftar_mhs){
                 if (daftar_mhs.total_rows > 0 ) {
                   $('#myModal '+data_form).show();
@@ -1204,7 +1205,7 @@ $(function(){
           var url_vars = getUrlVars();
           if (url_vars['data'] == 'config') {
             $('#myModal .modal-title').text('Edit Konfigurasi Umum');
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'data_konfigurasi',konfigurasi:'web_konfigurasi'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{data:'data_konfigurasi',konfigurasi:'web_konfigurasi'},500);
             data.then(function(config){
               if (config.total_rows > 0) {
                 $('#form-input').show();
@@ -1217,7 +1218,7 @@ $(function(){
           }
           else if (url_vars['data'] != undefined && url_vars['data'] == 'template') {
             $('#myModal .modal-title').text('Edit Data Template');
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_template:url_vars['in_template'],data:'data_template'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_template:url_vars['in_template'],data:'data_template'},500);
             data.then(function(detail_template){
               if (detail_template.total_rows > 0) {
                 $('#form-input-template').show();
@@ -1229,7 +1230,7 @@ $(function(){
           }
           else if (url_vars['data'] != undefined && url_vars['data'] == 'menu') {
             $('#myModal .modal-title').text('Edit Data Menu');
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_menu'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_menu'},500);
             data.then(function(detail_menu){
               if (detail_menu.total_rows > 0) {
                 $('#form-input-menu').show();
@@ -1242,7 +1243,7 @@ $(function(){
           }
           else if (url_vars['data'] != undefined && url_vars['data'] == 'sub-menu') {
             $('#myModal .modal-title').text('Edit Data Sub Menu');
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_sub_menu'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_sub_menu'},500);
             data.then(function(detail_menu){
               if (detail_menu.total_rows > 0) {
                 $('#form-input-sub-menu').show();
@@ -1300,7 +1301,7 @@ $(function(){
           $('#rincian-siswa').hide();
           $('#form-pindah-kelas').hide();
           var id = getUrlVars()['mhs'];
-          var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id:id,data:'data_mhs'},500);
+          var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil_id',{id:id,data:'data_mhs'},500);
           data.then(function(detail_mhs){
             if (detail_mhs.total_rows > 0 ) {
               $.each(detail_mhs.record_mhs, function(index, data_record){
@@ -1317,7 +1318,7 @@ $(function(){
           var vars_url = getUrlVars();
           if (vars_url['data'] == null) {
             var id = getUrlVars()['ptk'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_ptk:id,data:'data_ptk'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil_id',{id_ptk:id,data:'data_ptk'},500);
             data.then(function(detail_ptk){
               if (detail_ptk.total_rows > 0 ) {
                 $.each(detail_ptk.record_ptk, function(index, data_record){
@@ -1333,7 +1334,7 @@ $(function(){
           else if (vars_url['data'] == 'pend_ptk') {
             $('#form-input-studi-ptk .select2_ptk').text('');
             var id = getUrlVars()['studi_ptk'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_studi:id,data:'data_studi_ptk'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_studi:id,data:'data_studi_ptk'},500);
             data.then(function(detail_ptk){
               if (detail_ptk.total_rows > 0 ) {
                 $.each(detail_ptk.studi_ptk, function(index, data_record){
@@ -1350,7 +1351,7 @@ $(function(){
           else if (vars_url['data'] == 'research_ptk') {
             $('#form-input-penelitian-ptk .select2_ptk').text('');
             var id = getUrlVars()['research_ptk'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_penelitian_ptk:id,data:'data_penelitian_ptk'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_penelitian_ptk:id,data:'data_penelitian_ptk'},500);
             data.then(function(detail_ptk){
               if (detail_ptk.total_rows > 0 ) {
                 $.each(detail_ptk.penelitian_ptk, function(index, data_record){
@@ -1367,7 +1368,7 @@ $(function(){
         }
         else if (path.search('admin/data_akademik/data_mata_kuliah') > 0) {
           var id = getUrlVars()['mk'];
-          var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_mk:id,data:'data_mk'},500);
+          var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil_id',{id_mk:id,data:'data_mk'},500);
           data.then(function(detail_mk){
             if (detail_mk.total_rows > 0 ) {            
               $.each(detail_mk.record_mk, function(index, data_record){
@@ -1391,7 +1392,7 @@ $(function(){
           if ($('#box-jadwal, #box-kelas-mhs').is(':visible')) {
             if (getUrlVars()[0] == 'jadwal') {
               var id = getUrlVars()['jadwal'];
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_jdl:id,data:'data_jadwal_kuliah'},500);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil_id',{id_jdl:id,data:'data_jadwal_kuliah'},500);
               data.then(function(detail_jdl){
                 if (detail_jdl.total_rows > 0 ) {
                   $.each(detail_jdl.record_jdl, function(index, data_record){
@@ -1427,7 +1428,7 @@ $(function(){
             }
             else if (getUrlVars()[0] == 'kelas') {
               var id = getUrlVars()['kelas'];
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_kls:id,data:'kelas_mhs'},500);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil_id',{id_kls:id,data:'kelas_mhs'},500);
               data.then(function(detail_mhs){
                 if (detail_mhs.total_rows > 0 ) {
                   $.each(detail_mhs.record_mhs, function(index, data_record){
@@ -1470,7 +1471,7 @@ $(function(){
           var urlvar = getUrlVars();
           if (urlvar[0] == 'fk') {
             var id = getUrlVars()['fk'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_fk:id,data:'data_fakultas'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil_id',{id_fk:id,data:'data_fakultas'},500);
             data.then(function(detail_fk){
               if (detail_fk.total_rows > 0) {
                 $.each(detail_fk.record_fk, function(index, data_record){              
@@ -1484,7 +1485,7 @@ $(function(){
           }
           else if (urlvar[0] == 'pd') {
             var id = getUrlVars()['pd'];            
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil_id',{id_pd:id,data:'data_prodi'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil_id',{id_pd:id,data:'data_prodi'},500);
             data.then(function(detail_pd){
               if (detail_pd.total_rows > 0) {
                 $.each(detail_pd.record_pd, function(index, data_record){              
@@ -1500,7 +1501,7 @@ $(function(){
           else if (urlvar['data'] == 'konsentrasi_prodi'){
             if ($('#box-detail-fk').is(':visible')) {
               var id = getUrlVars()['konsentrasi'];
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id,data:'data_konsentrasi_pd'},500);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:id,data:'data_konsentrasi_pd'},500);
               data.then(function(edit_konsentrasi_pd){
                 if (edit_konsentrasi_pd.total_rows > 0) {
                   $.each(edit_konsentrasi_pd.data, function(index, data_record){            
@@ -1524,7 +1525,7 @@ $(function(){
         else if (path.search('admin/data_akademik/data_alumni_do') > 0) {
           if (getUrlVars()['alumni'] != null) {
             var id_alumni = getUrlVars()['alumni'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_alumni:id_alumni,data:'check_mhs',check:'data_exists',data_check:'alumni'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_alumni:id_alumni,data:'check_mhs',check:'data_exists',data_check:'alumni'},500);
             data.then(function(daftar_mhs){
               if (daftar_mhs.total_rows > 0) {
                 $.each(daftar_mhs.data, function(index, data_record){
@@ -1539,7 +1540,7 @@ $(function(){
           else if (getUrlVars()['mhs_do'] != null) {
             $('#myModal .modal-title').text('Edit Data Mahasiswa Drop Out');
             var id_mhs_do = getUrlVars()['mhs_do'];
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_mhs_do:id_mhs_do,data:'check_mhs',check:'data_exists',data_check:'mhs_do'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_mhs_do:id_mhs_do,data:'check_mhs',check:'data_exists',data_check:'mhs_do'},500);
             data.then(function(daftar_mhs){
               if (daftar_mhs.total_rows > 0) {
                 $.each(daftar_mhs.data, function(index, data_record){
@@ -1558,7 +1559,7 @@ $(function(){
           var url_vars = getUrlVars();
           if (url_vars['data'] != undefined && url_vars['data'] == 'template') {
             $('#myModal .modal-title').text('Hapus Data Template');
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_template:url_vars['in_template'],data:'data_template'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_template:url_vars['in_template'],data:'data_template'},500);
             data.then(function(detail_template){
               if (detail_template.total_rows > 0) {
                 $.each(detail_template.record_template, function(index, data_record){
@@ -1572,7 +1573,7 @@ $(function(){
           }
           else if (url_vars['data'] != undefined && url_vars['data'] == 'menu') {
             $('#myModal .modal-title').text('Hapus Data Menu');
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_menu'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_menu'},500);
             data.then(function(detail_menu){
               if (detail_menu.total_rows > 0) {
                 $.each(detail_menu.record_menu, function(index, data_record){
@@ -1586,7 +1587,7 @@ $(function(){
           }
           else if (url_vars['data'] != undefined && url_vars['data'] == 'sub-menu') {
             $('#myModal .modal-title').text('Hapus Data Sub Menu');
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_sub_menu'},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_menu:url_vars['in_menu'],data:'data_sub_menu'},500);
             data.then(function(detail_menu){
               if (detail_menu.total_rows > 0) {
                 $.each(detail_menu.record_menu, function(index, data_record){
@@ -1649,7 +1650,7 @@ $(function(){
           });       
           var count = selectedItems.length;          
           if (count > 0 ) {
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists'},1000);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists'},1000);
             data.then(function(daftar_mhs){
               if (daftar_mhs.total_rows > 0 ) {
                 $('.list-selected').show().find('h5').text('Daftar data mahasiswa yang akan dihapus:');
@@ -1693,7 +1694,7 @@ $(function(){
           });       
           var count = selectedItems.length;          
           if (count > 0 ) {
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_ptk',check:'data_exists'},1000);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_ptk',check:'data_exists'},1000);
             data.then(function(daftar_ptk){
               if (daftar_ptk.total_rows > 0 ) {
                 $('.list-selected').show().find('h5').text('Daftar data tenaga pendidik yang akan dihapus:');
@@ -1745,7 +1746,7 @@ $(function(){
           $('.data-message').show();
           var count = selectedItems.length;          
           if (count > 0 ) {
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_data_master',check:check},1000);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_data_master',check:check},1000);
             data.then(function(detail_data){
               $('.data-message .content-message').addClass('centered-text');
               if (detail_data.total_rows > 0 ) {
@@ -1794,7 +1795,7 @@ $(function(){
           });       
           var count = selectedItems.length;
           if (count > 0 ) {
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mk',check:'data_exists'},1000);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mk',check:'data_exists'},1000);
             data.then(function(daftar_mk){
               if (daftar_mk.total_rows > 0 ) {
                 $('.list-selected').show().find('h5').text('Daftar data mata kuliah yang akan dihapus:');
@@ -1842,7 +1843,7 @@ $(function(){
               });
               var count = selectedItems.length;
               if (count > 0 ) {
-                var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_jadwal',check:'data_exists'},1000);
+                var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_jadwal',check:'data_exists'},1000);
                 data.then(function(data_jadwal){
                   if (data_jadwal.total_rows > 0) {
                     $('.data-message .content-message').addClass('centered-text').removeClass('centered-content');
@@ -1859,7 +1860,7 @@ $(function(){
             else if (urlvar['data'] == 'kls_mhs') {
               $('#myModal #form-input-kls-mhs').hide();
               $('#myModal .modal-title').text('Hapus Data Kelas');
-              var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{status_kelas:getUrlVars()['kls_mhs'],data:'status_jdl'},1000);
+              var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{status_kelas:getUrlVars()['kls_mhs'],data:'status_jdl'},1000);
               data.then(function(status_kelas){
                 if (status_kelas.status_jdl == 1) {
                   $('.modal .modal-body').append('<p class="load-data text-center">Memproses Data</p>');
@@ -1869,7 +1870,7 @@ $(function(){
                   });
                   var count = selectedItems.length;
                   if (count > 0 ) {
-                    return getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists',kls_mhs:getUrlVars()['kls_mhs']});
+                    return getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists',kls_mhs:getUrlVars()['kls_mhs']});
                   }
                   else{
                     $('.data-message .content-message').addClass('centered-content');
@@ -1944,7 +1945,7 @@ $(function(){
           });
           var count = selectedItems.length;          
           if (count > 0 ) {
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists',data_check:data_check},1000);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists',data_check:data_check},1000);
             data.then(function(daftar_mhs){
               if (daftar_mhs.total_rows > 0 ) {
                 $('.list-selected').show().find('h5').text('Daftar data '+data_delete+' yang akan dihapus:');
@@ -2034,7 +2035,7 @@ $(function(){
             $('#box-detail-mhs').attr('data-detail','mhs_do');
           }
           $('.detail-mhs-btn[data-search='+id_data_akademik_u+']').find('i').removeClass('fa-id-card').addClass('fa-circle-o-notch fa-spin');
-          var detail_mhs = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:id_data_akademik_u,data:'data_mhs'},500,true);
+          var detail_mhs = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:id_data_akademik_u,data:'data_mhs'},500,true);
           detail_mhs.then(function(detail_mhs){
             $('.detail-mhs-btn').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-id-card');
             if (detail_mhs.total_rows > 0) {
@@ -2128,7 +2129,7 @@ $(function(){
           id_data_akademik_u = getUrlVars()['ptk'];
           $('#box-ptk').find('div.overlay').fadeIn();
           $('.detail-ptk-btn[data-search='+id_data_akademik_u+']').find('i').removeClass('fa-id-card').addClass('fa-circle-o-notch fa-spin');
-          var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_ptk:id_data_akademik_u,data:'data_ptk'},500,true);
+          var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_ptk:id_data_akademik_u,data:'data_ptk'},500,true);
           data.then(function(detail_ptk){
             if (detail_ptk.total_rows > 0) {
               detail_data_ptk();
@@ -2210,7 +2211,7 @@ $(function(){
             $('.modal').addClass('modal-warning');
             var id = getUrlVars()['id_user'];
             var level = getUrlVars()['level'];
-            var data = getJSON_async('http://'+host+controller_path+'/dashboard/data_statistik/pengguna',{id:id,level:level},500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/dashboard/data_statistik/pengguna',{id:id,level:level},500);
             data.then(function(detail_user){
               if (detail_user.total_rows > 0) {
                 if (detail_user.data == 'mhs') {
@@ -2273,7 +2274,7 @@ $(function(){
         modal_animated('zoomIn');
         if (path.search('admin/data_master/data_thn_akademik') > 0) {
           var thn_akademik = getUrlVars()['i'],
-          data = getJSON_async('http://'+host+controller_path+'/action/ambil',{thn_ak:thn_akademik,data:'check_thn_ak'},500);
+          data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{thn_ak:thn_akademik,data:'check_thn_ak'},500);
           $('.detail-data-thn-ak[data-search='+thn_akademik+']').find('i').removeClass('fa-list').addClass('fa-circle-o-notch fa-spin');
           data.then(function(check_thn_ak){
             $('.detail-data-thn-ak').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-list');
@@ -2314,7 +2315,7 @@ $(function(){
         }
         else if (path.search('admin/data_master/data_angkatan') > 0) {
           var angkatan = getUrlVars()['mhs'],
-          data = getJSON_async('http://'+host+controller_path+'/action/ambil',{thn_ak:angkatan,data:'check_thn_angkatan'},500);
+          data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{thn_ak:angkatan,data:'check_thn_angkatan'},500);
           $('.detail-data-thn-mhs[data-search='+angkatan+']').find('i').removeClass('fa-list').addClass('fa-circle-o-notch fa-spin');
           data.then(function(check_thn_ak){
             $('.detail-data-thn-mhs').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-list');
@@ -2367,7 +2368,7 @@ $(function(){
             if ($('#box-detail-fk').is(':visible')) {
               var id = getUrlVars()['pd'],
               id_fk,
-              data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_pd:id,data:'data_prodi'},null,true);
+              data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_pd:id,data:'data_prodi'},null,true);
               $('.data-detail-prodi[data-search='+id+']').find('i').removeClass('fa-list').addClass('fa-circle-o-notch fa-spin');
               data.then(function(detail_prodi){
                 $('.data-detail-prodi').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-list');
@@ -2428,7 +2429,7 @@ $(function(){
           $('#myModal .modal-title').text('Data Statistik');
 
           setTimeout(function(){
-            var data = getJSON_async('http://'+host+controller_path+'/data_statistik/alumni',null,500);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/data_statistik/alumni',null,500);
             data.then(function(detail_mhs){
               $('#myModal .data-statistik-mhs').show();
               if ($('#statistik-alumni').is(':visible')) {
@@ -2485,7 +2486,7 @@ $(function(){
           });       
           var count = selectedItems.length;          
           if (count > 0 ) {
-            var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists'},1000);
+            var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:selectedItems,data:'check_mhs',check:'data_exists'},1000);
             data.then(function(daftar_mhs){
               if (hash.search('pindah_prodi')==0) {
                 if (daftar_mhs.total_rows > 0 ) {
@@ -2735,7 +2736,7 @@ $(function(){
           detail_static = '.detail-jml-mhs-do';
         }
         $(detail_static+' .progress-bar').css('width','0%');
-        var detail_mhs = getJSON_async('http://'+host+controller_path+'/data_statistik/'+data,null,500);
+        var detail_mhs = getJSON_async(hostProtocol + '//'+host+controller_path+'/data_statistik/'+data,null,500);
         detail_mhs.then(function(detail_mhs){
           $(chart).replaceWith(replace_chart);
           line_chart_alumni_do(detail_mhs.nama_prodi,detail_mhs.mhs_lk,detail_mhs.mhs_pr,detail_mhs.color,chart);
@@ -3123,7 +3124,7 @@ $(function(){
       modal_animated('zoomIn');
       var btn_act = $(this).find('i');
       btn_act.removeClass('fa-pencil-square').addClass('fa-circle-o-notch fa-spin');
-      var results = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'data_identitas_pt'},1000,true);
+      var results = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{data:'data_identitas_pt'},1000,true);
       results.then(function(results){
         $('#myModal-pt #batal').html('<li class="fa fa-times"></li> Batal');
         if (results.status == 'empty') {
@@ -3270,7 +3271,7 @@ $(function(){
         id.push($(this).val());
       });
       btn_act.removeClass('fa-pencil-square').addClass('fa-circle-o-notch fa-spin');
-      var update_pd_mk = getJSON_async('http://'+host+controller_path+'/action/update_pd_mk',{id:id,id_pd_mk:pd,sks:sks,mk_j:mk_j},500,true);
+      var update_pd_mk = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/update_pd_mk',{id:id,id_pd_mk:pd,sks:sks,mk_j:mk_j},500,true);
       update_pd_mk.then(function(update_pd_mk){
         btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-pencil-square');
         if (update_pd_mk.status =='success') {
@@ -3393,7 +3394,7 @@ $(function(){
     $(document).on('change','.check-status-thn-ajar',function(){
       var status = $(this).prop('checked'),
       id = $(this).attr('value'),
-      status_thn = getJSON_async('http://'+host+data_master_path+'/action/update_status',{in:id,status:status,data:'thn_ajaran_status'});
+      status_thn = getJSON_async(hostProtocol + '//'+host+data_master_path+'/action/update_status',{in:id,status:status,data:'thn_ajaran_status'});
       status_thn.then(function(status_thn){
         if (status_thn.status == 'success') {
           if (status_thn.status_thn == 1) {
@@ -3422,7 +3423,7 @@ $(function(){
     $(document).on('change','.check-status-thn-inp',function(){
       var status = $(this).prop('checked'),
       id = $(this).attr('value'),
-      status_thn = getJSON_async('http://'+host+data_master_path+'/action/update_status',{in:id,status:status,data:'thn_ajaran_status_inp'});
+      status_thn = getJSON_async(hostProtocol + '//'+host+data_master_path+'/action/update_status',{in:id,status:status,data:'thn_ajaran_status_inp'});
     });
     $(document).on('click','.non-aktif-thn-ajaran',function(eve){
       eve.preventDefault();
@@ -3434,7 +3435,7 @@ $(function(){
         confirmButtonText:'<i class="fa fa-check"></i> Tutup',
         cancelButtonText:'<i class="fa fa-times"></i> Batal',
       }).then(function(){
-        var status_thn = getJSON_async('http://'+host+data_master_path+'/action/update_status',{data:'thn_ajaran_status_non'});
+        var status_thn = getJSON_async(hostProtocol + '//'+host+data_master_path+'/action/update_status',{data:'thn_ajaran_status_non'});
         status_thn.then(function(status_thn){
           if (status_thn.status == 'success') {
             swal({
@@ -3452,7 +3453,7 @@ $(function(){
     $(document).on('change','.check-template-status',function(){
       var status = $(this).prop('checked'),
       id = $(this).attr('value'),
-      status_template = getJSON_async('http://'+host+controller_path+'/action/update',{id:id,template_status:'',status:status});
+      status_template = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/update',{id:id,template_status:'',status:status});
       status_template.then(function(status_u){
         if (status_u.status != 'success') {
           get_list_template();
@@ -3576,7 +3577,7 @@ $(function(){
       var user = $('#myModal form input[name=username]').val(),
       pass = $('#myModal form input[name=password]').val(),
       opsi = $('.backup_db_opsi:checked').val(),
-      backup_db = getJSON_async('http://'+host+data_dashboard_path+'/action/backup',{data:'backup_db',db_backup:'full-backup',user:user,pass:pass,data_opsi:opsi},500);
+      backup_db = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/action/backup',{data:'backup_db',db_backup:'full-backup',user:user,pass:pass,data_opsi:opsi},500);
       backup_db.then(function(backup_db){
         btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-download');
         if (backup_db.status == 'success') {
@@ -3623,7 +3624,7 @@ $(function(){
       pass = $('#myModal form input[name=password]').val(),
       table = $('.select2_tbl_db').val(),
       opsi = $('.backup_db_opsi:checked').val(),
-      backup_db = getJSON_async('http://'+host+data_dashboard_path+'/action/backup',{data:'backup_db',db_backup:'table-backup',table:table,user:user,pass:pass,data_opsi:opsi},500);
+      backup_db = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/action/backup',{data:'backup_db',db_backup:'table-backup',table:table,user:user,pass:pass,data_opsi:opsi},500);
       backup_db.then(function(backup_db){
         btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-download');
         $('#myModal #alert-place').text('');
@@ -3667,12 +3668,12 @@ $(function(){
 
     $(document).on('click', '.download-backup', function(eve){
       eve.preventDefault();
-      var check_backup = getJSON_async('http://'+host+data_dashboard_path+'/backup_db_file',{act:'check_backup',file:$(this).attr('href')},null,true);
+      var check_backup = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/backup_db_file',{act:'check_backup',file:$(this).attr('href')},null,true);
       /*window.location.href= $(this).attr('href');*/
     });
     $(document).on('click', '.delete-backup', function(eve){
       eve.preventDefault();
-      var delete_backup = getJSON_async('http://'+host+data_dashboard_path+'/configuration/action/delete',{data:'backup_file',act:'delete_backup',file:$(this).attr('href')},null,true);
+      var delete_backup = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/configuration/action/delete',{data:'backup_file',act:'delete_backup',file:$(this).attr('href')},null,true);
       delete_backup.then(function(delete_backup){
         if (delete_backup.status == true) {
           load_backup_tbl();
@@ -3701,7 +3702,7 @@ $(function(){
       btn_act.removeClass('fa-bar-chart').addClass('fa-circle-o-notch fa-spin');
       setTimeout(function(){
         $('.detail-jml-alumni .progress-bar').css('width','0%');
-        var detail_mhs = getJSON_async('http://'+host+controller_path+'/data_statistik/alumni',null,500);
+        var detail_mhs = getJSON_async(hostProtocol + '//'+host+controller_path+'/data_statistik/alumni',null,500);
         detail_mhs.then(function(detail_mhs){
           btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-bar-chart');
           $('#barchart-alumni').replaceWith('<canvas id="barchart-alumni" class="chart" style="height: 280px; width: 510px;"></canvas>');
@@ -3740,7 +3741,7 @@ $(function(){
       btn_act.removeClass('fa-bar-chart').addClass('fa-circle-o-notch fa-spin');
       setTimeout(function(){
         $('.detail-jml-mhs-do .progress-bar').css('width','0%');
-        var detail_mhs = getJSON_async('http://'+host+controller_path+'/data_statistik/mhs_do',null,500);
+        var detail_mhs = getJSON_async(hostProtocol + '//'+host+controller_path+'/data_statistik/mhs_do',null,500);
         detail_mhs.then(function(detail_mhs){
           btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-bar-chart');
           $('#barchart-mhs-do').replaceWith('<canvas id="barchart-mhs-do" class="chart" style="height: 280px; width: 510px;"></canvas>');
@@ -3787,7 +3788,7 @@ $(function(){
             cancelButtonText:'<i class="fa fa-times"></i> Batal',
         }).then(function(){
             btn_act.removeClass('fa-key').addClass('fa-circle-o-notch fa-spin');
-            var status_thn = getJSON_async('http://'+host+data_pengguna_path+'/action/update_password',{user_in:user_in},500,true);
+            var status_thn = getJSON_async(hostProtocol + '//'+host+data_pengguna_path+'/action/update_password',{user_in:user_in},500,true);
             status_thn.then(function(status_thn){
             btn_act.removeClass('fa-circle-o-notch fa-spin').addClass('fa-key');
             if (status_thn.status == 'success') {
@@ -3820,7 +3821,7 @@ $(function(){
         $(this).find('i').removeClass('fa-key').addClass('fa-refresh fa-spin');
         var thn_angkatan_p = $('.control-panel-data-tbl .select2_thn_angkatan').val();
         var prodi_p = $('.control-panel-data-tbl .select2_prodi').val();
-        var check_print_data = getJSON_async('http://'+host+controller_path+'/check_print_data',{thn_angkatan:thn_angkatan_p,prodi:prodi_p,act:'created_pass'},null,true);
+        var check_print_data = getJSON_async(hostProtocol + '//'+host+controller_path+'/check_print_data',{thn_angkatan:thn_angkatan_p,prodi:prodi_p,act:'created_pass'},null,true);
         check_print_data.then(function(check_print_data){
           $('#created-pass').find('i').removeClass('fa-refresh fa-spin').addClass('fa-key');
           if (check_print_data.status != 'success') {
@@ -3852,7 +3853,7 @@ $(function(){
       else if (path == controller_path+'/data_pengguna_ptk' && $('.control-panel-data-tbl .select2_prodi').val() != null) {
         $(this).find('i').removeClass('fa-key').addClass('fa-refresh fa-spin');
         var prodi_p = $('.control-panel-data-tbl .select2_prodi').val();
-        var check_print_data = getJSON_async('http://'+host+controller_path+'/check_print_data',{prodi:prodi_p},null,true);
+        var check_print_data = getJSON_async(hostProtocol + '//'+host+controller_path+'/check_print_data',{prodi:prodi_p},null,true);
         check_print_data.then(function(check_print_data){
           $('#created-pass').find('i').removeClass('fa-refresh fa-spin').addClass('fa-key');
           if (check_print_data.status != 'success') {
@@ -3900,7 +3901,7 @@ $(function(){
       $("#old-password,#new-password,#confirm-password").removeClass('has-error');
       if (old_pass !='' && new_pass !='' && re_pass !='') {
         btn_act.removeClass('fa-save').addClass('fa-circle-o-notch fa-spin');
-        var change_pass = getJSON_async('http://'+host+controller_path+'/action/change_password',{new_password:new_pass,confirm_password:re_pass,old_password:old_pass},null,true);
+        var change_pass = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/change_password',{new_password:new_pass,confirm_password:re_pass,old_password:old_pass},null,true);
         change_pass.then(function(change_pass){
           if (change_pass.status == 'success') {
             swal({
@@ -3981,7 +3982,7 @@ $(function(){
       if (photo != undefined && id_photo != undefined) {
         var trash_btn = $(this);
         trash_btn.find('span').removeClass('fa-trash').addClass('fa-circle-o-notch fa-spin');
-        var delete_photo = getJSON_async('http://'+host+controller_path+'/delete_file',{data:'photo',photo:photo,id_photo:id_photo},500);
+        var delete_photo = getJSON_async(hostProtocol + '//'+host+controller_path+'/delete_file',{data:'photo',photo:photo,id_photo:id_photo},500);
         delete_photo.then(function(delete_photo){
           trash_btn.find('span').removeClass('fa-circle-o-notch fa-spin').addClass('fa-trash');
           if (delete_photo.status == 'success') {
@@ -4179,7 +4180,7 @@ $(function(){
       var hash = getUrlVars();      
       data = hash['data'];
 
-      $.ajax('http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
+      $.ajax(hostProtocol + '//'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
         dataType: 'json',
         type: 'POST',
         data: datasend,
@@ -4914,7 +4915,7 @@ $(function(){
       var hash = getUrlVars();      
       data = hash['data'];
 
-      $.ajax('http://'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
+      $.ajax(hostProtocol + '//'+host+controller_path+'/action/'+action+'?token='+token+'&key='+rand_val(30),{
         dataType: 'json',
         type: 'POST',
         data: datasend,
@@ -5359,7 +5360,7 @@ $(function(){
     $(".select2_thn_akademik").select2({
       placeholder: "Pilih tahun akademik",      
       ajax: {
-        url: 'http://'+host+data_master_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_master_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5408,7 +5409,7 @@ $(function(){
     $(".select2_thn_angkatan").select2({
       placeholder: "Pilih Tahun Angkatan",
       ajax: {
-        url: 'http://'+host+data_master_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_master_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5432,7 +5433,7 @@ $(function(){
     $(".select2_fk").select2({
       placeholder: "Pilih Fakultas",
       ajax: {
-        url: 'http://'+host+data_master_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_master_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5455,7 +5456,7 @@ $(function(){
     $(".select2_prodi").select2({
       placeholder: "Pilih Program Studi",
       ajax: {
-        url: 'http://'+host+data_master_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_master_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5480,7 +5481,7 @@ $(function(){
     $(".select2_mk").select2({
       placeholder: "Pilih mata kuliah",      
       ajax: {
-        url: 'http://'+host+data_akademik_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_akademik_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 600,
@@ -5533,7 +5534,7 @@ $(function(){
     $(".select2_konsentrasi_mk").select2({
       placeholder: "Pilih konsentrasi mata kuliah",      
       ajax: {
-        url: 'http://'+host+data_master_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_master_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5582,7 +5583,7 @@ $(function(){
     $(".select2_ptk").select2({
       placeholder: "Pilih dosen",      
       ajax: {
-        url: 'http://'+host+data_akademik_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_akademik_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 600,
@@ -5688,7 +5689,7 @@ $(function(){
     $(".select2_jadwal").select2({
       placeholder: "Pilih tahun akademik",      
       ajax: {
-        url: 'http://'+host+data_master_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_master_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5734,7 +5735,7 @@ $(function(){
     $(".select2_mhs").select2({
       placeholder: "Pilih mahasiswa",
       ajax: {
-        url: 'http://'+host+data_akademik_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_akademik_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 600,
@@ -5793,7 +5794,7 @@ $(function(){
     $(".select2_kls_mhs").select2({
       placeholder: "Pilih kelas",
       ajax: {
-        url: 'http://'+host+data_akademik_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_akademik_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 600,
@@ -5855,7 +5856,7 @@ $(function(){
       placeholder: "Masukkan NIM Mahasiswa",      
       allowClear:true,
       ajax: {
-        url: 'http://'+host+data_akademik_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_akademik_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 600,
@@ -5895,7 +5896,7 @@ $(function(){
       placeholder: "Pilih tabel database",      
       allowClear:true,
       ajax: {
-        url: 'http://'+host+data_dashboard_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_dashboard_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5919,7 +5920,7 @@ $(function(){
       allowClear:true,
       minimumResultsForSearch:-1,
       ajax: {
-        url: 'http://'+host+data_pengguna_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_pengguna_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5952,7 +5953,7 @@ $(function(){
       allowClear:true,
       minimumResultsForSearch:-1,
       ajax: {
-        url: 'http://'+host+data_pengguna_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_pengguna_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -5984,7 +5985,7 @@ $(function(){
       placeholder: "Masukkan nama menu",      
       allowClear:true,
       ajax: {
-        url: 'http://'+host+data_dashboard_path+'/action/ambil',
+        url: hostProtocol + '//'+host+data_dashboard_path+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 600,
@@ -6147,7 +6148,7 @@ $(function(){
         });
         var selected_data = id.length;
         if (selected_data > 0) {
-          var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,id_ortu:id_ortu,data:'data_mhs'},1000);
+          var hapus = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/delete',{id:id,id_ortu:id_ortu,data:'data_mhs'},1000);
           hapus.then(function(hapus){
             if (hapus.status =='success') {
               if ($('#box-detail-mhs').is(':visible')) {
@@ -6174,7 +6175,7 @@ $(function(){
         });
         var selected_data = id.length;
         if (selected_data > 0) {
-          var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_ptk'},1000);
+          var hapus = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/delete',{id:id,data:'data_ptk'},1000);
           hapus.then(function(hapus){
             if (hapus.status =='success') {
               if ($('#box-ptk').is(':visible')) {
@@ -6202,7 +6203,7 @@ $(function(){
           });
           var selected_data = id.length;
           if (selected_data > 0) {
-            var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_fakultas'},1000);
+            var hapus = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/delete',{id:id,data:'data_fakultas'},1000);
             hapus.then(function(hapus){
               if (hapus.status =='success') {
                 $('.tbl-data-fk').DataTable().ajax.reload();
@@ -6222,7 +6223,7 @@ $(function(){
           });
           var selected_data = id.length;
           if (selected_data > 0) {
-            var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_prodi'},1000);
+            var hapus = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/delete',{id:id,data:'data_prodi'},1000);
             hapus.then(function(hapus){
               if (hapus.status =='success') {
                 $('#box-detail-fk').find('div.overlay').fadeIn();
@@ -6251,7 +6252,7 @@ $(function(){
         });
         var selected_data = id.length;
         if (selected_data > 0) {
-          var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_mk'},1000);
+          var hapus = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/delete',{id:id,data:'data_mk'},1000);
           hapus.then(function(hapus){
             if (hapus.status =='success') {
               $('.check-all-mk').iCheck('uncheck');
@@ -6273,7 +6274,7 @@ $(function(){
           });
           var selected_data = id.length;
           if (selected_data > 0) {
-            var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:'data_jadwal_kuliah'},1000);
+            var hapus = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/delete',{id:id,data:'data_jadwal_kuliah'},1000);
             hapus.then(function(hapus){
               if (hapus.status=='success') {
                 if (hapus.thn != '') {
@@ -6301,7 +6302,7 @@ $(function(){
           });
           var selected_data = id.length;
           if (selected_data > 0) {
-            var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,kelas:getUrlVars()['kls_mhs'],data:'data_mhs_kls'},1000);
+            var hapus = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/delete',{id:id,kelas:getUrlVars()['kls_mhs'],data:'data_mhs_kls'},1000);
             hapus.then(function(hapus){
               if (hapus.status=='success') {
                 $('#box-kelas-mhs').find('div.overlay').fadeIn();
@@ -6331,7 +6332,7 @@ $(function(){
         }
         var selected_data = id.length;
         if (selected_data > 0) {
-          var hapus = getJSON_async('http://'+host+controller_path+'/action/delete',{id:id,data:data},1000);
+          var hapus = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/delete',{id:id,data:data},1000);
           hapus.then(function(hapus){
             if (hapus.status =='success') {
               if ($('#box-detail-mhs').is(':visible')) {
@@ -6416,7 +6417,7 @@ $(function(){
         });
         var selected_data = id.length;
         if (selected_data > 0) {
-          var data = getJSON_async('http://'+host+controller_path+'/action/update_pd',{id:id,pd:pd},500);
+          var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/update_pd',{id:id,pd:pd},500);
           data.then(function(pindah_pd){
             if (pindah_pd.status =='success') {
               $('#myModal').modal('hide');
@@ -6461,7 +6462,7 @@ $(function(){
         var selected_data = id.length;
         if (selected_data > 0) {
           var kls_mhs = $('#form-pindah-kelas .select2_kls_mhs').val(),
-          data = getJSON_async('http://'+host+controller_path+'/action/update',{id:id,update_kelas:'data_mhs_kls',kls_mhs:kls_mhs,c_kls:getUrlVars()['kls_mhs']},500);
+          data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/update',{id:id,update_kelas:'data_mhs_kls',kls_mhs:kls_mhs,c_kls:getUrlVars()['kls_mhs']},500);
           data.then(function(update_kelas){
             if (update_kelas.status=='success') {
               $('#box-kelas-mhs').find('div.overlay').fadeIn();
@@ -6530,7 +6531,7 @@ $(function(){
       'maxFileCount':1,
       'maxFileSize':1024,
       'language':'id',
-      'uploadUrl': "http://"+host+controller_path+"/upload_file",
+      'uploadUrl': hostProtocol + "//" +host+controller_path+"/upload_file",
       'uploadAsync':true,
       'showPreview':true,
       'elErrorContainer':'.validation-ft-inp',
@@ -6657,7 +6658,7 @@ $(function(){
       'maxFileCount':1,
       'maxFileSize':1024,
       'language':'id',
-      'uploadUrl': "http://"+host+data_dashboard_path+"/upload_file",
+      'uploadUrl': hostProtocol + "//" +host+data_dashboard_path+"/upload_file",
       'uploadAsync':true
     });
     $('#file-select-logo-pt').on('fileloaded', function(eve,file,prevID,index,reader){
@@ -6725,7 +6726,7 @@ $(function(){
       'maxFileCount':1,
       'maxFileSize':2024,
       'language':'id',
-      'uploadUrl': "http://"+host+data_dashboard_path+"/upload_file",
+      'uploadUrl': hostProtocol + "//" +host+data_dashboard_path+"/upload_file",
       'uploadAsync':true
     });
     $('#file-select-image-template').on('fileloaded', function(eve,file,prevID,index,reader){
@@ -6888,7 +6889,7 @@ $(function(){
       "serverSide": true,
       "pageLength":$('.select2_tamp').val(),
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/data_thn_akademik",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/data_thn_akademik",
         "type" : 'POST',
         "data" : {
           'length' : function(d){
@@ -7030,7 +7031,7 @@ $(function(){
       "serverSide": true,
       "pageLength":$('.select2_tamp').val(),
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/data_thn_angkatan",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/data_thn_angkatan",
         "type" : 'POST',
         "data" : {
           'length' : function(d){
@@ -7122,7 +7123,7 @@ $(function(){
       "serverSide": true,
       "pageLength":$('.select2_tamp').val(),
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/user_list",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/user_list",
         "type" : 'POST',
         "data" : {
           'user_type' : function(d){
@@ -7247,7 +7248,7 @@ $(function(){
         $(document).on('change','.check-status-user',function(){
           var status_user = $(this).prop('checked'),
           id = $(this).attr('value'),
-          status_u = getJSON_async('http://'+host+controller_path+'/action/update_status',{id:id,status:status_user,data:'user_active_status'});
+          status_u = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/update_status',{id:id,status:status_user,data:'user_active_status'});
           status_u.then(function(status_u){
             if (status_u.status != 'success') {
               if (status_user == true) {
@@ -7367,7 +7368,7 @@ $(function(){
       "serverSide": true,
       "pageLength":$('.select2_tamp').val(),
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/visitor_list",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/visitor_list",
         "type" : 'POST',
         "data" : {
             'visitor_browser' : function(d){
@@ -7503,7 +7504,7 @@ $(function(){
       "serverSide": true,
       "pageLength":$('.select2_tamp').val(),
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/visitor_list",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/visitor_list",
         "type" : 'POST',
         "data" : {
             'visitor_browser' : function(d){
@@ -7639,7 +7640,7 @@ $(function(){
       "serverSide": true,
       "pageLength":$('.select2_tamp').val(),
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/data_mahasiswa",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/data_mahasiswa",
         "type" : 'POST',
         "data" : {
           'cari_thn_angkatan' : function(d){
@@ -7797,7 +7798,7 @@ $(function(){
       "serverSide": true,
       "pageLength":$('.select2_tamp').val(),
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/data_mahasiswa_alni_do",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/data_mahasiswa_alni_do",
         "type" : 'POST',
         "data" : {
           'cari_thn_angkatan' : function(d){
@@ -7905,7 +7906,7 @@ $(function(){
       "serverSide": true,
       "pageLength":$('.select2_tamp').val(),
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/data_ptk",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/data_ptk",
         "type" : 'POST',
         "data" : {
           'cari_prodi' : function(d){
@@ -8058,7 +8059,7 @@ $(function(){
       "processing": true,
       "serverSide": true,
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/data_fakultas",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/data_fakultas",
         "type" : 'POST',
       },
       "order": [[1, 'asc']],
@@ -8145,7 +8146,7 @@ $(function(){
       "processing": true,
       "serverSide": true,
       "ajax": {
-        "url" : "http://"+host+controller_path+"/data_table_request/data_prodi",
+        "url" : hostProtocol + "//" +host+controller_path+"/data_table_request/data_prodi",
         "type" : 'POST',
       },
       "order": [[2, 'asc']],
@@ -8251,7 +8252,7 @@ $(function(){
       "processing": true,
       "serverSide": true,
       "ajax": {
-        "url" : "http://"+host+data_master_path+"/data_table_request/data_thn_akademik",
+        "url" : hostProtocol + "//" +host+data_master_path+"/data_table_request/data_thn_akademik",
         "type" : 'POST',     
       },
       "order": [[0, 'desc']],
@@ -8721,7 +8722,7 @@ $(function(){
     data['csrf_key'] = token;
     return $.ajax({
       type: 'POST',
-      url: 'http://'+host+'/siakad-uncp/admin/html_request',
+      url: hostProtocol + '//'+host+'/siakad-uncp/admin/html_request',
       data: data,
       global:false,
       async:false,
@@ -8909,7 +8910,7 @@ $(function(){
     }
     else if (data == 'data-prodi') {
       var id_row = str.id_prodi;
-      var detail_row_respon = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_pd:str.id_prodi,data:'data_prodi'},500);
+      var detail_row_respon = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_pd:str.id_prodi,data:'data_prodi'},500);
       detail_row_respon.then(function(detail_prodi){
         if (detail_prodi.data !='') {
           var detail_pd = detail_prodi.data[0];
@@ -9043,7 +9044,7 @@ $(function(){
         "processing" : true,
         "serverSide" : true,
         "ajax": {
-          "url" : "http://"+host+data_akademik_path+"/data_table_request/"+url_param,
+          "url" : hostProtocol + "//" +host+data_akademik_path+"/data_table_request/"+url_param,
           "type" : 'POST',
           "data" : {data:data,value:value},        
         },
@@ -9173,7 +9174,7 @@ $(function(){
     $('#box-content .hapus').addClass('disabled');
     $('.check-all-mk').iCheck('uncheck');
     $('#box-jadwal').find('div.overlay').fadeIn();
-    var detail_jadwal = getJSON_async('http://'+host+controller_path+'/action/ambil',{thn:thn,data:'daftar_jadwal_pd'},500);
+    var detail_jadwal = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{thn:thn,data:'daftar_jadwal_pd'},500);
     detail_jadwal.then(function(detail_jadwal){
       if (detail_jadwal.record_jadwal != '') {
         collapse_box('#box-jadwal');
@@ -9386,7 +9387,7 @@ $(function(){
     $('.hapus-mhs').addClass('disabled');
     if (kelas!=null) {
       $('.tbl-daftar-kelas-mhs').find('tbody').html('<tr><td colspan="7" align="center"><font class="load-data">Memproses Data</font></td></tr>');
-      var data = getJSON_async('http://'+host+controller_path+'/action/ambil',{kelas:kelas,data:'daftar_kelas_mhs'},500);
+      var data = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{kelas:kelas,data:'daftar_kelas_mhs'},500);
       data.then(function(detail_kelas){
         if (detail_kelas.record_kelas != '') {
           if ($('#box-kelas-mhs').is(':visible')) {
@@ -9552,7 +9553,7 @@ $(function(){
   function data_detail_fk(i){
     $('.check-all-prodi').iCheck('uncheck');
     $('.detail-data-fk[data-search='+i+']').find('i').removeClass('fa-list').addClass('fa-circle-o-notch fa-spin');
-    var detail_fak = getJSON_async('http://'+host+controller_path+'/action/ambil',{id:i,data:'detail_fk'},500);
+    var detail_fak = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id:i,data:'detail_fk'},500);
     detail_fak.then(function(detail_fak){
       $('.detail-data-fk').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-list');
       if (detail_fak.data != '') {
@@ -9637,7 +9638,7 @@ $(function(){
       var data_konsentrasi_pd = data;
     }
     else{
-      var data_konsentrasi_pd = getJSON_async('http://'+host+controller_path+'/action/ambil',{id_konst:index,data:'daftar_konsentrasi_pd'},500);
+      var data_konsentrasi_pd = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{id_konst:index,data:'daftar_konsentrasi_pd'},500);
     }
     $('.tbl-data-konst-pd').find('tbody').append('<tr class=".table-load"><td class="text-center load-data" colspan="3">Memproses Data</td></tr>');
     data_konsentrasi_pd.then(function(data_konsentrasi_pd){
@@ -9692,7 +9693,7 @@ $(function(){
       $('.box-daftar-mk').fadeIn('slow');
       $('.box-daftar-mk').find('div.overlay').fadeIn();
     }
-    var data_mk = getJSON_async('http://'+host+controller_path+'/data_table_request/data_mk',{pd:pd,act:'single-tbl'});
+    var data_mk = getJSON_async(hostProtocol + '//'+host+controller_path+'/data_table_request/data_mk',{pd:pd,act:'single-tbl'});
     data_mk.then(function(data_mk){
       if ($('.box-daftar-mk').is(':hidden')) {
         $('.box-daftar-mk').slideDown();
@@ -9850,15 +9851,15 @@ $(function(){
   /*Function: Daftar nilai mahasiswa*/
   function detail_nilai(thn){
     $('.tbl-nilai-mhs').find('tbody').html('<tr><td colspan="7" class="text-center load-data">Memproses Data</td></tr>');
-    var detail_nilai = getJSON_async('http://'+host+controller_path+'/action/ambil',{thn:thn,data:'data_nilai_mhs'},500,true);
+    var detail_nilai = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{thn:thn,data:'data_nilai_mhs'},500,true);
     detail_nilai.then(function(detail_nilai){
       $('.tamp-nilai').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-file-text-o');
       $('.tamp-all-nilai').find('i').removeClass('fa-circle-o-notch fa-spin').addClass('fa-files-o');
       if (detail_nilai.total_rows > 0) {
         $('.tbl-nilai-mhs').find('tbody').text('');
-        $('.photo-mhs').attr('src','http://'+host+'/siakad-uncp/uploads/default-photo/user-image.png');
+        $('.photo-mhs').attr('src',hostProtocol + '//'+host+'/siakad-uncp/uploads/default-photo/user-image.png');
         if (detail_nilai.record_nilai[0]['photo_mhs'] != '') {
-          $('.photo-mhs').attr('src','http://'+host+'/siakad-uncp/uploads/mhs-photo/'+detail_nilai.record_nilai[0]['photo_mhs']);
+          $('.photo-mhs').attr('src',hostProtocol + '//'+host+'/siakad-uncp/uploads/mhs-photo/'+detail_nilai.record_nilai[0]['photo_mhs']);
         }
         $('.nama-ket').text(detail_nilai.record_nilai[0]['nama']);
         $('.nim-ket').text(detail_nilai.record_nilai[0]['nisn']);
@@ -9908,7 +9909,7 @@ $(function(){
   /*Function: Chart tahun akademik*/
   function thn_akademik_chart(thn_ak){
     $('.detail-jml-mhs .progress-bar').css('width','0%');
-    var data_static = getJSON_async('http://'+host+controller_path+'/data_statistik',{thn_ak:thn_ak,data:'static_thn_ak'});
+    var data_static = getJSON_async(hostProtocol + '//'+host+controller_path+'/data_statistik',{thn_ak:thn_ak,data:'static_thn_ak'});
     data_static.then(function(data_static){
       var no = 1;
       $('.detail-jml-mhs').text('');
@@ -10005,7 +10006,7 @@ $(function(){
       $('#statik-fk, .static-tab').prepend('<div class="row load-row"><div class="col-md-12 text-center"><font class="load-data">Memproses Data</font></div></div>');
     }
     $('.detail-jml-mhs-dt .progress-bar').css('width','0%');
-    var data_static = getJSON_async('http://'+host+controller_path+'/data_statistik',{thn_ak:thn_ak,data:data},500,true);
+    var data_static = getJSON_async(hostProtocol + '//'+host+controller_path+'/data_statistik',{thn_ak:thn_ak,data:data},500,true);
     data_static.then(function(data_static){
       var no = 1;
       if (data == 'static_mhs_thn_ak') {
@@ -10131,7 +10132,7 @@ $(function(){
   /*Function: Table daftar backup db*/
   function load_backup_tbl(){
     $('.table-backup-db, .table-backup-tbl-db').find('tbody tr').html('<td colspan="3" class="text-center load-data">Memproses Data</td>');
-    var backup_detail = getJSON_async('http://'+host+data_dashboard_path+'/action/ambil',{data:'backup_file',act:'get_file'},1000);
+    var backup_detail = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/action/ambil',{data:'backup_file',act:'get_file'},1000);
     backup_detail.then(function(backup_detail){
       if (backup_detail != '') {
         $('.table-backup-db, .table-backup-tbl-db').find('tbody tr').text('');
@@ -10178,7 +10179,7 @@ $(function(){
     if ($('.tbl-riwayat-kuliah-mhs tr.table-load').length == 0) {
       $('.tbl-riwayat-kuliah-mhs').find('tbody').append('<tr class="table-load"><td class="text-center load-data" colspan="4">Memproses Data</td></tr>');
     }
-    var data_akademik = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_mhs:id_data_akademik_u,data:'riwayat_akademik_mhs'},1000);
+    var data_akademik = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_mhs:id_data_akademik_u,data:'riwayat_akademik_mhs'},1000);
     data_akademik.then(function(data_akademik){
       if (data_akademik.record_akademik != '') {
         $('.tbl-riwayat-studi-mhs, .tbl-riwayat-kuliah-mhs').find('tbody').text('');
@@ -10255,7 +10256,7 @@ $(function(){
       $('.tbl-pend-ptk').find('tbody').html('<tr class="load-row"><td colspan="6" class="text-center load-data">Memproses Data</td></tr>');
       $('.tbl-riwayat-ptk').find('tbody').html('<tr class="load-row"><td colspan="6" class="text-center load-data">Memproses Data</td></tr>');
       $('.tbl-penelitian-ptk').find('tbody').html('<tr class="load-row"><td colspan="5" class="text-center load-data">Memproses Data</td></tr>');
-      var data_ptk_a = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_ptk:id_data_akademik_u,data:'detail_data_ptk',get_data:'all'});
+      var data_ptk_a = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_ptk:id_data_akademik_u,data:'detail_data_ptk',get_data:'all'});
     }
     else{
       if (data == 'studi_ptk') {
@@ -10264,7 +10265,7 @@ $(function(){
       else if (data == 'penelitian_ptk') {
         $('.tbl-penelitian-ptk').find('tbody').html('<tr><td colspan="5" class="text-center load-data">Memproses Data</td></tr>');
       }
-      var data_ptk_a = getJSON_async('http://'+host+controller_path+'/action/ambil',{in_ptk:id_data_akademik_u,data:'detail_data_ptk',get_data:data});
+      var data_ptk_a = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{in_ptk:id_data_akademik_u,data:'detail_data_ptk',get_data:data});
     }
 
     data_ptk_a.then(function(data_ptk_a){
@@ -10448,7 +10449,7 @@ $(function(){
   /*Function: List Menu*/
   function list_menu(data,menu_lvl){
     $('#menu-set').find('div.overlay').fadeIn();
-    var menu_list = getJSON_async('http://'+host+data_dashboard_path+'/action/ambil',{act:'get',data:'list_menu',menu:data},500);
+    var menu_list = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/action/ambil',{act:'get',data:'list_menu',menu:data},500);
     menu_list.then(function(menu_list){
       $('#menu-set').find('div.overlay').fadeOut();
       if (menu_list.login_rld == null || menu_list.login_rld == undefined) {
@@ -10597,7 +10598,7 @@ $(function(){
               $('#admin-list-menu .panel').each(function(){
                 menu_reorder.push($(this).attr('data-in-menu'));
               });
-              var sort_menu = getJSON_async('http://'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,menu_type:'main-menu',level:'admin',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
+              var sort_menu = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,menu_type:'main-menu',level:'admin',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
               sort_menu.then(function(respon){
                 option_sort.disabled = false;
                 $('#menu-set').find('div.overlay').fadeOut();
@@ -10656,7 +10657,7 @@ $(function(){
               $('#user-list-menu .panel').each(function(){
                 menu_reorder.push($(this).attr('data-in-menu'));
               });
-              var sort_menu = getJSON_async('http://'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,menu_type:'main-menu',level:'user',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
+              var sort_menu = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,menu_type:'main-menu',level:'user',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
               sort_menu.then(function(respon){
                 option_sort.disabled = false;
                 $('#menu-set').find('div.overlay').fadeOut();
@@ -10717,7 +10718,7 @@ $(function(){
                 $('.sub-menu-list-admin[parent-menu='+parent_menu+'] li.list').each(function(){
                   menu_reorder.push($(this).attr('data-in-menu'));
                 });
-                var sort_sub_menu = getJSON_async('http://'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,parent_menu:parent_menu,menu_type:'sub-menu',level:'admin',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
+                var sort_sub_menu = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,parent_menu:parent_menu,menu_type:'sub-menu',level:'admin',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
                 sort_sub_menu.then(function(respon){
                   option_sort.disabled = false;
                   $('#menu-set').find('div.overlay').fadeOut();
@@ -10769,7 +10770,7 @@ $(function(){
                 $('.sub-menu-list-admin[parent-menu='+parent_menu+'] .list').css('border-left','2px solid '+sub_menu_color);
                 $('.sub-menu-list-admin[parent-menu='+parent_menu+'] .list .icon-list, .sub-menu-list-admin[parent-menu='+parent_menu+'] .list .name-list').css('color',sub_menu_color);
 
-                var sort_sub_menu = getJSON_async('http://'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,parent_menu:parent_menu,menu_type:'sub-menu',move_sub:true,level:'admin',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
+                var sort_sub_menu = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,parent_menu:parent_menu,menu_type:'sub-menu',move_sub:true,level:'admin',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
                 sort_sub_menu.then(function(respon){
                   option_sort.disabled = false;
                   $('#menu-set').find('div.overlay').fadeOut();
@@ -10826,7 +10827,7 @@ $(function(){
                 $('.sub-menu-list-user[parent-menu='+parent_menu+'] li.list').each(function(){
                   menu_reorder.push($(this).attr('data-in-menu'));
                 });
-                var sort_sub_menu = getJSON_async('http://'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,parent_menu:parent_menu,menu_type:'sub-menu',level:'user',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
+                var sort_sub_menu = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,parent_menu:parent_menu,menu_type:'sub-menu',level:'user',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
                 sort_sub_menu.then(function(respon){
                   option_sort.disabled = false;
                   $('#menu-set').find('div.overlay').fadeOut();
@@ -10875,7 +10876,7 @@ $(function(){
                 $('.sub-menu-list-user[parent-menu='+parent_menu+'] .list').css('border-left','2px solid '+sub_menu_color);
                 $('.sub-menu-list-user[parent-menu='+parent_menu+'] .list .icon-list, .sub-menu-list-user[parent-menu='+parent_menu+'] .list .name-list').css('color',sub_menu_color);
 
-                var sort_sub_menu = getJSON_async('http://'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,parent_menu:parent_menu,menu_type:'sub-menu',move_sub:true,level:'user',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
+                var sort_sub_menu = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/configuration/action/update',{data:'sorting_menu',act:'sorting_menu',list_menu:menu_reorder,parent_menu:parent_menu,menu_type:'sub-menu',move_sub:true,level:'user',menu:obj.item.dataset.inMenu,new_in:obj.newIndex+1,old_in:obj.oldIndex+1},500);
                 sort_sub_menu.then(function(respon){
                   option_sort.disabled = false;
                   $('#menu-set').find('div.overlay').fadeOut();
@@ -10939,7 +10940,7 @@ $(function(){
       });
     }
     else{
-      var menu_list = getJSON_async('http://'+host+data_dashboard_path+'/action/ambil',{act:'get',data:'list_menu',menu:'admin'},500);
+      var menu_list = getJSON_async(hostProtocol + '//'+host+data_dashboard_path+'/action/ambil',{act:'get',data:'list_menu',menu:'admin'},500);
     }
 
     menu_list.then(function(menu_list){
@@ -11047,7 +11048,7 @@ $(function(){
   function get_list_template(){
     $('#template-set').find('div.overlay').fadeIn();
     $('table#table-list-tamplate').find('tbody').html('<tr class="load-row"><td colspan="6" class="text-center load-data">Memproses Data</td></tr>');
-    var list_template = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'list_template'},500,true);
+    var list_template = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{data:'list_template'},500,true);
     list_template.then(function(results){
       $('#template-set').find('div.overlay').fadeOut();
       $('table#table-list-tamplate').find('tbody').text('');
@@ -11147,7 +11148,7 @@ $(function(){
 
   /*Function: Get App Config*/
   function get_app_config(){
-    var detail_conf = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'general_conf'});
+    var detail_conf = getJSON_async(hostProtocol + '//'+host+controller_path+'/action/ambil',{data:'general_conf'});
     detail_conf.then(function(results){
       $('#config-set').find('div.overlay').fadeOut();
       $.each(results.config, function(index,data_record){

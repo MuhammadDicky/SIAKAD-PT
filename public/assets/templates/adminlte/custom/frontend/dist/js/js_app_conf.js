@@ -1,5 +1,6 @@
 var path         = window.location.pathname,
-host             = window.location.hostname;
+host             = window.location.hostname + (window.location.port !== '' ? ':' + window.location.port : '')
+protocol         = window.location.protocol;
 
 var delay = (function(){
   var timer = 0;
@@ -20,7 +21,7 @@ $(function(){
 
     /*First Load Page*/
     if (path == controller_path+'/data_tenaga_pendidik') {
-      var detail_ptk = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'data_tenaga_pendidik'},null,true);
+      var detail_ptk = getJSON_async(protocol + '//'+host+controller_path+'/action/ambil',{data:'data_tenaga_pendidik'},null,true);
       detail_ptk.then(function(detail_ptk){
         if (detail_ptk.record_ptk != '') {
           $.each(detail_ptk.record_ptk, function(index, data_record){
@@ -114,7 +115,7 @@ $(function(){
       delay(function(){
         $('.grafik-ptk .fa-refresh').removeClass('fa-spin');
       },1000);
-      var detail_ptk = getJSON_async('http://'+host+path_home+'/action/ambil',{data:'ptk'},null,true);
+      var detail_ptk = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{data:'ptk'},null,true);
       detail_ptk.then(function(detail_ptk){
         $('#pieChart-data-ptk').replaceWith('<canvas id="pieChart-data-ptk" height="180"></canvas>');
         chart_ptk(detail_ptk.canvas);
@@ -156,7 +157,7 @@ $(function(){
     $(document).on('change','.check-status-mhs-kls',function(){
       var status_mhs = $(this).prop('checked'),
       id = $(this).attr('value'),
-      status_u = getJSON_async('http://'+host+controller_path+'/action/update_status',{id:id,status_mhs_kls:status_mhs},null,true);
+      status_u = getJSON_async(protocol + '//'+host+controller_path+'/action/update_status',{id:id,status_mhs_kls:status_mhs},null,true);
       status_u.then(function(status_u){
         if (status_u.status != 'success') {
           if (status_u.status == 'failed') {
@@ -252,7 +253,7 @@ $(function(){
       var data_s = $('#form-input input[name=data]').val();
       var hash = getUrlVars();
 
-      $.ajax('http://'+host+controller_path+'/action/'+action,{
+      $.ajax(protocol + '//'+host+controller_path+'/action/'+action,{
         dataType: 'json',
         type: 'POST',
         data: datasend,
@@ -319,7 +320,7 @@ $(function(){
     else{
       $('table.tbl-data-jadwal').find('tbody').html('<tr class="table-load"><td class="text-center load-data" colspan="'+colspan+'">Memproses Data</td></tr>');
     }
-    var detail_jadwal = getJSON_async('http://'+host+path_home+'/action/ambil',{data:'daftar_jadwal_ptk',d:tdy,thn:thn,all:all},500);
+    var detail_jadwal = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{data:'daftar_jadwal_ptk',d:tdy,thn:thn,all:all},500);
     detail_jadwal.then(function(detail_jadwal){
       if (tdy ==true) {
         $('#box-jadwal .box-title').html('<li class="fa fa-list"></li> Jadwal Mengajar Hari '+detail_jadwal.hari_i);
@@ -480,7 +481,7 @@ $(function(){
   function daftar_kelas_mhs(kelas){
     $('.tbl-daftar-kelas-mhs').find('tbody').html('<tr><td colspan="6" align="center" class="load-data">Memproses Data</td></tr>');
     $('.detail-kelas .detail-dt-kelas').text('-');
-    var detail_kelas = getJSON_async('http://'+host+path_home+'/action/ambil',{kelas:kelas,data:'daftar_kelas_mhs'},500);
+    var detail_kelas = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{kelas:kelas,data:'daftar_kelas_mhs'},500);
     detail_kelas.then(function(detail_kelas){
       if (detail_kelas.record_kelas != '') {
         if ($('#box-kelas-mhs .box-body').is(':visible')) {
@@ -590,7 +591,7 @@ $(function(){
     else{
       $('table.tbl-data-jadwal').find('tbody').html('<tr class="table-load"><td class="text-center load-data" colspan="6">Memproses Data</td></tr>');
     }
-    var detail_jadwal = getJSON_async('http://'+host+path_home+'/action/ambil',{data:'daftar_kls_ptk',thn:thn},500);
+    var detail_jadwal = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{data:'daftar_kls_ptk',thn:thn},500);
     detail_jadwal.then(function(detail_jadwal){
       if (detail_jadwal.record_jadwal != '') {
         $('table.tbl-data-jadwal').find('tbody').text('');
@@ -734,7 +735,7 @@ $(function(){
     $('.btn-input-nilai').text('');
     $('.detail-kelas .detail-dt-kelas').text('-');
     $('#box-kelas-mhs input[name=c_kelas]').val('');
-    var detail_kelas = getJSON_async('http://'+host+path_home+'/action/ambil',{kelas:kelas,data:'daftar_nilai_mhs'},500,true);
+    var detail_kelas = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{kelas:kelas,data:'daftar_nilai_mhs'},500,true);
     detail_kelas.then(function(detail_kelas){
       if (detail_kelas.record_kelas != '') {
         if ($('#box-kelas-mhs .box-body').is(':visible')) {
@@ -846,7 +847,7 @@ $(function(){
     if ($('.tbl-penelitian-ptk tr.table-load').length == 0) {
       $('.tbl-penelitian-ptk').find('tbody').append('<tr class="table-load"><td class="text-center load-data" colspan="4">Memproses Data</td></tr>');
     }
-    var data_ptk = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'detail_data_ptk'},1000);
+    var data_ptk = getJSON_async(protocol + '//'+host+controller_path+'/action/ambil',{data:'detail_data_ptk'},1000);
     data_ptk.then(function(data_ptk){
       if (data_ptk.studi_ptk != '') {
         $('.profil-rwt-pendidikan-ptk').text(data_ptk.studi_ptk.length);

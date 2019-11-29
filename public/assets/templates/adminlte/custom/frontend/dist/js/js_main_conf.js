@@ -1,7 +1,8 @@
 var path = window.location.pathname,
-host     = window.location.hostname,
+host     = window.location.hostname + (window.location.port !== '' ? ':' + window.location.port : '')
+protocol = window.location.protocol;
 vars     = user_last_online.split('/'),
-load_interval;
+load_interval = window.load_interval;
 
 var delay = (function(){
   var timer = 0;
@@ -78,7 +79,7 @@ $(function(){
       if (vars[1] == 'ptk') {
         Pace.once('done', function(){
           daftar_jadwal(true);
-          var detail_ptk = getJSON_async('http://'+host+path_home+'/action/ambil',{data:'ptk'});
+          var detail_ptk = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{data:'ptk'});
           detail_ptk.then(function(detail_ptk){
             chart_ptk(detail_ptk.canvas);
             if (detail_ptk.pd.length > 4) {
@@ -103,7 +104,7 @@ $(function(){
     
     if (path == path_profil_pt) {
       $('#tab-identitas-pt .detail-data-pt').text('-');
-      var results = getJSON_async('http://'+host+path_home+'/action/ambil',{data:'data_identitas_pt'},500);
+      var results = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{data:'data_identitas_pt'},500);
       results.then(function(results){
         if (results.data == '') {
           $('#tab-identitas-pt .detail-data-pt').text('-');
@@ -115,7 +116,7 @@ $(function(){
                 data_record ='-';
               }
               if (name == 'website') {
-                $('#tab-identitas-pt .'+name).parents().attr('href','http://'+data_record);
+                $('#tab-identitas-pt .'+name).parents().attr('href',protocol + '//'+data_record);
               }
               if (name == 'rt' || name == 'rw') {
                 $('#tab-identitas-pt .'+name).text(data_record);
@@ -243,7 +244,7 @@ $(function(){
     $(".select2_jadwal").select2({
       placeholder: "Pilih tahun akademik",      
       ajax: {
-        url: 'http://'+host+path_home+'/action/ambil',
+        url: protocol + '//'+host+path_home+'/action/ambil',
         type: "post",
         dataType: "json",
         delay: 450,
@@ -297,7 +298,7 @@ $(function(){
       $(this).find('i').addClass('fa-spin');
       if (path == path_profil_pt && $(this).attr('data-refresh') == 'data-identitas-pt') {
         $('#tab-identitas-pt #prodi .tbl-data-konst-pd').find('tbody').prepend('<tr class="load-row"><td colspan="2" class="load-data text-center">Memproses Data</td></tr>');
-        var results = getJSON_async('http://'+host+path_home+'/action/ambil',{data:'data_identitas_pt'},500);
+        var results = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{data:'data_identitas_pt'},500);
         results.then(function(results){
           if (results.data == '') {
             $('#tab-identitas-pt .detail-data-pt').text('-');
@@ -309,7 +310,7 @@ $(function(){
                   data_record ='-';
                 }
                 if (name == 'website') {
-                  $('#tab-identitas-pt .'+name).parents().attr('href','http://'+data_record);
+                  $('#tab-identitas-pt .'+name).parents().attr('href',protocol + '//'+data_record);
                 }
                 if (name == 'rt' || name == 'rw') {
                   $('#tab-identitas-pt .'+name).text(data_record);
@@ -370,7 +371,7 @@ $(function(){
           timer: 2000
         });
         delay(function(){
-          window.location.href="http://"+host+controller_path+"/verifikasi_data/true";
+          window.location.href=protocol + "//"+host+controller_path+"/verifikasi_data/true";
         },500);        
       });
     });
@@ -391,7 +392,7 @@ $(function(){
           timer: 2000
         });
         delay(function(){
-          window.location.href="http://"+host+controller_path+"/verifikasi_data/false";
+          window.location.href=protocol + "//"+host+controller_path+"/verifikasi_data/false";
         },500);        
       });
     });
@@ -405,7 +406,7 @@ $(function(){
       $("#old-password,#new-password,#renew-password").removeClass('has-error');
       if (old_pass !='' && new_pass !='' && re_pass !='') {
         btn_act.removeClass('fa-key').addClass('fa-circle-o-notch fa-spin');
-        var change_pass = getJSON_async('http://'+host+path_home+'/action/change_password',{new_password:new_pass,renew_password:re_pass,old_password:old_pass},500,true);
+        var change_pass = getJSON_async(protocol + '//'+host+path_home+'/action/change_password',{new_password:new_pass,renew_password:re_pass,old_password:old_pass},500,true);
         change_pass.then(function(change_pass){
           if (change_pass.status == 'success') {
             swal({
