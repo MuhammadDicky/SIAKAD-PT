@@ -1,5 +1,5 @@
 var path = window.location.pathname,
-host     = window.location.hostname,
+host     = window.location.hostname + (window.location.port !== '' ? ':' + window.location.port : ''),
 id_data_akademik_u,
 load_interval,
 intval_vars,
@@ -9,6 +9,7 @@ controller_path,
 dashboard_path_dt = [
   data_dashboard_path,
   data_dashboard_path+"/",
+  data_dashboard_path+"/dashboard",
   data_dashboard_path+"/pengolahan_database",
   data_dashboard_path+"/pengaturan"
 ],

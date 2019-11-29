@@ -332,6 +332,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$array_backend_page = array(
 			'login'                   => 'Login',
 			'admin'                   => 'Dashboard',
+			'dashboard'               => 'Dashboard',
 			'data_master'             => 'Data Master',
 			'data_identitas_pt'       => 'Data Identitas Perguruan Tinggi',
 			'data_fakultas_pstudi'    => 'Data Fakultas dan Program Studi',

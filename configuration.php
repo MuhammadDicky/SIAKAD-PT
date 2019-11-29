@@ -14,17 +14,17 @@
 		var $_template_assets     = 'assets/templates/';
 
 		/*Url Admin*/
-		var $_data_dashboard_path = 'admin';
-		var $_data_master_path    = 'admin/data_master';
-		var $_data_pengguna_path  = 'admin/data_pengguna';
-		var $_data_akademik_path  = 'admin/data_akademik';
+		var $_data_dashboard_path = '/admin';
+		var $_data_master_path    = '/admin/data_master';
+		var $_data_pengguna_path  = '/admin/data_pengguna';
+		var $_data_akademik_path  = '/admin/data_akademik';
 
 		/*Url User*/
-		var $_index_path          = '';
-		var $_path_home           = 'home';
-		var $_path_profil_pt      = 'profil_pt';
-		var $_beranda_mhs_path    = 'beranda_mhs';
-		var $_beranda_ptk_path    = 'beranda_ptk';
+		var $_index_path          = '/';
+		var $_path_home           = '/home';
+		var $_path_profil_pt      = '/profil_pt';
+		var $_beranda_mhs_path    = '/beranda_mhs';
+		var $_beranda_ptk_path    = '/beranda_ptk';
 
 		/*Database Config*/
 		var $_hostname            = 'localhost';
@@ -40,7 +40,7 @@
 		var $_app_version         = '1.7 Beta';
 		var $_dev_name            = 'Muhammad Dicky Hidayat Latif';
 		var $_web_name            = 'Sistem Informasi Akademik';
-		var $_pt_name             = 'Universitas Cokroaminoto Palopo';
+		var $_pt_name             = 'Perguruan Tinggi';
 		var $_web_icon            = 'pt-icon-profile.png';
 		var $_email_feedback_1    = 'muh.dickyhidayat@gmail.com';
 		var $_email_feedback_2    = 'muh.dickyhidayat@outlook.com';
@@ -51,8 +51,8 @@
 		var $_frontend_perpage    = 5;
 
 		/*AdminLTE Config*/
-		var $_logo_mini           = 'UNCP';
-		var $_logo_lg             = 'UNCP';
+		var $_logo_mini           = 'PT';
+		var $_logo_lg             = 'PT';
 
 		public function __construct(){
 			// Create connection
@@ -86,16 +86,15 @@
 			if ($sub_domain != '') {
 				$this->_site_url = $this->_site_url.$sub_domain.'/';
 
-				$this->_data_dashboard_path = '/'.$sub_domain.'/'.$this->_data_dashboard_path;
-				$this->_data_master_path    = '/'.$sub_domain.'/'.$this->_data_master_path;
-				$this->_data_pengguna_path  = '/'.$sub_domain.'/'.$this->_data_pengguna_path;
-				$this->_data_akademik_path  = '/'.$sub_domain.'/'.$this->_data_akademik_path;
-
-				$this->_index_path          = '/'.$sub_domain;
-				$this->_path_home           = '/'.$sub_domain.'/'.$this->_path_home;
-				$this->_path_profil_pt      = '/'.$sub_domain.'/'.$this->_path_profil_pt;
-				$this->_beranda_mhs_path    = '/'.$sub_domain.'/'.$this->_beranda_mhs_path;
-				$this->_beranda_ptk_path    = '/'.$sub_domain.'/'.$this->_beranda_ptk_path;
+				$this->_data_dashboard_path = '/'.$sub_domain . $this->_data_dashboard_path;
+				$this->_data_master_path    = '/'.$sub_domain . $this->_data_master_path;
+				$this->_data_pengguna_path  = '/'.$sub_domain . $this->_data_pengguna_path;
+                $this->_data_akademik_path  = '/'.$sub_domain . $this->_data_akademik_path;
+                
+				$this->_path_home           = '/'.$sub_domain . $this->_path_home;
+				$this->_path_profil_pt      = '/'.$sub_domain . $this->_path_profil_pt;
+				$this->_beranda_mhs_path    = '/'.$sub_domain . $this->_beranda_mhs_path;
+				$this->_beranda_ptk_path    = '/'.$sub_domain . $this->_beranda_ptk_path;
 			}
 
 			$app_env = array('Development','Testing','Production');
