@@ -1,5 +1,6 @@
 var path = window.location.pathname;
-var host = window.location.hostname;
+var host = window.location.hostname + (window.location.port !== '' ? ':' + window.location.port : '');
+var protocol = window.location.protocol;
 
 $(document).ready(function(){
 
@@ -16,7 +17,7 @@ $(document).ready(function(){
     setTimeout(function(){
       /*Data Mahasiswa*/
       $('.grafik-mhs').find('div.overlay').fadeIn();
-      var detail_mhs = getJSON_async('http://'+host+path+'/dashboard/data_statistik/pd',null,1);
+      var detail_mhs = getJSON_async(protocol + '//'+host+path+'/dashboard/data_statistik/pd',null,1);
       detail_mhs.then(function(detail_mhs){
         $('.grafik-mhs').find('div.overlay').fadeOut();
         data_chart_mhs_pd(detail_mhs,detail_mhs.canvas);
@@ -28,7 +29,7 @@ $(document).ready(function(){
 
       /*Data Pengguna*/
       $('.box-grafik-pengguna').find('div.overlay').fadeIn();
-      var detail_pengguna = getJSON_async('http://'+host+path+'/dashboard/data_statistik/pengguna');
+      var detail_pengguna = getJSON_async(protocol + '//'+host+path+'/dashboard/data_statistik/pengguna');
       detail_pengguna.then(function(detail_pengguna){
         $('.box-grafik-pengguna').find('div.overlay').fadeOut();
         data_chart_pengguna(detail_pengguna,detail_pengguna.count_user_mhs,detail_pengguna.count_user_ptk,detail_pengguna.count_user_aktif,detail_pengguna.count_user_nonaktif,false);
@@ -39,7 +40,7 @@ $(document).ready(function(){
       /*END -- Data Pengguna*/
 
       /*Data PTK*/
-      var detail_ptk = getJSON_async('http://'+host+path+'/dashboard/data_statistik/ptk');
+      var detail_ptk = getJSON_async(protocol + '//'+host+path+'/dashboard/data_statistik/ptk');
       detail_ptk.then(function(detail_ptk){
         data_chart_ptk(detail_ptk,detail_ptk.canvas);
       }).catch(function(error){
@@ -58,7 +59,7 @@ $(document).ready(function(){
     },1070);
     $('.box-grafik-pengguna').find('div.overlay').fadeIn();
     collapse_box('.box-grafik-pengguna, .grafik-data-pengguna, .grafik-status-pengguna');
-    var detail_pengguna = getJSON_async('http://'+host+path+'/dashboard/data_statistik/pengguna',null,null,true);
+    var detail_pengguna = getJSON_async(protocol + '//'+host+path+'/dashboard/data_statistik/pengguna',null,null,true);
     detail_pengguna.then(function(detail_pengguna){
       $('.box-grafik-pengguna').find('div.overlay').fadeOut();
       data_chart_pengguna(detail_pengguna,detail_pengguna.count_user_mhs,detail_pengguna.count_user_ptk,detail_pengguna.count_user_aktif,detail_pengguna.count_user_nonaktif,true);
@@ -75,7 +76,7 @@ $(document).ready(function(){
     },1070);
     $('.grafik-mhs').find('div.overlay').fadeIn();
     collapse_box('.grafik-mhs, .grafik-mhs .box');
-    var detail_mhs = getJSON_async('http://'+host+path+'/dashboard/data_statistik/pd',null,null,true);
+    var detail_mhs = getJSON_async(protocol + '//'+host+path+'/dashboard/data_statistik/pd',null,null,true);
     detail_mhs.then(function(detail_mhs){
       $('.detail-jml-mhs .progress-bar').css('width','0%');
       $('.detail-jml-mhs .progress-number').text('0%');
@@ -95,7 +96,7 @@ $(document).ready(function(){
       btn_act.removeClass('fa-spin');
     },1070);
     collapse_box('.grafik-ptk');
-    var detail_ptk = getJSON_async('http://'+host+path+'/dashboard/data_statistik/ptk',null,null,true);
+    var detail_ptk = getJSON_async(protocol + '//'+host+path+'/dashboard/data_statistik/ptk',null,null,true);
     detail_ptk.then(function(detail_ptk){
       data_chart_ptk(detail_ptk,detail_ptk.canvas,true);
     }).catch(function(error){});

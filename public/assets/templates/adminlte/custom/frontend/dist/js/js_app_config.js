@@ -1,5 +1,6 @@
 var path         = window.location.pathname,
-host             = window.location.hostname;
+host             = window.location.hostname + (window.location.port !== '' ? ':' + window.location.port : '')
+protocol         = window.location.protocol;
 
 var delay = (function(){
   var timer = 0;
@@ -21,7 +22,7 @@ $(function(){
     /*First Load Page*/
     if (path == controller_path+'/data_mhs') {
       $('#box-siswa div.overlay').fadeOut();      
-      var detail_mhs = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'data_mhs'},500);
+      var detail_mhs = getJSON_async(protocol + '//'+host+controller_path+'/action/ambil',{data:'data_mhs'},500);
       detail_mhs.then(function(detail_mhs){
         if (detail_mhs.record_mhs != '') {
           detail_akademik_mhs();
@@ -137,7 +138,7 @@ $(function(){
       var data_s = $('#form-input input[name=data]').val();
       var hash = getUrlVars();
 
-      $.ajax('http://'+host+controller_path+'/action/'+action,{
+      $.ajax(protocol + '//'+host+controller_path+'/action/'+action,{
         dataType: 'json',
         type: 'POST',
         data: datasend,
@@ -189,7 +190,7 @@ $(function(){
     collapse_box('#box-kelas-mhs');
     $('#box-kelas-mhs').find('div.overlay').fadeIn();
     $('.tbl-daftar-kelas-mhs').find('tbody').html('<tr><td colspan="5" align="center" class="load-data">Memproses Data</td></tr>');
-    var detail_kelas = getJSON_async('http://'+host+path_home+'/action/ambil',{kelas:kelas,data:'daftar_kelas_mhs'},500);
+    var detail_kelas = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{kelas:kelas,data:'daftar_kelas_mhs'},500);
     detail_kelas.then(function(detail_kelas){
       if (detail_kelas.record_kelas != '') {
         $('#box-kelas-mhs').find('div.overlay').fadeOut();
@@ -261,7 +262,7 @@ $(function(){
   function detail_nilai(thn){
     $('#box-nilai div.overlay').fadeIn();
     $('.tbl-nilai-mhs').find('tbody').html('<tr class="table-load"><td class="text-center load-data" colspan="7">Memproses Data</td></tr>');
-    var detail_nilai = getJSON_async('http://'+host+controller_path+'/action/ambil',{thn:thn,data:'daftar_nilai_mhs'},500);
+    var detail_nilai = getJSON_async(protocol + '//'+host+controller_path+'/action/ambil',{thn:thn,data:'daftar_nilai_mhs'},500);
     detail_nilai.then(function(detail_nilai){
       if (detail_nilai.record_nilai != '') {
         $('.tbl-nilai-mhs').find('tbody').text('');
@@ -335,7 +336,7 @@ $(function(){
     else{
       $('table.tbl-data-jadwal').find('tbody').html('<tr class="table-load"><td class="text-center load-data" colspan="'+colspan+'">Memproses Data</td></tr>');
     }
-    var detail_jadwal = getJSON_async('http://'+host+path_home+'/action/ambil',{data:'daftar_jadwal_mhs',d:tdy,thn:thn,all:all},500);
+    var detail_jadwal = getJSON_async(protocol + '//'+host+path_home+'/action/ambil',{data:'daftar_jadwal_mhs',d:tdy,thn:thn,all:all},500);
     detail_jadwal.then(function(detail_jadwal){
       if (tdy ==true) {
         $('#box-jadwal .box-title').html('<li class="fa fa-list"></li> Jadwal Kuliah Hari '+detail_jadwal.hari_i);
@@ -505,7 +506,7 @@ $(function(){
     if ($('.tbl-riwayat-kuliah-mhs tr.table-load').length == 0) {
       $('.tbl-riwayat-kuliah-mhs').find('tbody').append('<tr class="table-load"><td class="text-center load-data" colspan="4">Memproses Data</td></tr>');
     }
-    var data_akademik = getJSON_async('http://'+host+controller_path+'/action/ambil',{data:'riwayat_akademik_mhs'},1000);
+    var data_akademik = getJSON_async(protocol + '//'+host+controller_path+'/action/ambil',{data:'riwayat_akademik_mhs'},1000);
     data_akademik.then(function(data_akademik){
       if (data_akademik.record_akademik != '') {
         $('.tbl-riwayat-studi-mhs, .tbl-riwayat-kuliah-mhs').find('tbody').text('');
