@@ -1,4 +1,5 @@
-# Sistem Informasi Akademik Perguruan Tinggi
+# Sistem Informasi Akademik Perguruan Tinggi - Neakles
+It's Scarry
 
 **Sistem Informasi Akademik Perguruan Tinggi** / **SIAKAD - PT** adalah aplikasi pengolahan data akademik perguruan tinggi berbasis web dimana data yang dikelolah mulai dari data kemahasiswaan, data tenaga pedidik dan data akademik lainnya. Aplikasi ini menggunakan framework [codeigniter](https://codeigniter.com) dan beberapa template untuk bagian frontend nya.
 
